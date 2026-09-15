@@ -1311,3 +1311,53 @@ Diagnostic cohort (stages resolved/hit/opportunity/executed/intact/pass; frozen 
 7. **Next-bottleneck evidence (descriptive):**
    - Across EXP-20 and EXP-21, feedback delivered after the edit (a structural refusal, then a completion refusal) did not alter Qwen's plan in any observed trajectory.
    - The action after an edit appears fixed before its result is seen.
+
+### qwen_formatcontract_v1 — pre-registration (2026-09-15; before any mechanism or scorer code; Q-002)
+- Gate `benchmark/gates/qwen_formatcontract_v1.md` sha256 `13e9a05bef83e51bdeb8acc4119f8db8e9755c5850ebfea6f9755fe32654a218`. DEV only.
+- Skills applied: experiment-preregistration, evidence-audit, frozen-scorer (plan), mutation-testing (prototype).
+- Single factor `replacement_format_contract`: exact type-specific replacement-format contract text in the two explicit-selector-kind edit guidance placeholders. Model-invisible instrumentation: `edit_proposals` and `format_contract_shown`.
+- Base qwen_selectorkind, chosen as the cleanest isolation. The no-op refusal and completion latch are not enabled in any arm. Drift = qwen_selectorkind rerun.
+- Design evidence (dev control rows only): with explicit selector kinds, 5 of 13 proposals were format-invalid in 4 tasks, and all were refused by existing guards. Full `edit_symbol` arguments over 300 characters are truncated in historical rows, so full-text instrumentation is prospective only; historical rows and scorers are untouched.
+- Normative format definition prototype-tested before freeze. This is pre-registration development evidence, not experimental evidence:
+  - scratch prototype sha256 `09bb7e88…`, synthetic suite `9dbba647…`: 57 checks covering the 42 user-specified cases, all passing
+  - mutations: 13 meaningful caught, 1 equivalent
+  - resulting changes: the fence rule became a descriptive label only; NaN/Infinity rejected
+- Control constants, computed with the prototype on frozen control rows: passes 3, damaged 0, localized 8, stray 0, executed 6; solvable proposals 11 (VALID 7, FORMAT_INVALID 4, SELECTOR_FAILURE 0, UNCLASSIFIABLE 0); solvable tasks with ≥1 VALID proposal 7; insufficient-evidence executed mutations 1.
+- Frozen F: solvable tasks with ≥1 VALID proposal ≥ 9 AND FORMAT_INVALID solvable proposals ≤ 4. Classes: INCONCLUSIVE / FAIL / PASS / PARTIAL (a) / (b) / (c). Low power recorded.
+
+### qwen_formatcontract_v1 — frozen scorer (2026-09-15; after gate freeze, before any mechanism code or run)
+- Scorer `benchmark/scoring/qwen_formatcontract_v1.py` sha256 `7141c97c8377e73f3945646f2db54da71ada1708d223dd5174681e0b724d3413`.
+  - It imports the frozen `qwen_selectorkind_v1` metrics after verifying their sha256 (`135a71f9…`).
+  - It does not import the EXP-20 replay.
+- Classifier transfer: the normative classifier block was assembled from the reviewed prototype and is byte-identical to it (8,297 chars). No semantic change was needed, so there is no pre-registration defect.
+- Synthetic suite on the production scorer:
+  - classifier suite (prototype suite `9dbba647…`, the 42 user cases plus extras): 57 passed
+  - gate-level suite (`4c6d5533…`: class order, F boundaries, V/MI/S clauses, MI2/MI3 extraction, arm aggregation): 14 passed
+- Mutation checks on scorer copies: 25 of 25 caught.
+  - 13 classifier mutations, including a reintroduced fence rule, bool as number, NaN allowed, format before selector, class for a dotted target, no async, no dedent
+  - 12 gate mutations, including F threshold 8, F invalid limit 5, F ignoring invalid proposals, swapped class order, no UNCLASSIFIABLE V, MI1 ignoring drift, MI3 disabled, MI2 count ignored, stale pre-edit state, drift VALID check removed, control constants ignored, selector counted as invalid
+  - `selector_counted_invalid` first survived and was closed by an arm-aggregation test; the scorer did not change.
+- Dry check on the frozen control only (0 drift or treatment rows exist; no output file written):
+  - reproduces the gate's control constants exactly: passes 3, damaged 0, localized 8, stray 0, executed 6, solvable proposals 11, VALID tasks 7, FORMAT_INVALID 4, selector failures 0, unclassifiable 0, insufficient executed-mutation tasks 1
+  - existing-guard invariant 0
+
+### qwen_formatcontract_v1 — implementation (2026-09-15; after gate and scorer freeze, before any run)
+- Mechanism (`plugins/agent/loop.py`):
+  - `REPLACEMENT_CONTRACT_PY` and `REPLACEMENT_CONTRACT_JSON` are byte-exact substrings of the frozen gate
+  - with `replacement_format_contract` and `explicit_selector_kind` on, the two placeholders in `SELECTOR_KIND_EDIT_GUIDANCE` are replaced (a module-level assertion checks that each placeholder occurs exactly once)
+  - no other prompt, schema, guard or tool change; `plugins/tools/file.py` is unchanged
+- Evaluator (`benchmark/repo_task_eval.py`):
+  - condition `qwen_formatcontract` = qwen_selectorkind overrides + the flag
+  - `edit_proposals`, from `edit_proposal_recorder`: the same event selection as `call_log`, untruncated arguments, `after_text` read at the successful `tool.result`
+  - `format_contract_shown`
+  - Recorded before the run: the compact guidance is delivered inside a JSON-encoded system message, so `format_contract_shown` checks each exact contract string in raw or JSON-string-escaped form in the texts actually sent. This is instrumentation, not classifier semantics.
+- Tests `tests/test_formatcontract.py`: 10 pass.
+  - the contract equals the gate text; single-factor condition
+  - treatment guidance differs from control only in the two placeholders; the control guidance is unchanged
+  - no contract without explicit selector kind
+  - guards and messages are identical for a fenced replacement in both arms
+  - no repair (structural preservation)
+  - untruncated proposals pair with calls; `after_text` recorded
+  - contract exposure requires both exact strings
+- Neighbouring suites: 176 passed (format contract, selector kind, localized edit, ast no-op, done latch, agent, repo task eval, CI scripts, skills validator).
+- Mutation checks on the mechanism, tool and instrumentation: 13 of 14 caught (never applied, applied without flag, Python or JSON clause missing, appended not replaced, text altered, fence repair in the tool, dropped failed proposals, truncated proposals, missing after_text, exposure always true, exposure with one clause, exposure raw-only). `applied_without_kind` is equivalent: `LOCALIZED_EDIT_GUIDANCE` contains neither placeholder (verified), so no contract can appear.

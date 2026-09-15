@@ -31,7 +31,7 @@ import tempfile
 import time
 from dataclasses import asdict
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 import requests
 
@@ -44,6 +44,7 @@ from benchmark.repo_tasks import TASKS, RepoTask
 from core.bounded_task import run_bounded_task
 from core.diagnosis import evidence_line_span, target_line_span
 from core.path_candidates import normalize
+from plugins.agent.loop import REPLACEMENT_CONTRACT_JSON, REPLACEMENT_CONTRACT_PY
 from main import build_application
 
 REPOS_DIR = REPO_ROOT / "benchmark" / "repos"
@@ -86,6 +87,8 @@ CONDITIONS["qwen_localedit"] = {"model": "qwen2.5-coder:1.5b", "overrides": {**C
 CONDITIONS["qwen_selectorkind"] = {"model": "qwen2.5-coder:1.5b", "overrides": {**CONDITIONS["qwen_localedit"]["overrides"], "explicit_selector_kind": True}}
 # Gate qwen_astnoop_v1 (benchmark/gates/qwen_astnoop_v1.md): control = qwen_selectorkind; only ast_noop_refusal differs.
 CONDITIONS["qwen_astnoop"] = {"model": "qwen2.5-coder:1.5b", "overrides": {**CONDITIONS["qwen_selectorkind"]["overrides"], "ast_noop_refusal": True}}
+# Gate qwen_formatcontract_v1 (benchmark/gates/qwen_formatcontract_v1.md): control = qwen_selectorkind; only replacement_format_contract differs.
+CONDITIONS["qwen_formatcontract"] = {"model": "qwen2.5-coder:1.5b", "overrides": {**CONDITIONS["qwen_selectorkind"]["overrides"], "replacement_format_contract": True}}
 # Gate qwen_donelatch_v1 (benchmark/gates/qwen_donelatch_v1.md): control = qwen_astnoop; only completion_requires_mutation_success differs.
 CONDITIONS["qwen_donelatch"] = {"model": "qwen2.5-coder:1.5b", "overrides": {**CONDITIONS["qwen_astnoop"]["overrides"], "completion_requires_mutation_success": True}}
 MAX_ROUNDS = 12
@@ -191,6 +194,35 @@ def _summarize_arg(value: Any) -> Any:
     if isinstance(value, str) and len(value) > _TEXT_HEAD:
         return {"chars": len(value), "sha256": hashlib.sha256(value.encode()).hexdigest()[:16], "head": value[:_TEXT_HEAD]}
     return value
+
+
+def edit_proposal_recorder(workspace: Path) -> tuple[list[dict[str, Any]], Callable[[str, dict[str, Any]], None]]:
+    """Gate qwen_formatcontract_v1 instrumentation (model-invisible). One record per edit_symbol tool result, selected
+    exactly as call_log selects calls, with untruncated arguments and the edited file read right after a successful edit."""
+    proposals: list[dict[str, Any]] = []
+
+    def observe(etype: str, payload: dict[str, Any]) -> None:
+        if etype != "tool.result" or payload.get("tool") != "edit_symbol":
+            return
+        arguments = payload.get("arguments") or {}
+        success = bool(payload.get("success"))
+        after = None
+        if success:
+            edited = workspace / normalize(str(arguments.get("path") or ""))
+            after = edited.read_text(encoding="utf-8") if edited.is_file() else None
+        proposals.append({"path": arguments.get("path"), "selector_kind": arguments.get("selector_kind"), "target": arguments.get("target"),
+                          "replacement": arguments.get("replacement"), "success": success, "after_text": after})
+
+    return proposals, observe
+
+
+def format_contract_shown(sent_texts: list[str]) -> bool:
+    """True iff both exact contract strings appear in a message sent to the model (raw, or JSON-string-escaped as the
+    compact guidance is delivered inside a JSON-encoded system message)."""
+    def shown(contract: str) -> bool:
+        escaped = json.dumps(contract, ensure_ascii=False)[1:-1]
+        return any(contract in text or escaped in text for text in sent_texts)
+    return shown(REPLACEMENT_CONTRACT_PY) and shown(REPLACEMENT_CONTRACT_JSON)
 
 
 def call_log(timeline: list[tuple[str, dict[str, Any]]], seed_texts: dict[str, str]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
@@ -571,7 +603,14 @@ def run_task(task: RepoTask, condition: str) -> dict[str, Any]:
 
         model.chat = recording_chat
         timeline: list[tuple[str, dict[str, Any]]] = []
-        ctx.events.on("*", lambda event: timeline.append((event.type, dict(event.payload or {}))))
+        edit_proposals, observe_edit = edit_proposal_recorder(workspace)
+
+        def record_event(event: Any) -> None:
+            payload = dict(event.payload or {})
+            timeline.append((event.type, payload))
+            observe_edit(event.type, payload)
+
+        ctx.events.on("*", record_event)
         try:
             lane = run_bounded_task(task.public_spec, workspace, ctx.plugins["agent_loop"].run)
         finally:
@@ -616,6 +655,8 @@ def run_task(task: RepoTask, condition: str) -> dict[str, Any]:
         "tool_calls": sum(1 for t, _ in timeline if t == "tool.invoked"),
         "prompt_tokens": sum(prompt_tokens),
         "leaked_markers": leaked,
+        "edit_proposals": edit_proposals,
+        "format_contract_shown": format_contract_shown(sent_texts),
         "completion_checks": [{k: p.get(k) for k in ("round", "reason", "latch_version", "mutation_version", "action")}
                               for t, p in timeline if t == "completion.latch"],
         "seconds": round(time.perf_counter() - started, 1),

@@ -72,7 +72,8 @@ All 8 completions after an unapplied mutation were blocked; in 8/8 Qwen repeated
 completion_requires_mutation_success available, off by default; no preset change.
 Earlier: qwen_astnoop_v1 - PARTIAL on DEV (EXP-20; CAP-009 mechanism-valid, CON-015); qwen_selectorkind_heldout_v1 - PARTIAL (b) on HELDOUT.
 Milestones (1)-(3) not claimed; coordination frozen.
-NEXT GATE: none registered; user decision on the next Q-002 factor (queued: replacement-format contract, a pre-edit factor); abstention (Q-003) separate.
+ACTIVE GATE: qwen_formatcontract_v1 (EXP-22, Q-002, dev only: type-specific replacement-format contract before edit execution; base qwen_selectorkind; gate 13e9a05bef83...).
+NEXT GATE: after EXP-22 closure; abstention (Q-003) separate.
 Queue after this: abstention/unsolvable behavior (category 3), then broader coding capability. Gemma action-masking deferred.
 ```
 

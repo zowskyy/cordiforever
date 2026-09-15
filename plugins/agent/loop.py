@@ -102,6 +102,19 @@ SELECTOR_KIND_EDIT_GUIDANCE = (
     "\n- edit: {\"path\": \"<file.json>\", \"selector_kind\": \"json_pointer\", \"target\": \"</key/subkey>\", "
     "\"replacement\": \"<new JSON value>\"} - change one value in a .json file"
 )
+# Gate qwen_formatcontract_v1 treatment: the two replacement placeholders above become exact type-specific format
+# contracts (text only; no examples, no validation, no repair).
+REPLACEMENT_PLACEHOLDER_PY = "\"replacement\": \"<new code of that function or class>\""
+REPLACEMENT_PLACEHOLDER_JSON = "\"replacement\": \"<new JSON value>\""
+REPLACEMENT_CONTRACT_PY = (
+    "\"replacement\": \"<the complete new definition of only that function, method, class or assignment, starting with def, "
+    "async def, class, or the assignment name; no other definitions, no whole file, no Markdown code fences, no explanation>\""
+)
+REPLACEMENT_CONTRACT_JSON = (
+    "\"replacement\": \"<one valid JSON value of the same kind as the current value at target: a quoted \\\"string\\\", "
+    "a number, true, false, null, a [list] or an {object}>\""
+)
+assert SELECTOR_KIND_EDIT_GUIDANCE.count(REPLACEMENT_PLACEHOLDER_PY) == 1 and SELECTOR_KIND_EDIT_GUIDANCE.count(REPLACEMENT_PLACEHOLDER_JSON) == 1
 
 # Gate qwen_extract_v1 treatment: identical to DIAGNOSE_GUIDANCE except the evidence argument is a target selector.
 DIAGNOSE_TARGET_GUIDANCE = (
@@ -160,6 +173,7 @@ class AgentLoop(Plugin):
         self._evidence_extraction = False
         self._localized_edits = False
         self._explicit_selector_kind = False
+        self._replacement_format_contract = False
         self._read_snapshots: dict[str, str] = {}
         self._replan_count = 0
         self._round = 0
@@ -240,6 +254,7 @@ class AgentLoop(Plugin):
         self._evidence_extraction = bool(cal.get("evidence_extraction", False))
         self._localized_edits = bool(cal.get("localized_edits", False))
         self._explicit_selector_kind = bool(cal.get("explicit_selector_kind", False))
+        self._replacement_format_contract = bool(cal.get("replacement_format_contract", False))
         self._completion_latch_enabled = bool(cal.get("completion_requires_mutation_success", False))
         if self._evidence_extraction and "diagnose" in self._tool_handlers:
             self._tool_handlers["diagnose"] = self._diagnose_from_snapshot
@@ -1110,6 +1125,9 @@ class AgentLoop(Plugin):
                 guidance_text += DIAGNOSE_TARGET_GUIDANCE if self._evidence_extraction else DIAGNOSE_GUIDANCE
             if self._localized_edits:
                 edit_lines = SELECTOR_KIND_EDIT_GUIDANCE if self._explicit_selector_kind else LOCALIZED_EDIT_GUIDANCE
+                if self._explicit_selector_kind and self._replacement_format_contract:
+                    edit_lines = (edit_lines.replace(REPLACEMENT_PLACEHOLDER_PY, REPLACEMENT_CONTRACT_PY)
+                                  .replace(REPLACEMENT_PLACEHOLDER_JSON, REPLACEMENT_CONTRACT_JSON))
                 guidance_text = guidance_text.replace(LITE_WRITE_LINE, LOCALIZED_WRITE_LINE) + edit_lines
             tool_guidance = json.dumps({"role": "system", "content": guidance_text}, ensure_ascii=False)
         elif is_lite:

@@ -7,6 +7,7 @@
   "benchmark/gates/qwen_donelatch_v1.md": "b7bb6338179aad39c4181ad8ca6f4cbaf02ca9f1c6b12aa9261e9c1b8bd748f6",
   "benchmark/gates/qwen_evidence_v1.md": "4ba9b011d6944b0bf10419d93e96bf8ec5f52fbdb1b1a9beb45946ef07a7d45d",
   "benchmark/gates/qwen_extract_v1.md": "b05c9954c6e7a9a75a025ab5f88d55821ba484415755576bcc9b126a0c7f7172",
+  "benchmark/gates/qwen_formatcontract_v1.md": "13e9a05bef83e51bdeb8acc4119f8db8e9755c5850ebfea6f9755fe32654a218",
   "benchmark/gates/qwen_localedit_v1.md": "c75c5c30b4863cdab184b0468ceb34e602137c6e666be9dbdade08c7f93191cb",
   "benchmark/gates/qwen_selectorkind_heldout_v1.md": "7f14234452bed7840df3f42455e976ec1ec203358fe1c30efd861e5361b14356",
   "benchmark/gates/qwen_selectorkind_v1.md": "dcca9c02e0aee827005043ca08b4b617d4f88c7a3a048b69a975f20572f51e47",
@@ -108,6 +109,7 @@
   "benchmark/scoring/qwen_donelatch_v1.py": "0e077536ab3ca70df0e77c431b1759a1857dbf27fa6014b122eef3127b176f43",
   "benchmark/scoring/qwen_evidence_v1.py": "b309c179872bfc459594be471c75fe89483c71e69589b5c4c653cf6928bcd4c7",
   "benchmark/scoring/qwen_extract_v1.py": "9def0b992e5f23ac24c2aaf389f7d519a1e3d523286a8d5c8aef770b758d29c6",
+  "benchmark/scoring/qwen_formatcontract_v1.py": "7141c97c8377e73f3945646f2db54da71ada1708d223dd5174681e0b724d3413",
   "benchmark/scoring/qwen_localedit_v1.py": "723fcc8d36558a2335e85871bf39111d5c27e4382aa7ae7747413a70793e191d",
   "benchmark/scoring/qwen_selectorkind_heldout_v1.py": "f70b77188ae6fa419c1734863aa62be8fdaf3d066738bdd5abad8b2659289141",
   "benchmark/scoring/qwen_selectorkind_v1.py": "135a71f9a866b09e6503007bf0e1be14d2d8d6c74d069f1a611dd4afd2ddac1d"
