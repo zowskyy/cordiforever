@@ -53,7 +53,7 @@ Rules:
 | EXP-17 | qwen_localedit_v1 — gate verdict | qwen_localedit_v1.md | dev | FAIL | frozen_gate | none | H-010 | - | no | closed | CAP-005, CON-007, H-010, H-011, METH-006 | localized edits not promoted | no | no |
 | EXP-18 | qwen_selectorkind_v1 — gate verdict | qwen_selectorkind_v1.md | dev | PASS | frozen_gate | none | H-011 | - | no | closed | CAP-006, H-011, H-012, H-014, Q-001, Q-002, Q-003 | gate passed (dev); no preset change; decisions pending | yes | no |
 | EXP-19 | qwen_selectorkind_heldout_v1 — gate verdict | qwen_selectorkind_heldout_v1.md | heldout | PARTIAL | frozen_gate | none | H-011 | replication on the untouched heldout split (no mechanism change) | no | closed | CAP-002, CAP-005, CAP-006, CON-007, H-011, H-012, H-014, Q-001 | no preset change; replacement quality (Q-002) next on dev | yes | yes |
-| EXP-20 | qwen_astnoop_v1 — pre-registration | qwen_astnoop_v1.md | dev | PENDING | frozen_gate | none | H-012 | new factor: structural no-op refusal for python_symbol replacements | no | open | Q-002 (pending) | pending frozen classification | yes | yes |
+| EXP-20 | qwen_astnoop_v1 — gate verdict | qwen_astnoop_v1.md | dev | PARTIAL | frozen_gate | none | H-012 | new factor: structural no-op refusal for python_symbol replacements | no | closed | CAP-009, CON-015, H-012, Q-002 | no preset change; mechanism kept available (flag off by default); next Q-002 factor decided by user | yes | yes |
 
 EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), EXP-10 the L2 arm (criterion not met). EXP-11's gate file was written after evaluation, from the pre-registered text (noted in the file).
 
@@ -192,6 +192,19 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 - redundant: none
 - supersedes: none
 - next: none
+
+### CAP-009 — Structural no-op refusal prevents accepted AST-identical Python replacements
+- status: SUPPORTED
+- confidence: mechanism-valid
+- evidence: EXP-20
+- contradicted_by: none
+- scope: Qwen, dev split, python_symbol bounded edits, single temperature-0 run, n=16 solvable
+- establishes: accepted structural no-op edits 2 (control, drift) → 0 (treatment); both refusals on the two pre-identified restatement tasks; damage 0, false verified 0 and all other safety clauses held; no other trajectory changed (18/20 tasks identical to control, the other 2 differ only in the refused call)
+- not_established: any completion gain (passes 3 → 3, gate C NO_IMPROVEMENT); that refusal leads to a substantive edit; behavioral equivalence (the detector is structural only)
+- consequence: executed-edit counts no longer include cosmetic restatements when the flag is on; the flag is kept available, off by default
+- redundant: none
+- supersedes: none
+- next: Q-002
 ## Constraints
 
 ### CON-001 — Offering repository tools as optional actions does not improve localization
@@ -383,6 +396,19 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 - redundant: none
 - supersedes: none
 - next: none
+
+### CON-015 — Refusing cosmetic restatements did not convert them into substantive edits
+- status: SUPPORTED
+- confidence: dev-supported
+- evidence: EXP-20
+- contradicted_by: none
+- scope: Qwen, dev split, the 2 restatement tasks only, single temperature-0 run
+- establishes: after the neutral refusal, both trajectories ended with `done` claiming a fix, in the same round as control; no retry, read or diagnosis; hidden-test passes on these tasks 0 → 0; the lane escalated (no false verification)
+- not_established: that Qwen generally ignores tool feedback (n=2); whether a different refusal content or a retry budget would change the next action (not tested; would be a separate factor)
+- consequence: superficial restatement is real but is not the dominant completion bottleneck on dev; completion claims in these trajectories did not depend on the edit result
+- redundant: further no-op detection refinements under the same refusal text and loop policy
+- supersedes: none
+- next: Q-002
 ## Methodology
 
 ### METH-001 — Validate the harness boundary before attributing behavior to the model
@@ -667,11 +693,11 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 
 ### H-012 — With selectors repaired, replacement quality is the next bottleneck
 - status: OPEN
-- evidence: EXP-18, EXP-19
+- evidence: EXP-18, EXP-19, EXP-20
 - contradicted_by: none
 - scope: Qwen, bounded edits with explicit kinds
-- establishes: descriptive only. Dev (EXP-18): wrong_edit_choice 3, whole-file content as a symbol replacement 1, Python-literal JSON value 1. Heldout (EXP-19): with syntax 15/15 valid, replacement failures clobbering existing names 2, identical replacement 2, replacement breaking the file 2, executed-but-not-passing 3
-- not_established: the dominant failure mode, or any intervention's effect
+- establishes: descriptive only. Dev (EXP-18): wrong_edit_choice 3, whole-file content as a symbol replacement 1, Python-literal JSON value 1. Heldout (EXP-19): with syntax 15/15 valid, replacement failures clobbering existing names 2, identical replacement 2, replacement breaking the file 2, executed-but-not-passing 3. Dev (EXP-20, PARTIAL): removing accepted structural no-ops (2 → 0) left completion unchanged (3 → 3), so restatement is not the dominant replacement-quality failure on dev
+- not_established: the dominant failure mode, or any completion-improving intervention
 - consequence: the next Qwen repair factor should target replacement content, not selectors
 - redundant: none
 - supersedes: none
@@ -719,10 +745,10 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 ### Q-002 — Which replacement-quality failure dominates after selector repair, and what single bounded factor addresses it?
 - status: OPEN
 - derived_from: H-012, EXP-18
-- evidence: EXP-18
+- evidence: EXP-18, EXP-20
 - contradicted_by: none
 - scope: Qwen, bounded edits with explicit selector kinds
-- establishes: candidate modes observed (semantic wrong 3, whole-file-as-symbol 1, JSON literal syntax 1)
+- establishes: candidate modes observed (dev EXP-18 classification: correct 3, cosmetic restatement 2, incomplete fix 1, wrong target 1, whole-file-as-symbol 1, malformed JSON value 1, guard refusal 1); EXP-20 eliminated restatement acceptance without a completion gain (CAP-009, CON-015)
 - not_established: n/a
 - consequence: classify executed-but-failed edits before designing the treatment
 - redundant: none
@@ -772,7 +798,7 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 - open_hypotheses: H-012, H-013, H-014
 - partially_supported_pending_replication: H-011, CAP-004, CAP-006
 - open_questions: Q-002, Q-003
-- active_experiment: EXP-20 (Q-002 structural no-op refusal; PENDING)
+- active_experiment: none (next Q-002 factor awaits user decision)
 - deferred_questions: Q-004, Q-005
 
 ## Research deltas
@@ -806,3 +832,23 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 - CAUSAL LANGUAGE: checked: "valid selectors mostly lost to replacement-content failures" is stated as an observed distribution, not a proven cause; the new heldout-only modes carry no causal claim.
 - NARROW FINDINGS: checked: the M failure does not erase the gated safety and damage replication, which is recorded (CAP-002, CAP-005).
 - NARROW PASS: checked: PARTIAL (b) is not represented as generalized capability; milestones (1)–(3) are recorded as not claimed; completion is described as near floor.
+
+### Delta EXP-20
+- BEFORE: With selectors repaired (CAP-006, dev-supported), dev replacement failures included 2 accepted cosmetic restatements (quote changes only); whether refusing them would raise completion was untested (H-012, Q-002).
+- RESULT: qwen_astnoop_v1 PARTIAL under the frozen scorer (ef5492b9…): validity held (drift identical to control on 20/20 trajectories); MI held (accepted structural no-ops 0); safety held; capability NO_IMPROVEMENT (passes 3 = control 3).
+- LEARNED: A deterministic structural no-op detector refuses exactly the restatement edits without touching any other trajectory (CAP-009, mechanism-valid). In both refused trajectories the model then claimed completion anyway, in the same round as control (CON-015, n=2).
+- NOT LEARNED: Any completion gain; whether different refusal content or a retry policy would change behavior after a refusal; the dominant remaining replacement failure; anything about heldout.
+- UPDATED: CAP-009 (new, mechanism-valid); CON-015 (new, dev-supported); H-012 evidence extended; Q-002 evidence extended (stays OPEN).
+- SYSTEM CONSEQUENCE: No preset change. `ast_noop_refusal` stays available and off by default. Restatement refusal is not the completion lever; the queued format-contract and semantic-content factors remain candidates for Q-002.
+- ELIMINATED WORK: Broader no-op equivalence notions (folding, renaming, unparse normalization) under the same refusal and loop policy; heldout replication of this mechanism for completion purposes.
+- NEXT UNCERTAINTY: Q-002: which single factor addresses incomplete or wrong-target replacements, or whether completion claims issued independently of edit results need to be addressed first.
+
+### Audit EXP-20
+- DIRECTION: checked: accepted no-ops 2 → 0 (decrease); passes 3 → 3 (no change); cumulative edit executed 6 → 4 (decrease, explained as the removed no-ops); extended-funnel executed 5 → 5; damage 0 → 0.
+- POPULATION: checked: dev split, 20 tasks per arm, 16 solvable; CON-015 is scoped to the 2 restatement tasks; counts are tasks except no-op counts, which are edit calls (1 per task here).
+- COMPARISONS: checked: inferential comparison is treatment vs frozen control only; drift is validity only; no heldout values are used.
+- DESCRIPTIVE VS GATE: checked: CAP-009 rests on gated MI and S clauses; the unchanged next action, round equality and trajectory identity are descriptive; the scorer's `next_action` field is recorded as mislabeled (`none` for `done`) and not used.
+- CONFOUNDS: checked: no confounds registered; the batch timeout, memory kill and one-task-per-call execution are transient, and the rows are checkpointed with identical provenance.
+- CAUSAL LANGUAGE: checked: CON-015 states that completion claims in these 2 trajectories did not depend on the edit result, not that Qwen ignores feedback in general; "not the dominant bottleneck" is limited to dev completion.
+- NARROW FINDINGS: checked: NO_IMPROVEMENT does not erase the mechanism result, which is recorded as CAP-009 at mechanism-valid.
+- NARROW PASS: checked: PARTIAL is not described as a capability gain; confidence for CAP-009 is mechanism-valid, not dev-supported.

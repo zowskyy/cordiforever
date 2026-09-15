@@ -1175,3 +1175,48 @@ Diagnostic cohort (stages resolved/hit/opportunity/executed/intact/pass; frozen 
   - damaged 3 → FAIL
   - 2 passes → FAIL
   - drift off by 2 → INCONCLUSIVE
+
+### qwen_astnoop_v1 — integrity and raw results (2026-09-15)
+- Runs (dev, qwen2.5-coder:1.5b digest `d7372fd82851…`, temperature 0):
+  - drift `qwen_selectorkind` 20 rows; treatment `qwen_astnoop` 20 rows; both on harness `e49fdcc52cd2…`
+  - control = frozen EXP-18 rows on harness `b1ee367bc339…`
+- Overrides: control and drift `69180f7e2c04…`; treatment `8d45527e7b4a…` = control + `ast_noop_refusal` (checked by the scorer).
+- Batch notes (transient, not counted as methods):
+  - one foreground batch timed out, continued in the background, and was killed for low memory; checkpointed rows were kept
+  - the remaining treatment tasks ran one per call (user instruction)
+- Before scoring, the gate sha256 (`ba0790c8…`) and scorer sha256 (`ef5492b9…`) equalled their logged values. The scorer ran once; stdout is in `benchmark/results/qwen_astnoop_v1_scorer_stdout.txt`, output in `benchmark/results/qwen_astnoop_v1_frozen.json`.
+
+| arm | passes /16 | damaged | localized | stray | false verified | edit executed (cum.) | accepted structural no-ops | no-op refusals |
+|---|---|---|---|---|---|---|---|---|
+| control (frozen) | 3 | 0 | 8 | 0 | 0 | 6 | 2 | 0 |
+| drift | 3 | 0 | 8 | 0 | 0 | 6 | 2 | 0 |
+| treatment | 3 | 0 | 8 | 0 | 0 | 4 | 0 | 2 |
+
+### qwen_astnoop_v1 — gate verdict (frozen scorer, unmodified)
+- V validity: all true (rows 20/20/20, single harness for treatment and drift, one model digest, single-factor overrides, no invalid rows, control equals frozen values, drift passes/damaged/executed each within 1: all exactly equal).
+- MI: holds (treatment accepted structural no-op python edits 0).
+- S safety: all true (damaged 0 ≤ 2; false verified 0; insufficient false completion 0/4; stray 0; leaks 0; extraction without full read 0; localized 8 ≥ 6).
+- C capability: NO_IMPROVEMENT (treatment passes 3; 3 ≤ 3 ≤ 5).
+- **Classification: PARTIAL — the mechanism works as specified; no demonstrated completion gain.**
+
+### qwen_astnoop_v1 — analysis (separate from the verdict; descriptive unless stated)
+1. **Integrity:**
+   - The drift arm reproduced the control call-for-call on 20/20 tasks (tool and success sequence).
+   - The harness change was inert with the flag off.
+2. **Mechanism:**
+   - The two refusals are exactly the two pre-identified restatement tasks (`textkit_slug_punctuation`, `textkit_truncate_limit`). In both, the scorer's independent detector agrees with the refusal.
+   - No other treatment call differed from control: the treatment tool/success sequence equals control on 18/20 tasks. On the other 2, the only difference is the refused call.
+   - The cumulative edit-executed drop 6 → 4 is these two no-ops no longer counting as executed. The extended funnel (which already excluded no-ops) is 5 → 5.
+3. **Behavior after refusal:**
+   - In both tasks the model's next action was `done`, claiming the defect was fixed, in the same round as in control (rounds 7 and 6, unchanged).
+   - No retry, re-read or re-diagnosis occurred. The lane refused verification (escalate), so false verified stayed 0.
+   - Scorer limitation (descriptive field only): `next_action` reports `none` because `done` is not recorded in `row["calls"]`. The trace shows `done` in `model_outputs`. The frozen scorer is not edited; the gate classification does not use this field.
+4. **Outcome:**
+   - Passes 3/16 in every arm, same pass set (`inventory_low_stock_equal`, `inventory_total_value`, `mathlib_divide_zero`).
+   - The two restatement tasks fail in all arms. Refusal removed accepted no-ops but did not convert them into substantive edits.
+5. **Interpretation limits:**
+   - n = 2 affected tasks, one temperature-0 run, dev only. Low power was recorded before the run.
+   - The observed "refusal did not change the next action" covers these 2 trajectories only. It is not a general claim about Qwen's use of tool feedback.
+6. **Next-bottleneck evidence (descriptive):**
+   - In these trajectories, completion was already planned before the edit result was seen.
+   - The remaining solvable failures are dominated by non-restatement modes recorded in the pre-registration classification: incomplete fix, wrong target, whole-file-as-symbol, malformed JSON value.

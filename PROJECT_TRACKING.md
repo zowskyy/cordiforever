@@ -67,12 +67,12 @@ Caveats: single temp-0 dev run, n=16, boundary pass; heldout not run; no preset 
 Established now: correct selector -> executed bounded edit (8/11 python_symbol edits succeeded, 0 damage).
 Still not established: executed edit -> correct replacement -> pass (wrong_edit_choice 3; whole-file-as-symbol 1;
   JSON value syntax 1). Category 3 (edit on unsolvable task) persists: 1, no damage.
-LAST COMPLETED GATE: qwen_selectorkind_heldout_v1 - PARTIAL (b) on HELDOUT: validity and safety held; damage T 0 vs reference 4;
-completion T 1/16 = reference 1/16 (near floor); selector syntax T 15/15 vs control 5/10, but edit-executed gain +2 < 3 (mechanism not confirmed).
-Milestones: (1) selector mechanism generalized - not claimed; (2) single-agent capability generalized - not claimed beyond safety/damage;
-(3) competence for coordination research - not claimable. No preset change. CAP-002, CAP-005 now heldout-supported; CAP-006 stays dev-supported.
-ACTIVE GATE: qwen_astnoop_v1 (Q-002, dev only: structural no-op refusal for python_symbol replacements; gate ba0790c8e96b...).
-NEXT GATE: after closure, decide from the Q-002 classification; format-contract factor queued; abstention (Q-003) separate; coordination frozen.
+LAST COMPLETED GATE: qwen_astnoop_v1.md - PARTIAL on DEV (EXP-20): validity, MI and safety held; accepted structural no-ops 2 -> 0;
+passes 3 -> 3 (NO_IMPROVEMENT). In both refused trajectories Qwen claimed done in the same round as control; the lane escalated.
+CAP-009 (mechanism-valid), CON-015 (dev-supported, n=2). ast_noop_refusal available, off by default; no preset change.
+Earlier: qwen_selectorkind_heldout_v1 - PARTIAL (b) on HELDOUT (safety/damage replicated; execution gain +2 < 3; completion near floor).
+Milestones (1)-(3) not claimed; coordination frozen.
+NEXT GATE: none registered; user decision on the next Q-002 factor (queued: format contract; candidate: completion claims independent of edit results); abstention (Q-003) separate.
 Queue after this: abstention/unsolvable behavior (category 3), then broader coding capability. Gemma action-masking deferred.
 ```
 
