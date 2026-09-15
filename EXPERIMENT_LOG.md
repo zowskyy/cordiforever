@@ -1312,6 +1312,17 @@ Diagnostic cohort (stages resolved/hit/opportunity/executed/intact/pass; frozen 
    - Across EXP-20 and EXP-21, feedback delivered after the edit (a structural refusal, then a completion refusal) did not alter Qwen's plan in any observed trajectory.
    - The action after an edit appears fixed before its result is seen.
 
+### Execution-efficiency audit (2026-09-15; infrastructure, not an experiment; not EXP-22 evidence)
+- Existing EXP-21 runs, one task per call (40 rows): in-task median 52 s; between-call overhead median 7.7 s; unload 0.2 s; about 22 min per arm. The model was cold at every call start (0/20 loaded).
+- Scratch profile, control condition `qwen_selectorkind`, one dev task, no rows written, no outcome fields printed:
+  - cold (model unloaded): load 3.8 s, prompt evaluation 21.9 s, generation 23.8 s, harness/tools 1.3 s, oracle 0.45 s, workspace seed 8 ms, serialization under 1 ms → **52.1 s**
+  - warm (model resident): load 0.03 s, prompt evaluation 4.4 s, generation 23.8 s → **30.7 s**, about 41% less task wall time
+  - process-level work is negligible: imports 0.45 s; corpus, harness and digest hashing about 0.04 s together
+- Equivalence: cold vs warm model-visible records (calls, model outputs, rounds, prompt tokens, lane, oracle, edit proposals) were byte-identical on 2/2 control tasks (`textkit_slug_punctuation`, `config_add_feature`). Historically, warm (4 per call) and cold (1 per call) arms reproduced each other call-for-call (EXP-18 control vs EXP-20 drift; EXP-20 treatment vs EXP-21 drift).
+- Ollama 0.34.0 with `OLLAMA_MAX_LOADED_MODELS=1`, `OLLAMA_NUM_PARALLEL=1`, flash attention and iGPU on; no second model resident.
+- Descriptive note: a second in-process application logs a port 3080 bind error from a host-side plugin server; no effect on outputs was observed.
+- Decision: experiment-execution skill v2; warm sequential foreground batches of at most 5 for EXP-22 (DECISIONS). No harness, gate, scorer, model setting or evaluation change.
+
 ### qwen_formatcontract_v1 — pre-registration (2026-09-15; before any mechanism or scorer code; Q-002)
 - Gate `benchmark/gates/qwen_formatcontract_v1.md` sha256 `13e9a05bef83e51bdeb8acc4119f8db8e9755c5850ebfea6f9755fe32654a218`. DEV only.
 - Skills applied: experiment-preregistration, evidence-audit, frozen-scorer (plan), mutation-testing (prototype).

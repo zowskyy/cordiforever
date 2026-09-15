@@ -32,11 +32,12 @@ skills:
       - infrastructure-only work
 
   - id: experiment-execution
-    version: 1
+    version: 2
     path: experiment-execution/SKILL.md
-    purpose: Run the arms of a frozen experiment locally without changing its semantics.
+    purpose: Run the arms of a frozen experiment locally without changing its semantics, using a resident model shared by independent sequential tasks within an authorized batch size.
     applies_when:
       - starting or resuming model runs for a frozen gate
+      - choosing the foreground batch size for sequential task execution
     does_not_apply_when:
       - the gate is not frozen
       - runs are complete and scoring is next
