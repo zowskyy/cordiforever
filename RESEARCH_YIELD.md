@@ -54,7 +54,7 @@ Rules:
 | EXP-18 | qwen_selectorkind_v1 — gate verdict | qwen_selectorkind_v1.md | dev | PASS | frozen_gate | none | H-011 | - | no | closed | CAP-006, H-011, H-012, H-014, Q-001, Q-002, Q-003 | gate passed (dev); no preset change; decisions pending | yes | no |
 | EXP-19 | qwen_selectorkind_heldout_v1 — gate verdict | qwen_selectorkind_heldout_v1.md | heldout | PARTIAL | frozen_gate | none | H-011 | replication on the untouched heldout split (no mechanism change) | no | closed | CAP-002, CAP-005, CAP-006, CON-007, H-011, H-012, H-014, Q-001 | no preset change; replacement quality (Q-002) next on dev | yes | yes |
 | EXP-20 | qwen_astnoop_v1 — gate verdict | qwen_astnoop_v1.md | dev | PARTIAL | frozen_gate | none | H-012 | new factor: structural no-op refusal for python_symbol replacements | no | closed | CAP-009, CON-015, H-012, Q-002 | no preset change; mechanism kept available (flag off by default); next Q-002 factor decided by user | yes | yes |
-| EXP-21 | qwen_donelatch_v1 — pre-registration | qwen_donelatch_v1.md | dev | PENDING | frozen_gate | none | H-012 | new factor: completion contingent on mutation result (latch after failed mutation) | no | open | Q-002 (pending) | pending frozen classification | yes | yes |
+| EXP-21 | qwen_donelatch_v1 — gate verdict | qwen_donelatch_v1.md | dev | PARTIAL | frozen_gate | none | H-012 | new factor: completion contingent on mutation result (latch after failed mutation) | no | closed | CON-015, CON-016, H-012, Q-002 | no preset change; latch kept available (flag off by default); next Q-002 factor decided by user | yes | yes |
 
 EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), EXP-10 the L2 arm (criterion not met). EXP-11's gate file was written after evaluation, from the pre-registered text (noted in the file).
 
@@ -401,13 +401,26 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 ### CON-015 — Refusing cosmetic restatements did not convert them into substantive edits
 - status: SUPPORTED
 - confidence: dev-supported
-- evidence: EXP-20
+- evidence: EXP-20, EXP-21
 - contradicted_by: none
 - scope: Qwen, dev split, the 2 restatement tasks only, single temperature-0 run
-- establishes: after the neutral refusal, both trajectories ended with `done` claiming a fix, in the same round as control; no retry, read or diagnosis; hidden-test passes on these tasks 0 → 0; the lane escalated (no false verification)
+- establishes: after the neutral refusal, both trajectories ended with `done` claiming a fix, in the same round as control; no retry, read or diagnosis; hidden-test passes on these tasks 0 → 0; the lane escalated (no false verification). EXP-21: with that completion also blocked, both tasks repeated `done` and escalated (CON-016)
 - not_established: that Qwen generally ignores tool feedback (n=2); whether a different refusal content or a retry budget would change the next action (not tested; would be a separate factor)
 - consequence: superficial restatement is real but is not the dominant completion bottleneck on dev; completion claims in these trajectories did not depend on the edit result
 - redundant: further no-op detection refinements under the same refusal text and loop policy
+- supersedes: none
+- next: Q-002
+
+### CON-016 — Qwen did not show adaptive recovery under enforced mutation feedback in this dev experiment
+- status: SUPPORTED
+- confidence: dev-supported
+- evidence: EXP-21
+- contradicted_by: none
+- scope: Qwen, dev split, qwen_astnoop base with the completion latch, single temperature-0 run, 8 blocked trajectories
+- establishes: the latch refused all 8 completion attempts made after an unapplied mutation (MI held); in 8/8 the next model output was an identical second `done` (re-engagement 0, recovery R 0) and every blocked task escalated; passes 3 → 3 (same pass set); damage and false verification 0; +8 rounds, +13.6k prompt tokens
+- not_established: that Qwen cannot use mutation feedback under any content, prompt or retry policy (only a neutral completion check was tested); behavior of other models; heldout behavior
+- consequence: enforcing completion state converts false completion trajectories into escalations but does not produce recovery. Control-flow gating alone is not the completion lever for this model and stack.
+- redundant: further completion-gate variants that differ only in the gating rule, with the same neutral message
 - supersedes: none
 - next: Q-002
 ## Methodology
@@ -694,10 +707,10 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 
 ### H-012 — With selectors repaired, replacement quality is the next bottleneck
 - status: OPEN
-- evidence: EXP-18, EXP-19, EXP-20
+- evidence: EXP-18, EXP-19, EXP-20, EXP-21
 - contradicted_by: none
 - scope: Qwen, bounded edits with explicit kinds
-- establishes: descriptive only. Dev (EXP-18): wrong_edit_choice 3, whole-file content as a symbol replacement 1, Python-literal JSON value 1. Heldout (EXP-19): with syntax 15/15 valid, replacement failures clobbering existing names 2, identical replacement 2, replacement breaking the file 2, executed-but-not-passing 3. Dev (EXP-20, PARTIAL): removing accepted structural no-ops (2 → 0) left completion unchanged (3 → 3), so restatement is not the dominant replacement-quality failure on dev
+- establishes: descriptive only. Dev (EXP-18): wrong_edit_choice 3, whole-file content as a symbol replacement 1, Python-literal JSON value 1. Heldout (EXP-19): with syntax 15/15 valid, replacement failures clobbering existing names 2, identical replacement 2, replacement breaking the file 2, executed-but-not-passing 3. Dev (EXP-20, PARTIAL): removing accepted structural no-ops (2 → 0) left completion unchanged (3 → 3), so restatement is not the dominant replacement-quality failure on dev. Dev (EXP-21, PARTIAL b): blocking completion after an unapplied mutation produced no retry (0/8 re-engaged), so completion gating does not surface better replacements either
 - not_established: the dominant failure mode, or any completion-improving intervention
 - consequence: the next Qwen repair factor should target replacement content, not selectors
 - redundant: none
@@ -746,10 +759,10 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 ### Q-002 — Which replacement-quality failure dominates after selector repair, and what single bounded factor addresses it?
 - status: OPEN
 - derived_from: H-012, EXP-18
-- evidence: EXP-18, EXP-20
+- evidence: EXP-18, EXP-20, EXP-21
 - contradicted_by: none
 - scope: Qwen, bounded edits with explicit selector kinds
-- establishes: candidate modes observed (dev EXP-18 classification: correct 3, cosmetic restatement 2, incomplete fix 1, wrong target 1, whole-file-as-symbol 1, malformed JSON value 1, guard refusal 1); EXP-20 eliminated restatement acceptance without a completion gain (CAP-009, CON-015)
+- establishes: candidate modes observed (dev EXP-18 classification: correct 3, cosmetic restatement 2, incomplete fix 1, wrong target 1, whole-file-as-symbol 1, malformed JSON value 1, guard refusal 1); EXP-20 eliminated restatement acceptance without a completion gain (CAP-009, CON-015); EXP-21 showed post-edit feedback enforced as completion state did not produce a retry (CON-016)
 - not_established: n/a
 - consequence: classify executed-but-failed edits before designing the treatment
 - redundant: none
@@ -799,7 +812,7 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 - open_hypotheses: H-012, H-013, H-014
 - partially_supported_pending_replication: H-011, CAP-004, CAP-006
 - open_questions: Q-002, Q-003
-- active_experiment: EXP-21 (Q-002 completion contingent on mutation result; PENDING)
+- active_experiment: none (next Q-002 factor awaits user decision)
 - deferred_questions: Q-004, Q-005
 
 ## Research deltas
@@ -853,3 +866,23 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 - CAUSAL LANGUAGE: checked: CON-015 states that completion claims in these 2 trajectories did not depend on the edit result, not that Qwen ignores feedback in general; "not the dominant bottleneck" is limited to dev completion.
 - NARROW FINDINGS: checked: NO_IMPROVEMENT does not erase the mechanism result, which is recorded as CAP-009 at mechanism-valid.
 - NARROW PASS: checked: PARTIAL is not described as a capability gain; confidence for CAP-009 is mechanism-valid, not dev-supported.
+
+### Delta EXP-21
+- BEFORE: In EXP-20 both refused restatements were followed by `done` in the same round as control (CON-015); whether enforcing the mutation result as completion state would produce recovery was untested (Q-002).
+- RESULT: qwen_donelatch_v1 PARTIAL (b) under the frozen scorer (0e077536…): validity held (drift identical to control on 20/20 trajectories); MI held; safety held; capability NO_IMPROVEMENT (passes 3 = control 3); recovery R 0 < 2.
+- LEARNED: The latch refused all 8 completion attempts made after an unapplied mutation, and in 8/8 the model's next output was an identical second `done`; every blocked task escalated (CON-016). Completion gating turns false completion trajectories into escalations without eliciting a retry.
+- NOT LEARNED: Whether different completion-check content, a retry budget, or a prompt-level change would alter the next action; anything about other models or heldout; the dominant replacement failure.
+- UPDATED: CON-016 (new, dev-supported); CON-015 evidence extended; H-012 evidence extended; Q-002 evidence extended (stays OPEN).
+- SYSTEM CONSEQUENCE: No preset change. `completion_requires_mutation_success` stays available and off by default. Post-edit feedback delivered through harness state did not change Qwen's plan in any observed trajectory, so the next Q-002 factor should act before or at edit proposal (e.g. the queued format contract) rather than after the edit result.
+- ELIMINATED WORK: Completion-gate variants that differ only in the gating rule with the same neutral message; treating escalation counts as recovery evidence.
+- NEXT UNCERTAINTY: Q-002: whether a pre-edit factor (replacement-format contract) improves replacement correctness when post-edit feedback is not used by the model.
+
+### Audit EXP-21
+- DIRECTION: checked: completions refused after an unapplied mutation 0 → 8; next action repeated done 8/8; re-engagement 0; R 0; passes 3 → 3; "no escalation" endings 12 → 5; rounds 139 → 147; prompt tokens +13.6k.
+- POPULATION: checked: dev split, 20 tasks per arm, 16 solvable; the blocked population is 8 treatment tasks (7 pre-registered triggers plus `inventory_update_qty`); counts are tasks unless stated.
+- COMPARISONS: checked: inferential comparison is treatment vs frozen EXP-20 treatment rows; drift is validity only; no heldout values are used.
+- DESCRIPTIVE VS GATE: checked: CON-016 rests on gated R, MI, S and C; re-engagement, next actions, rounds, tokens and the two passing blocked tasks are descriptive; the scorer's `blocked_after_earlier_successful_edit` field is recorded as under-counting (it looks only before the first `set`) and is not used; the corrected value is from the traces.
+- CONFOUNDS: checked: no confounds registered; the bounded lane still runs checks after an agent escalation (existing behavior), which explains `verified_done` for two escalated tasks whose correct edit was already applied; no pass is attributed to the latch.
+- CAUSAL LANGUAGE: checked: CON-016 is limited to "did not show adaptive recovery under enforced mutation feedback in this dev experiment"; "the action after an edit appears fixed before its result is seen" is stated as an observed pattern, not a mechanism claim.
+- NARROW FINDINGS: checked: PARTIAL (b) does not erase that the latch worked as specified (MI held) and removed accepted completions after unapplied mutations.
+- NARROW PASS: checked: no capability gain is claimed; escalation is not counted as success; the flag stays off by default.
