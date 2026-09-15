@@ -69,6 +69,7 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 | MNT-02 | Proficiency phase 2 — step 1: read-before-overwrite invariant | maintenance | per-file fingerprint read-before-overwrite guard; blind overwrite refused with contents; 4 tests fail when disabled; agent_task_eval unchanged 3/5 |
 | MNT-03 | Proficiency phase 2 — step 2: structural repeat detection + typed escalation | maintenance | repeat keys with mutation version; one resample at 0.4 then typed escalation; delete_logs ended in round 2 (5.2 s) instead of 12 rounds (17 s) |
 | MNT-04 | Slice 2 — deterministic repository intelligence + tool adoption | maintenance | keyword-triggered array hint removed from the measured harness after misfiring and being echoed as an answer (Slice 1 probe) |
+| MNT-05 | Repository publication and CI offload | maintenance | public GitHub publication (oracle and results included), byte-exact storage via .gitattributes, staged deterministic CI with read-only evidence verification (0 scorers executed) |
 
 ## Causal trajectory (reconstructed)
 
@@ -481,6 +482,29 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 - supersedes: none
 - next: none
 
+### METH-009 — The committed oracle is public; final heldout evaluation needs a private oracle boundary
+- status: SUPPORTED
+- evidence: MNT-05, EXP-19
+- contradicted_by: none
+- scope: all evaluations after 2026-09-14 publication of zowskyy/cordiforever (public)
+- establishes: benchmark/oracle/ and result rows containing oracle tracebacks are in public git history; completed experiments (EXP-01…EXP-19) ran with models that had no network access, so their verdicts are unaffected
+- not_established: that any model has been exposed to the oracle; that the existing heldout split is invalid for local models without network access
+- consequence: treat the existing oracle as published. A future final heldout evaluation uses a separate private oracle that never enters public git history; keep the public development corpus distinct from it. Do not rewrite history to remove the published oracle.
+- redundant: none
+- supersedes: none
+- next: none
+
+### METH-010 — Byte-exact storage is required for hash-referenced evidence
+- status: SUPPORTED
+- evidence: MNT-05
+- contradicted_by: none
+- scope: git storage of gates, scorers, results, corpus and research documents on Windows
+- establishes: core.autocrlf rewrote 36 CRLF evidence files on commit (4/10 logged hashes matched stored blobs); with `.gitattributes` `* -text` all 10 matched, and harness/corpus hashes were identical on Linux CI
+- not_established: none
+- consequence: keep `* -text`; CI integrity fails if it is removed; the evidence point is tag publish-byte-exact-2026-09-14
+- redundant: none
+- supersedes: none
+- next: none
 ## Hypotheses
 
 ### H-001 — Offering the repository index as optional tools improves localization

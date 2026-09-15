@@ -1126,3 +1126,17 @@ Diagnostic cohort (stages resolved/hit/opportunity/executed/intact/pass; frozen 
    - (2) single-agent capability generalized: NOT claimed beyond the safety and damage clauses; completion is near floor on heldout.
    - (3) competence sufficient for coordination research: NOT claimable.
 7. **Causal model:** not invalidated. Heldout is consistent with selector syntax fixed and replacement content limiting execution (H-012), so Q-002 remains the next dev target.
+
+### Repository publication and CI offload (2026-09-14; infrastructure, not an experiment)
+- The project, previously unversioned, is published to public GitHub `zowskyy/cordiforever` (user decision: keep public, include the hidden oracle and results).
+  - Tag `pre-github-publish-2026-09-14` → `8d44f393…`: the first commit, which stored LF-converted copies of 36 CRLF files because `core.autocrlf=true`.
+  - Tag `publish-byte-exact-2026-09-14` → `c9a71d24…`: after `.gitattributes` `* -text`, every stored byte equals the local evidence (logged hashes verified 10/10 against git blobs; 4/10 at the first commit). **This is the meaningful historical publication point.**
+- CI (`.github/workflows/ci.yml`, run `34926436139` on `6584288e…`), jobs integrity → quality + tests → project-validation → artifact-checks, all passed on Ubuntu 24 / Python 3.12.14:
+  - pytest 885 passed / 0 failed / 8 skipped; the two Windows-only `test_run_command` failures pass on Linux
+  - research state OK
+  - frozen manifest 103/103; last logged hashes 9/9; scorer outputs 5/5 with 0 scorers executed; 500 run rows, 0 duplicates; 0 tracked-file mutations after tests
+  - harness `b1ee367bc339…` and corpus `e4c8be9234e7…` identical on Linux
+- Consequence for evaluation methodology: the committed oracle (`benchmark/oracle/`), result rows containing oracle tracebacks, and local path strings are public.
+  - Completed experiments are not invalidated: the models used had no network access.
+  - The oracle is no longer hidden in the strong sense. Future final heldout evaluation needs a private oracle that never enters public git history, separate from the public development corpus.
+- Ruff and mypy are not configured and not enforced; CI reports that explicitly.
