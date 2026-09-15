@@ -86,6 +86,8 @@ CONDITIONS["qwen_localedit"] = {"model": "qwen2.5-coder:1.5b", "overrides": {**C
 CONDITIONS["qwen_selectorkind"] = {"model": "qwen2.5-coder:1.5b", "overrides": {**CONDITIONS["qwen_localedit"]["overrides"], "explicit_selector_kind": True}}
 # Gate qwen_astnoop_v1 (benchmark/gates/qwen_astnoop_v1.md): control = qwen_selectorkind; only ast_noop_refusal differs.
 CONDITIONS["qwen_astnoop"] = {"model": "qwen2.5-coder:1.5b", "overrides": {**CONDITIONS["qwen_selectorkind"]["overrides"], "ast_noop_refusal": True}}
+# Gate qwen_donelatch_v1 (benchmark/gates/qwen_donelatch_v1.md): control = qwen_astnoop; only completion_requires_mutation_success differs.
+CONDITIONS["qwen_donelatch"] = {"model": "qwen2.5-coder:1.5b", "overrides": {**CONDITIONS["qwen_astnoop"]["overrides"], "completion_requires_mutation_success": True}}
 MAX_ROUNDS = 12
 HARNESS_SOURCES = ("plugins/agent/loop.py", "plugins/agent/schema_router.py", "plugins/tools/file.py", "plugins/model/ollama.py",
                    "core/bounded_task.py", "core/path_candidates.py", "core/structured_edit.py", "core/calibration.py", "main.py",
@@ -614,6 +616,8 @@ def run_task(task: RepoTask, condition: str) -> dict[str, Any]:
         "tool_calls": sum(1 for t, _ in timeline if t == "tool.invoked"),
         "prompt_tokens": sum(prompt_tokens),
         "leaked_markers": leaked,
+        "completion_checks": [{k: p.get(k) for k in ("round", "reason", "latch_version", "mutation_version", "action")}
+                              for t, p in timeline if t == "completion.latch"],
         "seconds": round(time.perf_counter() - started, 1),
     }
 

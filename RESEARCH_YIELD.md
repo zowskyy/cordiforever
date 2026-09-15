@@ -54,6 +54,7 @@ Rules:
 | EXP-18 | qwen_selectorkind_v1 — gate verdict | qwen_selectorkind_v1.md | dev | PASS | frozen_gate | none | H-011 | - | no | closed | CAP-006, H-011, H-012, H-014, Q-001, Q-002, Q-003 | gate passed (dev); no preset change; decisions pending | yes | no |
 | EXP-19 | qwen_selectorkind_heldout_v1 — gate verdict | qwen_selectorkind_heldout_v1.md | heldout | PARTIAL | frozen_gate | none | H-011 | replication on the untouched heldout split (no mechanism change) | no | closed | CAP-002, CAP-005, CAP-006, CON-007, H-011, H-012, H-014, Q-001 | no preset change; replacement quality (Q-002) next on dev | yes | yes |
 | EXP-20 | qwen_astnoop_v1 — gate verdict | qwen_astnoop_v1.md | dev | PARTIAL | frozen_gate | none | H-012 | new factor: structural no-op refusal for python_symbol replacements | no | closed | CAP-009, CON-015, H-012, Q-002 | no preset change; mechanism kept available (flag off by default); next Q-002 factor decided by user | yes | yes |
+| EXP-21 | qwen_donelatch_v1 — pre-registration | qwen_donelatch_v1.md | dev | PENDING | frozen_gate | none | H-012 | new factor: completion contingent on mutation result (latch after failed mutation) | no | open | Q-002 (pending) | pending frozen classification | yes | yes |
 
 EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), EXP-10 the L2 arm (criterion not met). EXP-11's gate file was written after evaluation, from the pre-registered text (noted in the file).
 
@@ -798,7 +799,7 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 - open_hypotheses: H-012, H-013, H-014
 - partially_supported_pending_replication: H-011, CAP-004, CAP-006
 - open_questions: Q-002, Q-003
-- active_experiment: none (next Q-002 factor awaits user decision)
+- active_experiment: EXP-21 (Q-002 completion contingent on mutation result; PENDING)
 - deferred_questions: Q-004, Q-005
 
 ## Research deltas

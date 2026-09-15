@@ -5,7 +5,8 @@ from typing import Any, Literal
 
 from .errors import ToolError
 
-EscalationReason = Literal["repeated_failed_call", "repeat_retry_unavailable", "truncated_output", "completion_prerequisites_unmet", "unsupported_declaration"]
+EscalationReason = Literal["repeated_failed_call", "repeat_retry_unavailable", "truncated_output", "completion_prerequisites_unmet", "unsupported_declaration",
+                           "completion_after_failed_mutation"]
 
 
 @dataclass(frozen=True)

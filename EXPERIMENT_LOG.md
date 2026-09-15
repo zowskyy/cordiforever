@@ -1220,3 +1220,46 @@ Diagnostic cohort (stages resolved/hit/opportunity/executed/intact/pass; frozen 
 6. **Next-bottleneck evidence (descriptive):**
    - In these trajectories, completion was already planned before the edit result was seen.
    - The remaining solvable failures are dominated by non-restatement modes recorded in the pre-registration classification: incomplete fix, wrong target, whole-file-as-symbol, malformed JSON value.
+
+### qwen_donelatch_v1 — pre-registration (2026-09-15; before any mechanism code; Q-002)
+- Gate `benchmark/gates/qwen_donelatch_v1.md` sha256 `b7bb6338179aad39c4181ad8ca6f4cbaf02ca9f1c6b12aa9261e9c1b8bd748f6`. DEV only.
+- Design evidence (EXP-20, dev): after both structural no-op refusals, Qwen issued `done` in the same round as control. Ranked first for Q-002 by the user, ahead of the format contract.
+- Single factor `completion_requires_mutation_success`:
+  - an unapplied mutation sets a latch, only when unlatched
+  - completion is refused while latched
+  - release only by a later mutation that raises the mutation version
+  - a second blocked completion in the same episode escalates
+  - abstention = existing escalation only
+- Control: frozen EXP-20 treatment rows (passes 3, damaged 0, executed 4). Drift = qwen_astnoop rerun; validity by aggregate tolerances only, trajectory equivalence descriptive.
+- `R_MIN = 2`, computed from frozen EXP-20 dev treatment rows before freezing: 7 tasks ended with a completion while a failed mutation was unreleased. 2 of them had passed after an earlier successful edit; this is recorded as a descriptive risk.
+- Classes: INCONCLUSIVE / FAIL (MI, S or regression) / PASS (≥ 6 passes) / PARTIAL (a) R ≥ 2 / PARTIAL (b) R < 2. Low power recorded.
+
+### qwen_donelatch_v1 — implementation and frozen scorer (2026-09-15; before any qwen_donelatch_v1 run)
+- Scorer `benchmark/scoring/qwen_donelatch_v1.py` sha256 `0e077536ab3ca70df0e77c431b1759a1857dbf27fa6014b122eef3127b176f43`. Per-arm metrics are imported from the frozen EXP-20 scorer after verifying its sha256 (`ef5492b9…`). This file adds only:
+  - arm selection
+  - MI from the direct `completion_checks` record (bookkeeping invariants plus accepted completion while latched), with an independent call-log cross-check
+  - R and re-engagement
+  - the triggered-task funnel
+  - a descriptive drift trajectory comparison
+  - the classification
+- Mechanism (`plugins/agent/loop.py`):
+  - `completion_requires_mutation_success` enables it
+  - `_observe_mutation_attempt` runs after every mutating call outcome in the tool loop (blocked repeat, duplicate refusal, exception/guard refusal, success) and on the all-duplicate skip path; it sets the latch only when unlatched and releases only when the mutation version exceeds the latch version
+  - latch state is reset in `run()` (once per task), not per round
+  - the done gate sits beside the named-file gate, with its own counter
+  - `completion.latch` events are emitted
+  - `core/outcomes.py` gains the escalation reason (typing only; not a harness-hash source)
+- Evaluator: condition `qwen_donelatch`; row field `completion_checks` on every new row.
+- Mapping recorded before the run: a re-proposed already-successful mutation is refused without execution, so the mutation version does not increase and it sets the latch, per the frozen invariant. Tested explicitly.
+- Tests `tests/test_donelatch.py`: 15 pass. Neighbouring suites pass (completion gate, ast-noop, localized edit, selector kind, agent).
+- Mutation checks:
+  - caught: never-latch (11 fail), release-on-any-call (2), no-escalation (8), no-task-reset (1), re-set-while-latched (2), reset-per-round (11)
+  - release-only counter reset: survives as an equivalent mutation (every episode starts with `set`, which also resets the counter)
+  - removing both counter resets: caught by the fresh-episode test
+- Dry check on the frozen control arm only (no output file written):
+  - control reproduces the registered values: passes 3, damaged 0, localized 8, stray 0, executed 4, no-op refusals 2, overrides match
+  - applied to the control rows without a latch, MI flags exactly the 7 pre-registered trigger tasks
+- Synthetic checks:
+  - bookkeeping violations (set while latched, release without increase, set below prior release, blocked version mismatch, latched at completion) all flagged; a valid two-episode record yields none
+  - next action and recovery: repeated done → not re-engaged; read then escalate → re-engaged, no recovery; successful edit after block → recovery; release before any block → not recovery
+  - classes: R 2 → PARTIAL (a); R 1 → PARTIAL (b); 6 passes → PASS; 2 passes → FAIL; MI violation → FAIL; drift missing field → INCONCLUSIVE; stray 1 → FAIL

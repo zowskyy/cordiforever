@@ -72,7 +72,8 @@ passes 3 -> 3 (NO_IMPROVEMENT). In both refused trajectories Qwen claimed done i
 CAP-009 (mechanism-valid), CON-015 (dev-supported, n=2). ast_noop_refusal available, off by default; no preset change.
 Earlier: qwen_selectorkind_heldout_v1 - PARTIAL (b) on HELDOUT (safety/damage replicated; execution gain +2 < 3; completion near floor).
 Milestones (1)-(3) not claimed; coordination frozen.
-NEXT GATE: none registered; user decision on the next Q-002 factor (queued: format contract; candidate: completion claims independent of edit results); abstention (Q-003) separate.
+ACTIVE GATE: qwen_donelatch_v1 (EXP-21, Q-002, dev only: completion unavailable after an unapplied mutation until a later mutation is applied; gate b7bb6338179a...).
+NEXT GATE: after EXP-21 closure; earlier candidates were a user decision on the next Q-002 factor (queued: format contract; candidate: completion claims independent of edit results); abstention (Q-003) separate.
 Queue after this: abstention/unsolvable behavior (category 3), then broader coding capability. Gemma action-masking deferred.
 ```
 

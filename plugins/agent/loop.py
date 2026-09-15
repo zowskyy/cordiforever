@@ -193,6 +193,11 @@ class AgentLoop(Plugin):
         self._successful_reads: set[str] = set()
         self._deleted_paths: set[str] = set()
         self._done_gate_rejections = 0
+        # Gate qwen_donelatch_v1: completion is unavailable after an unapplied mutation until a later one is applied.
+        self._completion_latch_enabled = False
+        self._latched = False
+        self._latch_version = 0
+        self._latch_rejections = 0
         self._current_request = ""
         self._parse_retry_count = 0
         self._routers: SpecializedRouters | None = None
@@ -235,6 +240,7 @@ class AgentLoop(Plugin):
         self._evidence_extraction = bool(cal.get("evidence_extraction", False))
         self._localized_edits = bool(cal.get("localized_edits", False))
         self._explicit_selector_kind = bool(cal.get("explicit_selector_kind", False))
+        self._completion_latch_enabled = bool(cal.get("completion_requires_mutation_success", False))
         if self._evidence_extraction and "diagnose" in self._tool_handlers:
             self._tool_handlers["diagnose"] = self._diagnose_from_snapshot
         self._schema_router = self.context.plugins.get("schema_router")
@@ -386,6 +392,26 @@ class AgentLoop(Plugin):
     def _repeated_failures(self, tool_calls: list[dict[str, Any]]) -> list[str]:
         keys = [self._call_repeat_key(c) for c in tool_calls]
         return [k for k in keys if k in self._failed_repeat_keys]
+
+    def _emit_latch(self, action: str, reason: str) -> None:
+        self.context.events.emit("completion.latch", {"round": self._round, "reason": reason, "latch_version": self._latch_version,
+                                                      "mutation_version": self._mutation_version, "action": action})
+
+    def _observe_mutation_attempt(self, name: str, version_before: int) -> None:
+        """Gate qwen_donelatch_v1. A mutating attempt that did not raise the mutation version sets the latch (only when
+        unlatched); one that raised it releases the current episode."""
+        if not self._completion_latch_enabled or name not in _MUTATING_TOOLS:
+            return
+        if self._mutation_version > version_before:
+            if self._latched and self._mutation_version > self._latch_version:
+                self._latched = False
+                self._latch_rejections = 0
+                self._emit_latch("released", "mutation_applied")
+        elif not self._latched:
+            self._latched = True
+            self._latch_version = self._mutation_version
+            self._latch_rejections = 0
+            self._emit_latch("set", "mutation_not_applied")
 
     def _escalate(self, model: Any, session_id: str, reason: str, repeated: list[str], task_state: dict[str, Any], user_text: str) -> None:
         outcome = EscalationOutcome(
@@ -989,6 +1015,10 @@ class AgentLoop(Plugin):
         self._read_fingerprints.clear()
         self._blind_write_sigs.clear()
         self._mutation_version = 0
+        # Latch state is reset per task (this run), never per model round.
+        self._latched = False
+        self._latch_version = 0
+        self._latch_rejections = 0
         self._failed_repeat_keys.clear()
         self._replan_count = 0
         self._parse_retry_count = 0
@@ -1250,6 +1280,8 @@ class AgentLoop(Plugin):
                     duplicate_filtered = True
                     if all(str(c.get("function", {}).get("name", "")) in _MUTATING_TOOLS for c in tool_calls):
                         # A repeated mutation that already succeeded: the requested change is in place.
+                        for c in tool_calls:  # refused without execution: the mutation version does not increase
+                            self._observe_mutation_attempt(str(c.get("function", {}).get("name", "")), self._mutation_version)
                         assistant_content = response.content or "Task already completed."
                         content = (
                             "You already completed the requested task successfully. "
@@ -1325,6 +1357,18 @@ class AgentLoop(Plugin):
                     self.context.events.emit(USER_MESSAGE, {"content": check, "provenance": "completion_check"})
                     continue
 
+            if not tool_calls and self._completion_latch_enabled and self._latched:
+                self._latch_rejections += 1
+                self.context.events.emit("done.rejected", {"session_id": session_id, "round": self._round, "reason": "mutation_not_applied"})
+                if self._latch_rejections >= 2:
+                    self._emit_latch("escalated", "completion_after_failed_mutation")
+                    self._escalate(model, session_id, "completion_after_failed_mutation", [], task_state, user_text)
+                self._emit_latch("blocked", "mutation_not_applied")
+                check = "[completion check] Under this condition, completion is unavailable: the most recent attempted change was not applied."
+                self.context.append_message("user", check)
+                self.context.events.emit(USER_MESSAGE, {"content": check, "provenance": "completion_latch"})
+                continue
+
             if not tool_calls:
                 # App Completion Verifier gate: when the model declares completion
                 # (text response, no tool calls), run deterministic verification before
@@ -1379,6 +1423,7 @@ class AgentLoop(Plugin):
                     except json.JSONDecodeError:
                         args = {}
                 call_sig = self._sig(call)
+                version_before = self._mutation_version
 
                 if self._blocked(call_sig):
                     result = json.dumps({
@@ -1394,6 +1439,7 @@ class AgentLoop(Plugin):
                         "success": False,
                     })
                     failed_this_round.append(name)
+                    self._observe_mutation_attempt(name, version_before)
                     continue
 
                 # 3x 100% success: block duplicate successful calls (prevents 1.5B loop on 'Say hello' -> write_file hello.txt repeatedly)
@@ -1416,6 +1462,7 @@ class AgentLoop(Plugin):
                     self.context.append_message("system", already_done)
                     self.context.events.emit(SYSTEM_MESSAGE, {"content": already_done})
                     failed_this_round.append(name)
+                    self._observe_mutation_attempt(name, version_before)
                     continue
 
                 try:
@@ -1478,6 +1525,7 @@ class AgentLoop(Plugin):
                         "result": result,
                         "success": False,
                     })
+                    self._observe_mutation_attempt(name, version_before)
                 else:
                     self._successful_calls.add(call_sig)
                     # Version after this call's own effect, so a read is "already seen" only while nothing has changed since.
@@ -1500,6 +1548,7 @@ class AgentLoop(Plugin):
                         "success": True,
                     })
                     successful_results.append(result)
+                    self._observe_mutation_attempt(name, version_before)
 
                     # Optional ArrayHelper context analysis after read_file
                     if self._array_helper is not None and name == "read_file":
