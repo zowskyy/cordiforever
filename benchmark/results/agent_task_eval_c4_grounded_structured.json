@@ -1,0 +1,487 @@
+{
+  "summary": {
+    "model": "gemma3:1b",
+    "label": "c4_grounded_structured",
+    "overrides": {
+      "ground_request_paths": true,
+      "structured_edits": true
+    },
+    "tasks": 10,
+    "success_rate": 0.3,
+    "succeeded": [
+      "count_lines",
+      "hello_script",
+      "create_named_duplicate"
+    ],
+    "first_path_correct": "6/9",
+    "false_done": [
+      "fix_bug",
+      "nested_read_count"
+    ],
+    "unread_source_writes": {
+      "nested_read_count": 1
+    },
+    "damaged_files": {
+      "fix_bug": [
+        "add.py"
+      ]
+    },
+    "tool_calls": 20,
+    "rounds": 34,
+    "prompt_tokens_total": 27763,
+    "prompt_tokens_first_call": 5653,
+    "wrong_path_proposals": 4,
+    "tasks_with_stray_files": [],
+    "guard_rejections_by_reason": {
+      "json_requires_patch": {
+        "total": 1,
+        "repaired": 0,
+        "repeated": 1,
+        "unresolved": 0
+      },
+      "unread_edit": {
+        "total": 2,
+        "repaired": 1,
+        "repeated": 1,
+        "unresolved": 0
+      },
+      "wrong_path": {
+        "total": 4,
+        "repaired": 0,
+        "repeated": 3,
+        "unresolved": 1
+      }
+    },
+    "recovered_after_guard_tasks": [],
+    "escalations": [
+      "hello_script",
+      "edit_config",
+      "delete_logs",
+      "nested_fix_bug",
+      "nested_config_port",
+      "nested_append"
+    ],
+    "model_replies": 40,
+    "valid_action_rate": 1.0
+  },
+  "rows": [
+    {
+      "task": "count_lines",
+      "success": true,
+      "false_done": false,
+      "first_path": "notes.txt",
+      "first_path_correct": true,
+      "grounding": [],
+      "unread_source_writes": 0,
+      "damaged_files": [],
+      "edit_tools_used": [],
+      "prompt_tokens_total": 3284,
+      "prompt_tokens_first_call": 556,
+      "rounds": 5,
+      "tool_calls": 3,
+      "model_replies": 5,
+      "invalid_actions": [],
+      "wrong_path_proposals": 0,
+      "wrong_path_by_conflict": {},
+      "guard_rejections": [],
+      "stray_files": [],
+      "repeats": 0,
+      "resamples": 0,
+      "seconds": 8.0,
+      "result": "Completed task.",
+      "error": null,
+      "escalation": null
+    },
+    {
+      "task": "hello_script",
+      "success": true,
+      "false_done": false,
+      "first_path": "hello.py",
+      "first_path_correct": true,
+      "grounding": [],
+      "unread_source_writes": 0,
+      "damaged_files": [],
+      "edit_tools_used": [],
+      "prompt_tokens_total": 3269,
+      "prompt_tokens_first_call": 542,
+      "rounds": 4,
+      "tool_calls": 3,
+      "model_replies": 5,
+      "invalid_actions": [],
+      "wrong_path_proposals": 0,
+      "wrong_path_by_conflict": {},
+      "guard_rejections": [],
+      "stray_files": [],
+      "repeats": 1,
+      "resamples": 1,
+      "seconds": 7.1,
+      "result": "",
+      "error": null,
+      "escalation": {
+        "reason": "repeated_failed_call",
+        "round": 4,
+        "repeated_calls": [
+          "list_directory:{\"path\": \"hello.py\"}@v1"
+        ]
+      }
+    },
+    {
+      "task": "edit_config",
+      "success": false,
+      "false_done": false,
+      "first_path": "config.json",
+      "first_path_correct": true,
+      "grounding": [],
+      "unread_source_writes": 0,
+      "damaged_files": [],
+      "edit_tools_used": [
+        "replace_text"
+      ],
+      "prompt_tokens_total": 1944,
+      "prompt_tokens_first_call": 562,
+      "rounds": 2,
+      "tool_calls": 1,
+      "model_replies": 3,
+      "invalid_actions": [],
+      "wrong_path_proposals": 0,
+      "wrong_path_by_conflict": {},
+      "guard_rejections": [
+        {
+          "reason": "json_requires_patch",
+          "conflict": null,
+          "tool": "replace_text",
+          "path": "config.json",
+          "candidates": null,
+          "round": 1,
+          "retried": false,
+          "outcome": "repeated"
+        }
+      ],
+      "stray_files": [],
+      "repeats": 1,
+      "resamples": 1,
+      "seconds": 5.4,
+      "result": "",
+      "error": null,
+      "escalation": {
+        "reason": "repeated_failed_call",
+        "round": 2,
+        "repeated_calls": [
+          "replace_text:{\"new\": \"8080\", \"old\": \"port\", \"path\": \"config.json\"}@v0"
+        ]
+      }
+    },
+    {
+      "task": "fix_bug",
+      "success": false,
+      "false_done": true,
+      "first_path": "add.py",
+      "first_path_correct": true,
+      "grounding": [],
+      "unread_source_writes": 0,
+      "damaged_files": [
+        "add.py"
+      ],
+      "edit_tools_used": [
+        "replace_text"
+      ],
+      "prompt_tokens_total": 2871,
+      "prompt_tokens_first_call": 550,
+      "rounds": 4,
+      "tool_calls": 2,
+      "model_replies": 4,
+      "invalid_actions": [],
+      "wrong_path_proposals": 0,
+      "wrong_path_by_conflict": {},
+      "guard_rejections": [
+        {
+          "reason": "unread_edit",
+          "conflict": null,
+          "tool": "replace_text",
+          "path": "add.py",
+          "candidates": null,
+          "round": 1,
+          "retried": true,
+          "outcome": "repaired"
+        }
+      ],
+      "stray_files": [],
+      "repeats": 0,
+      "resamples": 0,
+      "seconds": 7.6,
+      "result": "Task completed successfully.",
+      "error": null,
+      "escalation": null
+    },
+    {
+      "task": "delete_logs",
+      "success": false,
+      "false_done": false,
+      "first_path": null,
+      "first_path_correct": null,
+      "grounding": [],
+      "unread_source_writes": 0,
+      "damaged_files": [],
+      "edit_tools_used": [],
+      "prompt_tokens_total": 1907,
+      "prompt_tokens_first_call": 547,
+      "rounds": 2,
+      "tool_calls": 1,
+      "model_replies": 3,
+      "invalid_actions": [],
+      "wrong_path_proposals": 0,
+      "wrong_path_by_conflict": {},
+      "guard_rejections": [],
+      "stray_files": [],
+      "repeats": 1,
+      "resamples": 1,
+      "seconds": 3.8,
+      "result": "",
+      "error": null,
+      "escalation": {
+        "reason": "repeated_failed_call",
+        "round": 2,
+        "repeated_calls": [
+          "delete_file:{\"path\": \"*.log\"}@v0"
+        ]
+      }
+    },
+    {
+      "task": "nested_fix_bug",
+      "success": false,
+      "false_done": false,
+      "first_path": "src/mathlib/add.py",
+      "first_path_correct": true,
+      "grounding": [
+        "add.py \u2192 src/mathlib/add.py"
+      ],
+      "unread_source_writes": 0,
+      "damaged_files": [],
+      "edit_tools_used": [
+        "replace_text"
+      ],
+      "prompt_tokens_total": 3013,
+      "prompt_tokens_first_call": 578,
+      "rounds": 3,
+      "tool_calls": 2,
+      "model_replies": 4,
+      "invalid_actions": [],
+      "wrong_path_proposals": 0,
+      "wrong_path_by_conflict": {},
+      "guard_rejections": [
+        {
+          "reason": "unread_edit",
+          "conflict": null,
+          "tool": "replace_text",
+          "path": "src/mathlib/add.py",
+          "candidates": null,
+          "round": 1,
+          "retried": true,
+          "outcome": "repeated"
+        }
+      ],
+      "stray_files": [],
+      "repeats": 1,
+      "resamples": 1,
+      "seconds": 8.6,
+      "result": "",
+      "error": null,
+      "escalation": {
+        "reason": "repeated_failed_call",
+        "round": 3,
+        "repeated_calls": [
+          "replace_text:{\"new\": \"add\", \"old\": \"add\", \"path\": \"src/mathlib/add.py\"}@v0"
+        ]
+      }
+    },
+    {
+      "task": "nested_config_port",
+      "success": false,
+      "false_done": false,
+      "first_path": "app.json",
+      "first_path_correct": false,
+      "grounding": [
+        "app.json \u2192 config/app.json"
+      ],
+      "unread_source_writes": 0,
+      "damaged_files": [],
+      "edit_tools_used": [
+        "replace_text"
+      ],
+      "prompt_tokens_total": 3846,
+      "prompt_tokens_first_call": 587,
+      "rounds": 4,
+      "tool_calls": 3,
+      "model_replies": 5,
+      "invalid_actions": [],
+      "wrong_path_proposals": 2,
+      "wrong_path_by_conflict": {
+        "exact_basename": 2
+      },
+      "guard_rejections": [
+        {
+          "reason": "wrong_path",
+          "conflict": "exact_basename",
+          "tool": "read_file",
+          "path": "app.json",
+          "candidates": [
+            "config/app.json"
+          ],
+          "round": 1,
+          "retried": false,
+          "outcome": "repeated"
+        },
+        {
+          "reason": "wrong_path",
+          "conflict": "exact_basename",
+          "tool": "replace_text",
+          "path": "app.json",
+          "candidates": [
+            "config/app.json"
+          ],
+          "round": 2,
+          "retried": false,
+          "outcome": "repeated"
+        }
+      ],
+      "stray_files": [],
+      "repeats": 1,
+      "resamples": 1,
+      "seconds": 8.2,
+      "result": "",
+      "error": null,
+      "escalation": {
+        "reason": "repeated_failed_call",
+        "round": 4,
+        "repeated_calls": [
+          "read_file:{\"path\": \"app.json\"}@v0"
+        ]
+      }
+    },
+    {
+      "task": "nested_read_count",
+      "success": false,
+      "false_done": true,
+      "first_path": "notes.txt",
+      "first_path_correct": false,
+      "grounding": [
+        "notes.txt \u2192 docs/notes.txt"
+      ],
+      "unread_source_writes": 1,
+      "damaged_files": [],
+      "edit_tools_used": [],
+      "prompt_tokens_total": 3687,
+      "prompt_tokens_first_call": 581,
+      "rounds": 5,
+      "tool_calls": 3,
+      "model_replies": 5,
+      "invalid_actions": [],
+      "wrong_path_proposals": 1,
+      "wrong_path_by_conflict": {
+        "exact_basename": 1
+      },
+      "guard_rejections": [
+        {
+          "reason": "wrong_path",
+          "conflict": "exact_basename",
+          "tool": "read_file",
+          "path": "notes.txt",
+          "candidates": [
+            "docs/notes.txt"
+          ],
+          "round": 1,
+          "retried": true,
+          "outcome": "unresolved"
+        }
+      ],
+      "stray_files": [],
+      "repeats": 0,
+      "resamples": 0,
+      "seconds": 8.6,
+      "result": "The file count.txt was created successfully.",
+      "error": null,
+      "escalation": null
+    },
+    {
+      "task": "nested_append",
+      "success": false,
+      "false_done": false,
+      "first_path": "greetings.txt",
+      "first_path_correct": false,
+      "grounding": [
+        "greetings.txt \u2192 messages/greetings.txt"
+      ],
+      "unread_source_writes": 0,
+      "damaged_files": [],
+      "edit_tools_used": [
+        "replace_text"
+      ],
+      "prompt_tokens_total": 1999,
+      "prompt_tokens_first_call": 573,
+      "rounds": 2,
+      "tool_calls": 1,
+      "model_replies": 3,
+      "invalid_actions": [],
+      "wrong_path_proposals": 1,
+      "wrong_path_by_conflict": {
+        "exact_basename": 1
+      },
+      "guard_rejections": [
+        {
+          "reason": "wrong_path",
+          "conflict": "exact_basename",
+          "tool": "replace_text",
+          "path": "greetings.txt",
+          "candidates": [
+            "messages/greetings.txt"
+          ],
+          "round": 1,
+          "retried": false,
+          "outcome": "repeated"
+        }
+      ],
+      "stray_files": [],
+      "repeats": 1,
+      "resamples": 1,
+      "seconds": 5.7,
+      "result": "",
+      "error": null,
+      "escalation": {
+        "reason": "repeated_failed_call",
+        "round": 2,
+        "repeated_calls": [
+          "replace_text:{\"new\": \"Bye\", \"old\": \"Hello\", \"path\": \"greetings.txt\"}@v0"
+        ]
+      }
+    },
+    {
+      "task": "create_named_duplicate",
+      "success": true,
+      "false_done": false,
+      "first_path": "src/README.md",
+      "first_path_correct": true,
+      "grounding": [
+        "src/README.md \u2192 new file at exactly src/README.md"
+      ],
+      "unread_source_writes": 0,
+      "damaged_files": [],
+      "edit_tools_used": [],
+      "prompt_tokens_total": 1943,
+      "prompt_tokens_first_call": 577,
+      "rounds": 3,
+      "tool_calls": 1,
+      "model_replies": 3,
+      "invalid_actions": [],
+      "wrong_path_proposals": 0,
+      "wrong_path_by_conflict": {},
+      "guard_rejections": [],
+      "stray_files": [],
+      "repeats": 0,
+      "resamples": 0,
+      "seconds": 5.6,
+      "result": "Completed task.",
+      "error": null,
+      "escalation": null
+    }
+  ]
+}

@@ -1,0 +1,276 @@
+{
+  "summary": {
+    "model": "gemma3:1b",
+    "label": "baseline_no_path_guard",
+    "overrides": {
+      "require_known_paths": false
+    },
+    "tasks": 10,
+    "success_rate": 0.3,
+    "succeeded": [
+      "count_lines",
+      "hello_script",
+      "fix_bug"
+    ],
+    "tool_calls": 16,
+    "rounds": 31,
+    "wrong_path_proposals": 5,
+    "tasks_with_stray_files": [
+      "nested_fix_bug",
+      "nested_config_port",
+      "nested_append",
+      "create_named_duplicate"
+    ],
+    "guard_rejections_by_reason": {
+      "unread_overwrite": {
+        "total": 2,
+        "repaired": 2,
+        "repeated": 0,
+        "unresolved": 0
+      }
+    },
+    "recovered_after_guard_tasks": [
+      "fix_bug"
+    ],
+    "escalations": [
+      "delete_logs",
+      "nested_read_count"
+    ],
+    "model_replies": 33,
+    "valid_action_rate": 1.0
+  },
+  "rows": [
+    {
+      "task": "count_lines",
+      "success": true,
+      "rounds": 5,
+      "tool_calls": 3,
+      "model_replies": 5,
+      "invalid_actions": [],
+      "wrong_path_proposals": 0,
+      "wrong_path_by_conflict": {},
+      "guard_rejections": [],
+      "stray_files": [],
+      "repeats": 0,
+      "resamples": 0,
+      "seconds": 7.6,
+      "result": "Completed task.",
+      "error": null,
+      "escalation": null
+    },
+    {
+      "task": "hello_script",
+      "success": true,
+      "rounds": 2,
+      "tool_calls": 1,
+      "model_replies": 2,
+      "invalid_actions": [],
+      "wrong_path_proposals": 0,
+      "wrong_path_by_conflict": {},
+      "guard_rejections": [],
+      "stray_files": [],
+      "repeats": 0,
+      "resamples": 0,
+      "seconds": 3.8,
+      "result": "Created hello.py and wrote 'Hello, World!' to it.",
+      "error": null,
+      "escalation": null
+    },
+    {
+      "task": "edit_config",
+      "success": false,
+      "rounds": 3,
+      "tool_calls": 2,
+      "model_replies": 3,
+      "invalid_actions": [],
+      "wrong_path_proposals": 0,
+      "wrong_path_by_conflict": {},
+      "guard_rejections": [
+        {
+          "reason": "unread_overwrite",
+          "conflict": null,
+          "tool": "write_file",
+          "path": "config.json",
+          "candidates": null,
+          "round": 1,
+          "retried": true,
+          "outcome": "repaired"
+        }
+      ],
+      "stray_files": [],
+      "repeats": 0,
+      "resamples": 0,
+      "seconds": 5.5,
+      "result": "Wrote 4 bytes to config.json",
+      "error": null,
+      "escalation": null
+    },
+    {
+      "task": "fix_bug",
+      "success": true,
+      "rounds": 5,
+      "tool_calls": 3,
+      "model_replies": 5,
+      "invalid_actions": [],
+      "wrong_path_proposals": 0,
+      "wrong_path_by_conflict": {},
+      "guard_rejections": [
+        {
+          "reason": "unread_overwrite",
+          "conflict": null,
+          "tool": "write_file",
+          "path": "add.py",
+          "candidates": null,
+          "round": 1,
+          "retried": true,
+          "outcome": "repaired"
+        }
+      ],
+      "stray_files": [],
+      "repeats": 0,
+      "resamples": 0,
+      "seconds": 9.4,
+      "result": "Task completed successfully.",
+      "error": null,
+      "escalation": null
+    },
+    {
+      "task": "delete_logs",
+      "success": false,
+      "rounds": 2,
+      "tool_calls": 1,
+      "model_replies": 3,
+      "invalid_actions": [],
+      "wrong_path_proposals": 0,
+      "wrong_path_by_conflict": {},
+      "guard_rejections": [],
+      "stray_files": [],
+      "repeats": 1,
+      "resamples": 1,
+      "seconds": 4.8,
+      "result": "",
+      "error": null,
+      "escalation": {
+        "reason": "repeated_failed_call",
+        "round": 2,
+        "repeated_calls": [
+          "delete_file:{\"path\": \"*.log\"}@v0"
+        ]
+      }
+    },
+    {
+      "task": "nested_fix_bug",
+      "success": false,
+      "rounds": 3,
+      "tool_calls": 1,
+      "model_replies": 3,
+      "invalid_actions": [],
+      "wrong_path_proposals": 1,
+      "wrong_path_by_conflict": {
+        "exact_basename": 1
+      },
+      "guard_rejections": [],
+      "stray_files": [
+        "add.py"
+      ],
+      "repeats": 0,
+      "resamples": 0,
+      "seconds": 6.5,
+      "result": "Fixed the bug in the add function to add instead of subtract.",
+      "error": null,
+      "escalation": null
+    },
+    {
+      "task": "nested_config_port",
+      "success": false,
+      "rounds": 3,
+      "tool_calls": 1,
+      "model_replies": 3,
+      "invalid_actions": [],
+      "wrong_path_proposals": 1,
+      "wrong_path_by_conflict": {
+        "exact_basename": 1
+      },
+      "guard_rejections": [],
+      "stray_files": [
+        "app.json"
+      ],
+      "repeats": 0,
+      "resamples": 0,
+      "seconds": 5.5,
+      "result": "Task completed successfully.",
+      "error": null,
+      "escalation": null
+    },
+    {
+      "task": "nested_read_count",
+      "success": false,
+      "rounds": 3,
+      "tool_calls": 2,
+      "model_replies": 4,
+      "invalid_actions": [],
+      "wrong_path_proposals": 1,
+      "wrong_path_by_conflict": {
+        "exact_basename": 1
+      },
+      "guard_rejections": [],
+      "stray_files": [],
+      "repeats": 1,
+      "resamples": 1,
+      "seconds": 6.2,
+      "result": "",
+      "error": null,
+      "escalation": {
+        "reason": "repeated_failed_call",
+        "round": 3,
+        "repeated_calls": [
+          "read_file:{\"path\": \"notes.txt\"}@v1"
+        ]
+      }
+    },
+    {
+      "task": "nested_append",
+      "success": false,
+      "rounds": 3,
+      "tool_calls": 1,
+      "model_replies": 3,
+      "invalid_actions": [],
+      "wrong_path_proposals": 1,
+      "wrong_path_by_conflict": {
+        "exact_basename": 1
+      },
+      "guard_rejections": [],
+      "stray_files": [
+        "greetings.txt"
+      ],
+      "repeats": 0,
+      "resamples": 0,
+      "seconds": 5.3,
+      "result": "Completed task.",
+      "error": null,
+      "escalation": null
+    },
+    {
+      "task": "create_named_duplicate",
+      "success": false,
+      "rounds": 2,
+      "tool_calls": 1,
+      "model_replies": 2,
+      "invalid_actions": [],
+      "wrong_path_proposals": 1,
+      "wrong_path_by_conflict": {
+        "exact_basename": 1
+      },
+      "guard_rejections": [],
+      "stray_files": [
+        "README.md"
+      ],
+      "repeats": 0,
+      "resamples": 0,
+      "seconds": 3.6,
+      "result": "Created README.md with the line 'source code'",
+      "error": null,
+      "escalation": null
+    }
+  ]
+}

@@ -1,0 +1,1495 @@
+{
+  "gate": {
+    "path": "benchmark/gates/qwen_extract_v1.md",
+    "sha256": "b05c9954c6e7a9a75a025ab5f88d55821ba484415755576bcc9b126a0c7f7172",
+    "control_gate_sha256": "4ba9b011d6944b0bf10419d93e96bf8ec5f52fbdb1b1a9beb45946ef07a7d45d"
+  },
+  "scorer": {
+    "path": "benchmark/scoring/qwen_extract_v1.py",
+    "sha256": "9def0b992e5f23ac24c2aaf389f7d519a1e3d523286a8d5c8aef770b758d29c6"
+  },
+  "control": {
+    "rows": 20,
+    "solvable_rows": 16,
+    "invalid_solvable_rows": 0,
+    "harness_sha256": [
+      "0d5b65e2ee00cfbd7a5564d5d34a9dcac4e72486ff3bb1fb2e532c4d038a18e2"
+    ],
+    "model_digest": [
+      "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668"
+    ],
+    "tasks_with_localized_hit": 0,
+    "lane_false_verified": 0,
+    "false_completion_on_insufficient_evidence": 0,
+    "damaged_file_tasks": 1,
+    "stray_file_tasks": 2,
+    "leak_tasks": 0,
+    "extraction_without_prior_full_read": [],
+    "oracle_passed_solvable": 1,
+    "edit_opportunity_solvable": 9,
+    "diagnose_attempts": 24,
+    "diagnose_refused": {
+      "evidence_requires_read": 11
+    },
+    "diagnose_executed": 13,
+    "diagnose_successful": 2,
+    "diagnose_failed_by_reason": {
+      "other": 11
+    },
+    "localized_hit_diagnoses": 0,
+    "localization_precision": 0.0,
+    "extracted_span_lines": {
+      "total": 27,
+      "mean": 13.5,
+      "max": 14
+    },
+    "hit_undetermined": 0,
+    "target_kinds": {
+      "none": 13
+    },
+    "escalations": {
+      "None": 12,
+      "repeated_failed_call": 8
+    },
+    "insufficient_task_outcomes": {
+      "mathlib_rounding_policy": [
+        "escalate",
+        null
+      ],
+      "config_database_password": [
+        "escalate",
+        "repeated_failed_call"
+      ],
+      "textkit_style_guide": [
+        "escalate",
+        null
+      ],
+      "inventory_supplier_discount": [
+        "escalate",
+        null
+      ]
+    },
+    "rounds": 99,
+    "prompt_tokens": 99042,
+    "per_task": {
+      "mathlib_fix_subtract": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "legacy/operations.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "legacy/operations.py",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "mathlib_median_even": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "median.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "mathlib_divide_zero": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "mathlib/operations.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "mathlib/operations.py",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "mathlib_add_power": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "mathlib/operations.py",
+            "target": null,
+            "success": true,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": [
+              1,
+              14
+            ],
+            "localized": false,
+            "hits_defect": true,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "config_service_port": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "config_database_host": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "config_add_feature": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "config_file_overrides_defaults": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "textkit_slug_spaces": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": []
+      },
+      "textkit_truncate_limit": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "textkit/formatting.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "textkit_slug_punctuation": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "slugify.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "textkit_cli_upper": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "textkit/cli.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "textkit/cli.py",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "inventory_total_value": {
+        "localized_hit": false,
+        "oracle_passed": true,
+        "diagnoses": [
+          {
+            "path": "inventory/service.py",
+            "target": null,
+            "success": true,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": [
+              1,
+              13
+            ],
+            "localized": false,
+            "hits_defect": true,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "inventory_low_stock_equal": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "inventory/service.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "inventory/service.py",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "inventory_find_missing": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "inventory/service.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "inventory_update_qty": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "backup/items.json",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "backup/items.json",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      }
+    }
+  },
+  "drift": {
+    "rows": 20,
+    "solvable_rows": 16,
+    "invalid_solvable_rows": 0,
+    "harness_sha256": [
+      "514048fc0685af3d1777b4c800766e3f70144079bca8ba0aba4c71b096f33ae5"
+    ],
+    "model_digest": [
+      "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668"
+    ],
+    "tasks_with_localized_hit": 0,
+    "lane_false_verified": 0,
+    "false_completion_on_insufficient_evidence": 0,
+    "damaged_file_tasks": 0,
+    "stray_file_tasks": 2,
+    "leak_tasks": 0,
+    "extraction_without_prior_full_read": [],
+    "oracle_passed_solvable": 1,
+    "edit_opportunity_solvable": 9,
+    "diagnose_attempts": 24,
+    "diagnose_refused": {
+      "evidence_requires_read": 11
+    },
+    "diagnose_executed": 13,
+    "diagnose_successful": 2,
+    "diagnose_failed_by_reason": {
+      "other": 11
+    },
+    "localized_hit_diagnoses": 0,
+    "localization_precision": 0.0,
+    "extracted_span_lines": {
+      "total": 27,
+      "mean": 13.5,
+      "max": 14
+    },
+    "hit_undetermined": 0,
+    "target_kinds": {
+      "none": 13
+    },
+    "escalations": {
+      "None": 12,
+      "repeated_failed_call": 8
+    },
+    "insufficient_task_outcomes": {
+      "mathlib_rounding_policy": [
+        "escalate",
+        null
+      ],
+      "config_database_password": [
+        "escalate",
+        "repeated_failed_call"
+      ],
+      "textkit_style_guide": [
+        "escalate",
+        null
+      ],
+      "inventory_supplier_discount": [
+        "escalate",
+        null
+      ]
+    },
+    "rounds": 107,
+    "prompt_tokens": 111810,
+    "per_task": {
+      "mathlib_fix_subtract": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "legacy/operations.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "legacy/operations.py",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "mathlib_median_even": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "median.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "mathlib_divide_zero": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "mathlib/operations.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "mathlib/operations.py",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "mathlib_add_power": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "mathlib/operations.py",
+            "target": null,
+            "success": true,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": [
+              1,
+              14
+            ],
+            "localized": false,
+            "hits_defect": true,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "config_service_port": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "config_database_host": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "config_add_feature": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "config_file_overrides_defaults": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "textkit_slug_spaces": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": []
+      },
+      "textkit_truncate_limit": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "textkit/formatting.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "textkit_slug_punctuation": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "slugify.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "textkit_cli_upper": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "textkit/cli.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "textkit/cli.py",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "inventory_total_value": {
+        "localized_hit": false,
+        "oracle_passed": true,
+        "diagnoses": [
+          {
+            "path": "inventory/service.py",
+            "target": null,
+            "success": true,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": [
+              1,
+              13
+            ],
+            "localized": false,
+            "hits_defect": true,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "inventory_low_stock_equal": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "inventory/service.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "inventory/service.py",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "inventory_find_missing": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "inventory/service.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "inventory_update_qty": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "backup/items.json",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "backup/items.json",
+            "target": null,
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      }
+    }
+  },
+  "treatment": {
+    "rows": 20,
+    "solvable_rows": 16,
+    "invalid_solvable_rows": 0,
+    "harness_sha256": [
+      "514048fc0685af3d1777b4c800766e3f70144079bca8ba0aba4c71b096f33ae5"
+    ],
+    "model_digest": [
+      "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668"
+    ],
+    "tasks_with_localized_hit": 8,
+    "lane_false_verified": 0,
+    "false_completion_on_insufficient_evidence": 0,
+    "damaged_file_tasks": 5,
+    "stray_file_tasks": 0,
+    "leak_tasks": 0,
+    "extraction_without_prior_full_read": [],
+    "oracle_passed_solvable": 3,
+    "edit_opportunity_solvable": 12,
+    "diagnose_attempts": 30,
+    "diagnose_refused": {
+      "evidence_requires_read": 15
+    },
+    "diagnose_executed": 15,
+    "diagnose_successful": 11,
+    "diagnose_failed_by_reason": {
+      "json_pointer_unresolved": 3,
+      "not_python_symbol": 1
+    },
+    "localized_hit_diagnoses": 9,
+    "localization_precision": 0.8181818181818182,
+    "extracted_span_lines": {
+      "total": 20,
+      "mean": 1.8181818181818181,
+      "max": 2
+    },
+    "hit_undetermined": 0,
+    "target_kinds": {
+      "py_symbol": 10,
+      "json_pointer": 5
+    },
+    "escalations": {
+      "None": 13,
+      "repeated_failed_call": 7
+    },
+    "insufficient_task_outcomes": {
+      "mathlib_rounding_policy": [
+        "escalate",
+        null
+      ],
+      "config_database_password": [
+        "escalate",
+        "repeated_failed_call"
+      ],
+      "textkit_style_guide": [
+        "escalate",
+        null
+      ],
+      "inventory_supplier_discount": [
+        "escalate",
+        null
+      ]
+    },
+    "rounds": 120,
+    "prompt_tokens": 116522,
+    "per_task": {
+      "mathlib_fix_subtract": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "legacy/operations.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "legacy/operations.py",
+            "target": "subtract",
+            "success": true,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": [
+              8,
+              9
+            ],
+            "localized": true,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": true
+          }
+        ]
+      },
+      "mathlib_median_even": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "median.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "median.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "mathlib_divide_zero": {
+        "localized_hit": true,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "mathlib/operations.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "mathlib/operations.py",
+            "target": "divide",
+            "success": true,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": [
+              13,
+              14
+            ],
+            "localized": true,
+            "hits_defect": true,
+            "hits_defect_localized": true,
+            "snapshot_matches_seed": true
+          }
+        ]
+      },
+      "mathlib_add_power": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "mathlib/operations.py",
+            "target": "add",
+            "success": true,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": [
+              1,
+              2
+            ],
+            "localized": true,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": true
+          }
+        ]
+      },
+      "config_service_port": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "config/app.json",
+            "target": "service_port",
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "config_database_host": {
+        "localized_hit": true,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "config/app.json",
+            "target": "/database/host",
+            "success": true,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": [
+              6,
+              6
+            ],
+            "localized": true,
+            "hits_defect": true,
+            "hits_defect_localized": true,
+            "snapshot_matches_seed": true
+          }
+        ]
+      },
+      "config_add_feature": {
+        "localized_hit": true,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "config/app.json",
+            "target": "/features",
+            "success": true,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": [
+              9,
+              9
+            ],
+            "localized": true,
+            "hits_defect": true,
+            "hits_defect_localized": true,
+            "snapshot_matches_seed": true
+          }
+        ]
+      },
+      "config_file_overrides_defaults": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "config/app.json",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "config/app.json",
+            "target": "load_settings",
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "textkit_slug_spaces": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": []
+      },
+      "textkit_truncate_limit": {
+        "localized_hit": true,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "textkit/formatting.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "textkit/formatting.py",
+            "target": "truncate",
+            "success": true,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": [
+              5,
+              6
+            ],
+            "localized": true,
+            "hits_defect": true,
+            "hits_defect_localized": true,
+            "snapshot_matches_seed": true
+          }
+        ]
+      },
+      "textkit_slug_punctuation": {
+        "localized_hit": true,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "textkit/slugify.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "textkit/slugify.py",
+            "target": "slugify",
+            "success": true,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": [
+              1,
+              2
+            ],
+            "localized": true,
+            "hits_defect": true,
+            "hits_defect_localized": true,
+            "snapshot_matches_seed": true
+          },
+          {
+            "path": "textkit/slugify.py",
+            "target": "slugify",
+            "success": true,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": [
+              1,
+              2
+            ],
+            "localized": true,
+            "hits_defect": true,
+            "hits_defect_localized": true,
+            "snapshot_matches_seed": true
+          }
+        ]
+      },
+      "textkit_cli_upper": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "textkit/cli.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "textkit/cli.py",
+            "target": "main(['--upper', 'hi there'])",
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      },
+      "inventory_total_value": {
+        "localized_hit": true,
+        "oracle_passed": true,
+        "diagnoses": [
+          {
+            "path": "inventory/service.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "inventory/service.py",
+            "target": "total_value",
+            "success": true,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": [
+              4,
+              5
+            ],
+            "localized": true,
+            "hits_defect": true,
+            "hits_defect_localized": true,
+            "snapshot_matches_seed": true
+          }
+        ]
+      },
+      "inventory_low_stock_equal": {
+        "localized_hit": true,
+        "oracle_passed": true,
+        "diagnoses": [
+          {
+            "path": "inventory/service.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "inventory/service.py",
+            "target": "low_stock",
+            "success": true,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": [
+              8,
+              9
+            ],
+            "localized": true,
+            "hits_defect": true,
+            "hits_defect_localized": true,
+            "snapshot_matches_seed": true
+          }
+        ]
+      },
+      "inventory_find_missing": {
+        "localized_hit": true,
+        "oracle_passed": true,
+        "diagnoses": [
+          {
+            "path": "inventory/service.py",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "inventory/service.py",
+            "target": "find_item",
+            "success": true,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": [
+              12,
+              13
+            ],
+            "localized": true,
+            "hits_defect": true,
+            "hits_defect_localized": true,
+            "snapshot_matches_seed": true
+          }
+        ]
+      },
+      "inventory_update_qty": {
+        "localized_hit": false,
+        "oracle_passed": false,
+        "diagnoses": [
+          {
+            "path": "backup/items.json",
+            "target": null,
+            "success": false,
+            "refused": "evidence_requires_read",
+            "pre_read": true,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          },
+          {
+            "path": "backup/items.json",
+            "target": "/items/0/qty",
+            "success": false,
+            "refused": null,
+            "pre_read": false,
+            "seed_span": null,
+            "localized": false,
+            "hits_defect": false,
+            "hits_defect_localized": false,
+            "snapshot_matches_seed": null
+          }
+        ]
+      }
+    }
+  },
+  "verdict": {
+    "checks": {
+      "validity_complete_rows": true,
+      "validity_same_harness_treatment_drift": true,
+      "validity_same_model_digest": true,
+      "validity_no_invalid_rows": true,
+      "validity_drift_within_1": true,
+      "primary_localized_hits_ge_3": true,
+      "guard_false_verified_eq_0": true,
+      "guard_insufficient_false_completion_eq_0": true,
+      "guard_damaged_le_control": false,
+      "guard_stray_le_control": true,
+      "guard_no_leaks": true,
+      "guard_no_extraction_without_full_read": true
+    },
+    "result": "FAIL",
+    "localized_hit_gain_vs_control": 8
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "harness_repaired": "af9f8800f3b7ec573a19487d03742599d34099383cb40f79cc76634019e62f95",
+  "pre_repair": {
+    "tasks": 20,
+    "oracle_passed_solvable": "0/16",
+    "gold_shown_complete": "9/16",
+    "nonexistent_path_loop_tasks": 8,
+    "duplicate_read_tasks": 12,
+    "action_after_duplicate_read": {
+      "done": 11,
+      "write": 9,
+      "(end)": 1
+    },
+    "refused_action_repeated_tasks": 4,
+    "model_done_without_mutation_solvable": "6/16",
+    "edit_opportunity_solvable": "2/16",
+    "damaged_file_tasks": 2,
+    "stray_file_tasks": 0,
+    "lane_false_verified": 0,
+    "false_completion_insufficient": "0/4",
+    "escalations": {
+      "null": 11,
+      "repeated_failed_call": 8,
+      "completion_prerequisites_unmet": 1
+    },
+    "rounds": 87,
+    "prompt_tokens": 74067,
+    "invalid_solvable_rows": 0
+  },
+  "repaired": {
+    "tasks": 20,
+    "oracle_passed_solvable": "0/16",
+    "gold_shown_complete": "9/16",
+    "nonexistent_path_loop_tasks": 8,
+    "duplicate_read_tasks": 12,
+    "action_after_duplicate_read": {
+      "read": 32,
+      "(end)": 11,
+      "write": 5
+    },
+    "refused_action_repeated_tasks": 4,
+    "model_done_without_mutation_solvable": "0/16",
+    "edit_opportunity_solvable": "2/16",
+    "damaged_file_tasks": 2,
+    "stray_file_tasks": 1,
+    "lane_false_verified": 0,
+    "false_completion_insufficient": "0/4",
+    "escalations": {
+      "repeated_failed_call": 18,
+      "null": 2
+    },
+    "rounds": 89,
+    "prompt_tokens": 78135,
+    "invalid_solvable_rows": 0
+  }
+}

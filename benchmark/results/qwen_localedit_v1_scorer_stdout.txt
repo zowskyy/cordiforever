@@ -1,0 +1,30 @@
+﻿{
+  "gate": {
+    "path": "benchmark/gates/qwen_localedit_v1.md",
+    "sha256": "c75c5c30b4863cdab184b0468ceb34e602137c6e666be9dbdade08c7f93191cb",
+    "control_gate_sha256": "b05c9954c6e7a9a75a025ab5f88d55821ba484415755576bcc9b126a0c7f7172"
+  },
+  "scorer": {
+    "path": "benchmark/scoring/qwen_localedit_v1.py",
+    "sha256": "723fcc8d36558a2335e85871bf39111d5c27e4382aa7ae7747413a70793e191d"
+  },
+  "verdict": {
+    "checks": {
+      "validity_complete_rows": true,
+      "validity_same_harness_treatment_drift": true,
+      "validity_same_model_digest": true,
+      "validity_no_invalid_rows": true,
+      "validity_drift_localized_within_1": true,
+      "validity_drift_damaged_within_1": true,
+      "primary_p1_damaged_le_2": true,
+      "primary_p2_oracle_ge_3": false,
+      "guard_localized_hits_ge_6": true,
+      "guard_false_verified_eq_0": true,
+      "guard_insufficient_false_completion_eq_0": true,
+      "guard_stray_le_0": true,
+      "guard_no_leaks": true,
+      "guard_no_extraction_without_full_read": true
+    },
+    "result": "FAIL"
+  }
+}

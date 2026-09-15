@@ -1,0 +1,543 @@
+{
+  "lite": [
+    {
+      "task_id": "write_file",
+      "profile": "lite",
+      "user_input": "write hello world to a.txt",
+      "success": true,
+      "error": null,
+      "result": "done",
+      "total_tokens": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "prompt_eval_count": 0,
+      "eval_count": 0,
+      "guidance_tokens": 0,
+      "tool_schema_tokens": 295,
+      "tool_result_tokens": 5,
+      "round_count": 0,
+      "tool_call_count": 0,
+      "retry_count": 0,
+      "replan_count": 0,
+      "elapsed_seconds": 0.037,
+      "model_calls": []
+    },
+    {
+      "task_id": "read_file",
+      "profile": "lite",
+      "user_input": "read a.txt",
+      "success": true,
+      "error": null,
+      "result": "hello world",
+      "total_tokens": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "prompt_eval_count": 0,
+      "eval_count": 0,
+      "guidance_tokens": 0,
+      "tool_schema_tokens": 295,
+      "tool_result_tokens": 2,
+      "round_count": 0,
+      "tool_call_count": 0,
+      "retry_count": 0,
+      "replan_count": 0,
+      "elapsed_seconds": 0.041,
+      "model_calls": []
+    },
+    {
+      "task_id": "list_directory",
+      "profile": "lite",
+      "user_input": "list files",
+      "success": true,
+      "error": null,
+      "result": "[\"a.txt\", \"test.db\"]",
+      "total_tokens": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "prompt_eval_count": 0,
+      "eval_count": 0,
+      "guidance_tokens": 0,
+      "tool_schema_tokens": 295,
+      "tool_result_tokens": 5,
+      "round_count": 0,
+      "tool_call_count": 0,
+      "retry_count": 0,
+      "replan_count": 0,
+      "elapsed_seconds": 0.036,
+      "model_calls": []
+    },
+    {
+      "task_id": "simple_chat",
+      "profile": "lite",
+      "user_input": "say hello",
+      "success": true,
+      "error": null,
+      "result": "```json\n{\"function\": \"write_file\", \"arguments\": {\"path\": \"hello.txt\", \"content\": \"Hello, world!\"}}\n`",
+      "total_tokens": 2309,
+      "input_tokens": 2189,
+      "output_tokens": 120,
+      "prompt_eval_count": 2189,
+      "eval_count": 120,
+      "guidance_tokens": 266,
+      "tool_schema_tokens": 295,
+      "tool_result_tokens": 6,
+      "round_count": 4,
+      "tool_call_count": 4,
+      "retry_count": 2,
+      "replan_count": 0,
+      "elapsed_seconds": 10.494,
+      "model_calls": [
+        {
+          "prompt_eval_count": 407,
+          "eval_count": 27,
+          "messages_count": 2,
+          "tools_count": 4,
+          "elapsed_seconds": 2.981
+        },
+        {
+          "prompt_eval_count": 461,
+          "eval_count": 31,
+          "messages_count": 4,
+          "tools_count": 4,
+          "elapsed_seconds": 1.285
+        },
+        {
+          "prompt_eval_count": 594,
+          "eval_count": 31,
+          "messages_count": 6,
+          "tools_count": 4,
+          "elapsed_seconds": 2.743
+        },
+        {
+          "prompt_eval_count": 727,
+          "eval_count": 31,
+          "messages_count": 8,
+          "tools_count": 4,
+          "elapsed_seconds": 3.33
+        }
+      ]
+    },
+    {
+      "task_id": "math_task",
+      "profile": "lite",
+      "user_input": "calculate the derivative of x^2 + 3x",
+      "success": true,
+      "error": null,
+      "result": "{\"name\": \"calculate_derivative\", \"arguments\": {\"x\": 2}}",
+      "total_tokens": 433,
+      "input_tokens": 416,
+      "output_tokens": 17,
+      "prompt_eval_count": 416,
+      "eval_count": 17,
+      "guidance_tokens": 84,
+      "tool_schema_tokens": 295,
+      "tool_result_tokens": 0,
+      "round_count": 1,
+      "tool_call_count": 1,
+      "retry_count": 0,
+      "replan_count": 0,
+      "elapsed_seconds": 2.592,
+      "model_calls": [
+        {
+          "prompt_eval_count": 416,
+          "eval_count": 17,
+          "messages_count": 2,
+          "tools_count": 4,
+          "elapsed_seconds": 2.425
+        }
+      ]
+    },
+    {
+      "task_id": "datetime_task",
+      "profile": "lite",
+      "user_input": "what is 3 days from now",
+      "success": true,
+      "error": null,
+      "result": "{\"name\": \"add_date\", \"arguments\": {\"date\": \"2023-04-07\", \"days\": 3}}",
+      "total_tokens": 444,
+      "input_tokens": 412,
+      "output_tokens": 32,
+      "prompt_eval_count": 412,
+      "eval_count": 32,
+      "guidance_tokens": 84,
+      "tool_schema_tokens": 295,
+      "tool_result_tokens": 0,
+      "round_count": 1,
+      "tool_call_count": 1,
+      "retry_count": 0,
+      "replan_count": 0,
+      "elapsed_seconds": 2.492,
+      "model_calls": [
+        {
+          "prompt_eval_count": 412,
+          "eval_count": 32,
+          "messages_count": 2,
+          "tools_count": 4,
+          "elapsed_seconds": 2.374
+        }
+      ]
+    },
+    {
+      "task_id": "units_task",
+      "profile": "lite",
+      "user_input": "convert 100 km to miles",
+      "success": true,
+      "error": null,
+      "result": "```json\n{\n  \"name\": \"convert\",\n  \"arguments\": {\n    \"from_unit\": \"kilometers\",\n    \"to_unit\": \"miles",
+      "total_tokens": 461,
+      "input_tokens": 413,
+      "output_tokens": 48,
+      "prompt_eval_count": 413,
+      "eval_count": 48,
+      "guidance_tokens": 84,
+      "tool_schema_tokens": 295,
+      "tool_result_tokens": 0,
+      "round_count": 1,
+      "tool_call_count": 1,
+      "retry_count": 0,
+      "replan_count": 0,
+      "elapsed_seconds": 3.23,
+      "model_calls": [
+        {
+          "prompt_eval_count": 413,
+          "eval_count": 48,
+          "messages_count": 2,
+          "tools_count": 4,
+          "elapsed_seconds": 3.144
+        }
+      ]
+    },
+    {
+      "task_id": "delete_file",
+      "profile": "lite",
+      "user_input": "delete b.txt",
+      "success": false,
+      "error": "Agent exceeded maximum tool-call rounds (5).",
+      "result": "Agent exceeded maximum tool-call rounds (5).",
+      "total_tokens": 2888,
+      "input_tokens": 2773,
+      "output_tokens": 115,
+      "prompt_eval_count": 2773,
+      "eval_count": 115,
+      "guidance_tokens": 123,
+      "tool_schema_tokens": 295,
+      "tool_result_tokens": 98,
+      "round_count": 5,
+      "tool_call_count": 5,
+      "retry_count": 0,
+      "replan_count": 0,
+      "elapsed_seconds": 6.697,
+      "model_calls": [
+        {
+          "prompt_eval_count": 408,
+          "eval_count": 23,
+          "messages_count": 2,
+          "tools_count": 4,
+          "elapsed_seconds": 2.595
+        },
+        {
+          "prompt_eval_count": 484,
+          "eval_count": 23,
+          "messages_count": 4,
+          "tools_count": 4,
+          "elapsed_seconds": 1.017
+        },
+        {
+          "prompt_eval_count": 560,
+          "eval_count": 23,
+          "messages_count": 6,
+          "tools_count": 4,
+          "elapsed_seconds": 1.02
+        },
+        {
+          "prompt_eval_count": 636,
+          "eval_count": 23,
+          "messages_count": 8,
+          "tools_count": 4,
+          "elapsed_seconds": 1.0
+        },
+        {
+          "prompt_eval_count": 685,
+          "eval_count": 23,
+          "messages_count": 10,
+          "tools_count": 4,
+          "elapsed_seconds": 0.97
+        }
+      ]
+    }
+  ],
+  "full": [
+    {
+      "task_id": "write_file",
+      "profile": "full",
+      "user_input": "write hello world to a.txt",
+      "success": true,
+      "error": null,
+      "result": "done",
+      "total_tokens": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "prompt_eval_count": 0,
+      "eval_count": 0,
+      "guidance_tokens": 0,
+      "tool_schema_tokens": 295,
+      "tool_result_tokens": 5,
+      "round_count": 0,
+      "tool_call_count": 0,
+      "retry_count": 0,
+      "replan_count": 0,
+      "elapsed_seconds": 0.045,
+      "model_calls": []
+    },
+    {
+      "task_id": "read_file",
+      "profile": "full",
+      "user_input": "read a.txt",
+      "success": true,
+      "error": null,
+      "result": "hello world",
+      "total_tokens": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "prompt_eval_count": 0,
+      "eval_count": 0,
+      "guidance_tokens": 0,
+      "tool_schema_tokens": 295,
+      "tool_result_tokens": 2,
+      "round_count": 0,
+      "tool_call_count": 0,
+      "retry_count": 0,
+      "replan_count": 0,
+      "elapsed_seconds": 0.042,
+      "model_calls": []
+    },
+    {
+      "task_id": "list_directory",
+      "profile": "full",
+      "user_input": "list files",
+      "success": true,
+      "error": null,
+      "result": "[\"a.txt\", \"test.db\"]",
+      "total_tokens": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "prompt_eval_count": 0,
+      "eval_count": 0,
+      "guidance_tokens": 0,
+      "tool_schema_tokens": 295,
+      "tool_result_tokens": 5,
+      "round_count": 0,
+      "tool_call_count": 0,
+      "retry_count": 0,
+      "replan_count": 0,
+      "elapsed_seconds": 0.04,
+      "model_calls": []
+    },
+    {
+      "task_id": "simple_chat",
+      "profile": "full",
+      "user_input": "say hello",
+      "success": true,
+      "error": null,
+      "result": "{\"name\": \"greet\", \"arguments\": {\"message\": \"Hello!\"}}",
+      "total_tokens": 985,
+      "input_tokens": 967,
+      "output_tokens": 18,
+      "prompt_eval_count": 967,
+      "eval_count": 18,
+      "guidance_tokens": 631,
+      "tool_schema_tokens": 295,
+      "tool_result_tokens": 0,
+      "round_count": 1,
+      "tool_call_count": 1,
+      "retry_count": 0,
+      "replan_count": 0,
+      "elapsed_seconds": 3.999,
+      "model_calls": [
+        {
+          "prompt_eval_count": 967,
+          "eval_count": 18,
+          "messages_count": 2,
+          "tools_count": 4,
+          "elapsed_seconds": 3.927
+        }
+      ]
+    },
+    {
+      "task_id": "math_task",
+      "profile": "full",
+      "user_input": "calculate the derivative of x^2 + 3x",
+      "success": true,
+      "error": null,
+      "result": "{\"name\": \"calculate_derivative\", \"arguments\": {\"expression\": \"x^2 + 3x\"}}",
+      "total_tokens": 999,
+      "input_tokens": 976,
+      "output_tokens": 23,
+      "prompt_eval_count": 976,
+      "eval_count": 23,
+      "guidance_tokens": 631,
+      "tool_schema_tokens": 295,
+      "tool_result_tokens": 0,
+      "round_count": 1,
+      "tool_call_count": 1,
+      "retry_count": 0,
+      "replan_count": 0,
+      "elapsed_seconds": 1.58,
+      "model_calls": [
+        {
+          "prompt_eval_count": 976,
+          "eval_count": 23,
+          "messages_count": 2,
+          "tools_count": 4,
+          "elapsed_seconds": 1.462
+        }
+      ]
+    },
+    {
+      "task_id": "datetime_task",
+      "profile": "full",
+      "user_input": "what is 3 days from now",
+      "success": false,
+      "error": "Agent exceeded maximum tool-call rounds (5).",
+      "result": "Agent exceeded maximum tool-call rounds (5).",
+      "total_tokens": 6451,
+      "input_tokens": 6249,
+      "output_tokens": 202,
+      "prompt_eval_count": 6249,
+      "eval_count": 202,
+      "guidance_tokens": 771,
+      "tool_schema_tokens": 295,
+      "tool_result_tokens": 258,
+      "round_count": 5,
+      "tool_call_count": 5,
+      "retry_count": 0,
+      "replan_count": 0,
+      "elapsed_seconds": 13.947,
+      "model_calls": [
+        {
+          "prompt_eval_count": 972,
+          "eval_count": 30,
+          "messages_count": 2,
+          "tools_count": 4,
+          "elapsed_seconds": 1.69
+        },
+        {
+          "prompt_eval_count": 1062,
+          "eval_count": 43,
+          "messages_count": 4,
+          "tools_count": 4,
+          "elapsed_seconds": 1.894
+        },
+        {
+          "prompt_eval_count": 1243,
+          "eval_count": 43,
+          "messages_count": 7,
+          "tools_count": 4,
+          "elapsed_seconds": 3.67
+        },
+        {
+          "prompt_eval_count": 1424,
+          "eval_count": 43,
+          "messages_count": 10,
+          "tools_count": 4,
+          "elapsed_seconds": 4.181
+        },
+        {
+          "prompt_eval_count": 1548,
+          "eval_count": 43,
+          "messages_count": 12,
+          "tools_count": 4,
+          "elapsed_seconds": 2.044
+        }
+      ]
+    },
+    {
+      "task_id": "units_task",
+      "profile": "full",
+      "user_input": "convert 100 km to miles",
+      "success": true,
+      "error": null,
+      "result": "{\"name\": \"math\", \"arguments\": {\"expression\": \"100 / 1.609344\"}}",
+      "total_tokens": 1001,
+      "input_tokens": 973,
+      "output_tokens": 28,
+      "prompt_eval_count": 973,
+      "eval_count": 28,
+      "guidance_tokens": 631,
+      "tool_schema_tokens": 295,
+      "tool_result_tokens": 0,
+      "round_count": 1,
+      "tool_call_count": 1,
+      "retry_count": 0,
+      "replan_count": 0,
+      "elapsed_seconds": 2.908,
+      "model_calls": [
+        {
+          "prompt_eval_count": 973,
+          "eval_count": 28,
+          "messages_count": 2,
+          "tools_count": 4,
+          "elapsed_seconds": 2.849
+        }
+      ]
+    },
+    {
+      "task_id": "delete_file",
+      "profile": "full",
+      "user_input": "delete b.txt",
+      "success": false,
+      "error": "Agent exceeded maximum tool-call rounds (5).",
+      "result": "Agent exceeded maximum tool-call rounds (5).",
+      "total_tokens": 5690,
+      "input_tokens": 5580,
+      "output_tokens": 110,
+      "prompt_eval_count": 5580,
+      "eval_count": 110,
+      "guidance_tokens": 631,
+      "tool_schema_tokens": 295,
+      "tool_result_tokens": 129,
+      "round_count": 5,
+      "tool_call_count": 5,
+      "retry_count": 0,
+      "replan_count": 0,
+      "elapsed_seconds": 5.844,
+      "model_calls": [
+        {
+          "prompt_eval_count": 968,
+          "eval_count": 22,
+          "messages_count": 2,
+          "tools_count": 4,
+          "elapsed_seconds": 1.456
+        },
+        {
+          "prompt_eval_count": 1042,
+          "eval_count": 22,
+          "messages_count": 4,
+          "tools_count": 4,
+          "elapsed_seconds": 1.064
+        },
+        {
+          "prompt_eval_count": 1116,
+          "eval_count": 22,
+          "messages_count": 6,
+          "tools_count": 4,
+          "elapsed_seconds": 1.063
+        },
+        {
+          "prompt_eval_count": 1190,
+          "eval_count": 22,
+          "messages_count": 8,
+          "tools_count": 4,
+          "elapsed_seconds": 1.052
+        },
+        {
+          "prompt_eval_count": 1264,
+          "eval_count": 22,
+          "messages_count": 10,
+          "tools_count": 4,
+          "elapsed_seconds": 1.117
+        }
+      ]
+    }
+  ]
+}

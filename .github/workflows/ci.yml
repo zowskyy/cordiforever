@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        python-version: ["3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-cov
+
+    - name: Create temp directory for tests
+      run: |
+        New-Item -ItemType Directory -Path "C:\tmp\pytest_cordiiv2" -Force
+
+    - name: Run pytest
+      run: |
+        pytest --basetemp C:\tmp\pytest_cordiiv2 -q
+
+    - name: Run security gate
+      run: |
+        python scripts/verify_plugin_security.py
+
+    - name: Upload coverage reports
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: coverage-reports
+        path: |
+          htmlcov/
+          .coverage
+        retention-days: 7

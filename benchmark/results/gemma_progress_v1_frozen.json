@@ -1,0 +1,191 @@
+{
+  "harness_current": "ee6d17b5e89f592051ec3ed4536916d53e58cda2d0313d3d4be7c5de0f03092b",
+  "arms": {
+    "control_frozen_af9f8800": {
+      "tasks": 20,
+      "edit_opportunity_solvable": "2/16",
+      "reread_loop_tasks": "12/20 (solvable 10)",
+      "missing_read_loop_tasks": "5/20 (solvable 3)",
+      "successful_read_followed_by_same": "44/56",
+      "missing_read_followed_by_same": "12/20",
+      "tasks_with_executed_edit": 3,
+      "recoveries": {},
+      "oracle_passed_solvable": "0/16",
+      "lane_false_verified": 0,
+      "false_completion_insufficient": "0/4",
+      "damaged_file_tasks": 2,
+      "stray_file_tasks": 1,
+      "invalid_solvable_rows": 0,
+      "escalations": {
+        "repeated_failed_call": 18,
+        "None": 2
+      },
+      "insufficient_task_outcomes": {
+        "mathlib_rounding_policy": [
+          "escalate",
+          "repeated_failed_call"
+        ],
+        "config_database_password": [
+          "escalate",
+          "repeated_failed_call"
+        ],
+        "textkit_style_guide": [
+          "escalate",
+          "repeated_failed_call"
+        ],
+        "inventory_supplier_discount": [
+          "escalate",
+          "repeated_failed_call"
+        ]
+      },
+      "rounds": 89,
+      "prompt_tokens": 78135,
+      "gate_sha256": [
+        "none"
+      ],
+      "per_task_edit_opportunity": {
+        "config_add_feature": false,
+        "config_database_host": false,
+        "config_file_overrides_defaults": false,
+        "config_service_port": false,
+        "inventory_find_missing": false,
+        "inventory_low_stock_equal": false,
+        "inventory_total_value": false,
+        "inventory_update_qty": false,
+        "mathlib_add_power": false,
+        "mathlib_divide_zero": false,
+        "mathlib_fix_subtract": false,
+        "mathlib_median_even": false,
+        "textkit_cli_upper": true,
+        "textkit_slug_punctuation": false,
+        "textkit_slug_spaces": false,
+        "textkit_truncate_limit": true
+      }
+    },
+    "control_rerun_ee6d17b5": {
+      "tasks": 20,
+      "edit_opportunity_solvable": "2/16",
+      "reread_loop_tasks": "12/20 (solvable 10)",
+      "missing_read_loop_tasks": "5/20 (solvable 3)",
+      "successful_read_followed_by_same": "43/55",
+      "missing_read_followed_by_same": "12/20",
+      "tasks_with_executed_edit": 3,
+      "recoveries": {},
+      "oracle_passed_solvable": "0/16",
+      "lane_false_verified": 0,
+      "false_completion_insufficient": "0/4",
+      "damaged_file_tasks": 2,
+      "stray_file_tasks": 1,
+      "invalid_solvable_rows": 0,
+      "escalations": {
+        "repeated_failed_call": 17,
+        "None": 3
+      },
+      "insufficient_task_outcomes": {
+        "mathlib_rounding_policy": [
+          "escalate",
+          "repeated_failed_call"
+        ],
+        "config_database_password": [
+          "escalate",
+          "repeated_failed_call"
+        ],
+        "textkit_style_guide": [
+          "escalate",
+          "repeated_failed_call"
+        ],
+        "inventory_supplier_discount": [
+          "escalate",
+          "repeated_failed_call"
+        ]
+      },
+      "rounds": 89,
+      "prompt_tokens": 78135,
+      "gate_sha256": [
+        "728258a08472"
+      ],
+      "per_task_edit_opportunity": {
+        "config_add_feature": false,
+        "config_database_host": false,
+        "config_file_overrides_defaults": false,
+        "config_service_port": false,
+        "inventory_find_missing": false,
+        "inventory_low_stock_equal": false,
+        "inventory_total_value": false,
+        "inventory_update_qty": false,
+        "mathlib_add_power": false,
+        "mathlib_divide_zero": false,
+        "mathlib_fix_subtract": false,
+        "mathlib_median_even": false,
+        "textkit_cli_upper": true,
+        "textkit_slug_punctuation": false,
+        "textkit_slug_spaces": false,
+        "textkit_truncate_limit": true
+      }
+    },
+    "treatment_ee6d17b5": {
+      "tasks": 20,
+      "edit_opportunity_solvable": "2/16",
+      "reread_loop_tasks": "12/20 (solvable 10)",
+      "missing_read_loop_tasks": "4/20 (solvable 3)",
+      "successful_read_followed_by_same": "46/58",
+      "missing_read_followed_by_same": "12/19",
+      "tasks_with_executed_edit": 2,
+      "recoveries": {
+        "repeated_successful_read": 22,
+        "repeated_missing_path": 4
+      },
+      "oracle_passed_solvable": "0/16",
+      "lane_false_verified": 0,
+      "false_completion_insufficient": "0/4",
+      "damaged_file_tasks": 2,
+      "stray_file_tasks": 0,
+      "invalid_solvable_rows": 0,
+      "escalations": {
+        "repeated_failed_call": 18,
+        "None": 2
+      },
+      "insufficient_task_outcomes": {
+        "mathlib_rounding_policy": [
+          "escalate",
+          "repeated_failed_call"
+        ],
+        "config_database_password": [
+          "escalate",
+          "repeated_failed_call"
+        ],
+        "textkit_style_guide": [
+          "escalate",
+          "repeated_failed_call"
+        ],
+        "inventory_supplier_discount": [
+          "escalate",
+          "repeated_failed_call"
+        ]
+      },
+      "rounds": 85,
+      "prompt_tokens": 72723,
+      "gate_sha256": [
+        "728258a08472"
+      ],
+      "per_task_edit_opportunity": {
+        "config_add_feature": false,
+        "config_database_host": false,
+        "config_file_overrides_defaults": false,
+        "config_service_port": false,
+        "inventory_find_missing": false,
+        "inventory_low_stock_equal": false,
+        "inventory_total_value": false,
+        "inventory_update_qty": false,
+        "mathlib_add_power": false,
+        "mathlib_divide_zero": false,
+        "mathlib_fix_subtract": false,
+        "mathlib_median_even": false,
+        "textkit_cli_upper": true,
+        "textkit_slug_punctuation": false,
+        "textkit_slug_spaces": false,
+        "textkit_truncate_limit": true
+      }
+    }
+  }
+}

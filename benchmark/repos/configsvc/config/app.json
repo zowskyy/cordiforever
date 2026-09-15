@@ -1,0 +1,12 @@
+{
+  "name": "svc",
+  "port": 3000,
+  "debug": false,
+  "database": {
+    "host": "localhost",
+    "port": 5432
+  },
+  "features": [
+    "login"
+  ]
+}

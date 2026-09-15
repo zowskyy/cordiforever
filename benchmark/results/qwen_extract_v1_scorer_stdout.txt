@@ -1,0 +1,29 @@
+﻿{
+  "gate": {
+    "path": "benchmark/gates/qwen_extract_v1.md",
+    "sha256": "b05c9954c6e7a9a75a025ab5f88d55821ba484415755576bcc9b126a0c7f7172",
+    "control_gate_sha256": "4ba9b011d6944b0bf10419d93e96bf8ec5f52fbdb1b1a9beb45946ef07a7d45d"
+  },
+  "scorer": {
+    "path": "benchmark/scoring/qwen_extract_v1.py",
+    "sha256": "9def0b992e5f23ac24c2aaf389f7d519a1e3d523286a8d5c8aef770b758d29c6"
+  },
+  "verdict": {
+    "checks": {
+      "validity_complete_rows": true,
+      "validity_same_harness_treatment_drift": true,
+      "validity_same_model_digest": true,
+      "validity_no_invalid_rows": true,
+      "validity_drift_within_1": true,
+      "primary_localized_hits_ge_3": true,
+      "guard_false_verified_eq_0": true,
+      "guard_insufficient_false_completion_eq_0": true,
+      "guard_damaged_le_control": false,
+      "guard_stray_le_control": true,
+      "guard_no_leaks": true,
+      "guard_no_extraction_without_full_read": true
+    },
+    "result": "FAIL",
+    "localized_hit_gain_vs_control": 8
+  }
+}

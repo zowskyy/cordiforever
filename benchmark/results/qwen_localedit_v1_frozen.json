@@ -1,0 +1,890 @@
+{
+  "gate": {
+    "path": "benchmark/gates/qwen_localedit_v1.md",
+    "sha256": "c75c5c30b4863cdab184b0468ceb34e602137c6e666be9dbdade08c7f93191cb",
+    "control_gate_sha256": "b05c9954c6e7a9a75a025ab5f88d55821ba484415755576bcc9b126a0c7f7172"
+  },
+  "scorer": {
+    "path": "benchmark/scoring/qwen_localedit_v1.py",
+    "sha256": "723fcc8d36558a2335e85871bf39111d5c27e4382aa7ae7747413a70793e191d"
+  },
+  "control": {
+    "rows": 20,
+    "solvable_rows": 16,
+    "invalid_solvable_rows": 0,
+    "harness_sha256": [
+      "514048fc0685af3d1777b4c800766e3f70144079bca8ba0aba4c71b096f33ae5"
+    ],
+    "model_digest": [
+      "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668"
+    ],
+    "damaged_file_tasks": 5,
+    "oracle_passed_solvable": 3,
+    "tasks_with_localized_hit": 8,
+    "lane_false_verified": 0,
+    "false_completion_on_insufficient_evidence": 0,
+    "stray_file_tasks": 0,
+    "leak_tasks": 0,
+    "extraction_without_prior_full_read": [],
+    "funnel": {
+      "raw": {
+        "diagnosis_resolved": 10,
+        "localized_hit": 8,
+        "edit_opportunity": 12,
+        "edit_executed": 8,
+        "gold_intact": 13,
+        "hidden_test_pass": 3
+      },
+      "cumulative_in_order": {
+        "diagnosis_resolved": 10,
+        "localized_hit": 8,
+        "edit_opportunity": 8,
+        "edit_executed": 7,
+        "gold_intact": 4,
+        "hidden_test_pass": 3
+      }
+    },
+    "per_task_funnel": {
+      "mathlib_fix_subtract": {
+        "diagnosis_resolved": true,
+        "localized_hit": false,
+        "edit_opportunity": false,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "mathlib_median_even": {
+        "diagnosis_resolved": false,
+        "localized_hit": false,
+        "edit_opportunity": false,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "mathlib_divide_zero": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "mathlib_add_power": {
+        "diagnosis_resolved": true,
+        "localized_hit": false,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "config_service_port": {
+        "diagnosis_resolved": false,
+        "localized_hit": false,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "config_database_host": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": false,
+        "hidden_test_pass": false
+      },
+      "config_add_feature": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": false,
+        "hidden_test_pass": false
+      },
+      "config_file_overrides_defaults": {
+        "diagnosis_resolved": false,
+        "localized_hit": false,
+        "edit_opportunity": false,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "textkit_slug_spaces": {
+        "diagnosis_resolved": false,
+        "localized_hit": false,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "textkit_truncate_limit": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": false,
+        "hidden_test_pass": false
+      },
+      "textkit_slug_punctuation": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "textkit_cli_upper": {
+        "diagnosis_resolved": false,
+        "localized_hit": false,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "inventory_total_value": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": true
+      },
+      "inventory_low_stock_equal": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": true
+      },
+      "inventory_find_missing": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": true
+      },
+      "inventory_update_qty": {
+        "diagnosis_resolved": false,
+        "localized_hit": false,
+        "edit_opportunity": false,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      }
+    },
+    "cohort_funnel": {
+      "mathlib_divide_zero": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "config_database_host": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": false,
+        "hidden_test_pass": false
+      },
+      "config_add_feature": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": false,
+        "hidden_test_pass": false
+      },
+      "textkit_truncate_limit": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": false,
+        "hidden_test_pass": false
+      },
+      "textkit_slug_punctuation": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "inventory_total_value": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": true
+      },
+      "inventory_low_stock_equal": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": true
+      },
+      "inventory_find_missing": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": true
+      }
+    },
+    "damaged_tasks": [
+      "config_add_feature",
+      "config_database_host",
+      "mathlib_rounding_policy",
+      "textkit_style_guide",
+      "textkit_truncate_limit"
+    ],
+    "insufficient_tasks": {
+      "mathlib_rounding_policy": {
+        "mutation_executed": true,
+        "damaged": true,
+        "lane_state": "escalate"
+      },
+      "config_database_password": {
+        "mutation_executed": false,
+        "damaged": false,
+        "lane_state": "escalate"
+      },
+      "textkit_style_guide": {
+        "mutation_executed": true,
+        "damaged": true,
+        "lane_state": "escalate"
+      },
+      "inventory_supplier_discount": {
+        "mutation_executed": false,
+        "damaged": false,
+        "lane_state": "escalate"
+      }
+    },
+    "edit_calls": {
+      "attempted": 0,
+      "successful": 0,
+      "failed_by_reason": {}
+    },
+    "guard_rejections_by_reason": {
+      "evidence_requires_read": 19,
+      "diagnosis_required": 18,
+      "named_file_unread": 1,
+      "wrong_path": 2
+    },
+    "overwrite_existing_file_refusals": 0,
+    "failure_split": {
+      "no_gold_view": 5,
+      "mechanical_failure": 4,
+      "gold_viewed_no_diagnosis_hit": 3,
+      "wrong_edit_choice": 1
+    },
+    "localization_precision": 0.8181818181818182,
+    "escalations": {
+      "None": 13,
+      "repeated_failed_call": 7
+    },
+    "rounds": 120,
+    "prompt_tokens": 116522
+  },
+  "drift": {
+    "rows": 20,
+    "solvable_rows": 16,
+    "invalid_solvable_rows": 0,
+    "harness_sha256": [
+      "e354d43d467ee37207e755447d2ecdebd6076677f728aaf95b85604f1bec655a"
+    ],
+    "model_digest": [
+      "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668"
+    ],
+    "damaged_file_tasks": 5,
+    "oracle_passed_solvable": 3,
+    "tasks_with_localized_hit": 8,
+    "lane_false_verified": 0,
+    "false_completion_on_insufficient_evidence": 0,
+    "stray_file_tasks": 0,
+    "leak_tasks": 0,
+    "extraction_without_prior_full_read": [],
+    "funnel": {
+      "raw": {
+        "diagnosis_resolved": 10,
+        "localized_hit": 8,
+        "edit_opportunity": 12,
+        "edit_executed": 8,
+        "gold_intact": 13,
+        "hidden_test_pass": 3
+      },
+      "cumulative_in_order": {
+        "diagnosis_resolved": 10,
+        "localized_hit": 8,
+        "edit_opportunity": 8,
+        "edit_executed": 7,
+        "gold_intact": 4,
+        "hidden_test_pass": 3
+      }
+    },
+    "per_task_funnel": {
+      "mathlib_fix_subtract": {
+        "diagnosis_resolved": true,
+        "localized_hit": false,
+        "edit_opportunity": false,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "mathlib_median_even": {
+        "diagnosis_resolved": false,
+        "localized_hit": false,
+        "edit_opportunity": false,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "mathlib_divide_zero": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "mathlib_add_power": {
+        "diagnosis_resolved": true,
+        "localized_hit": false,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "config_service_port": {
+        "diagnosis_resolved": false,
+        "localized_hit": false,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "config_database_host": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": false,
+        "hidden_test_pass": false
+      },
+      "config_add_feature": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": false,
+        "hidden_test_pass": false
+      },
+      "config_file_overrides_defaults": {
+        "diagnosis_resolved": false,
+        "localized_hit": false,
+        "edit_opportunity": false,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "textkit_slug_spaces": {
+        "diagnosis_resolved": false,
+        "localized_hit": false,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "textkit_truncate_limit": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": false,
+        "hidden_test_pass": false
+      },
+      "textkit_slug_punctuation": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "textkit_cli_upper": {
+        "diagnosis_resolved": false,
+        "localized_hit": false,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "inventory_total_value": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": true
+      },
+      "inventory_low_stock_equal": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": true
+      },
+      "inventory_find_missing": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": true
+      },
+      "inventory_update_qty": {
+        "diagnosis_resolved": false,
+        "localized_hit": false,
+        "edit_opportunity": false,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      }
+    },
+    "cohort_funnel": {
+      "mathlib_divide_zero": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "config_database_host": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": false,
+        "hidden_test_pass": false
+      },
+      "config_add_feature": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": false,
+        "hidden_test_pass": false
+      },
+      "textkit_truncate_limit": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": false,
+        "hidden_test_pass": false
+      },
+      "textkit_slug_punctuation": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "inventory_total_value": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": true
+      },
+      "inventory_low_stock_equal": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": true
+      },
+      "inventory_find_missing": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": true
+      }
+    },
+    "damaged_tasks": [
+      "config_add_feature",
+      "config_database_host",
+      "mathlib_rounding_policy",
+      "textkit_style_guide",
+      "textkit_truncate_limit"
+    ],
+    "insufficient_tasks": {
+      "mathlib_rounding_policy": {
+        "mutation_executed": true,
+        "damaged": true,
+        "lane_state": "escalate"
+      },
+      "config_database_password": {
+        "mutation_executed": false,
+        "damaged": false,
+        "lane_state": "escalate"
+      },
+      "textkit_style_guide": {
+        "mutation_executed": true,
+        "damaged": true,
+        "lane_state": "escalate"
+      },
+      "inventory_supplier_discount": {
+        "mutation_executed": false,
+        "damaged": false,
+        "lane_state": "escalate"
+      }
+    },
+    "edit_calls": {
+      "attempted": 0,
+      "successful": 0,
+      "failed_by_reason": {}
+    },
+    "guard_rejections_by_reason": {
+      "evidence_requires_read": 19,
+      "diagnosis_required": 18,
+      "named_file_unread": 1,
+      "wrong_path": 2
+    },
+    "overwrite_existing_file_refusals": 0,
+    "failure_split": {
+      "no_gold_view": 5,
+      "mechanical_failure": 4,
+      "gold_viewed_no_diagnosis_hit": 3,
+      "wrong_edit_choice": 1
+    },
+    "localization_precision": 0.8181818181818182,
+    "escalations": {
+      "None": 13,
+      "repeated_failed_call": 7
+    },
+    "rounds": 120,
+    "prompt_tokens": 116522
+  },
+  "treatment": {
+    "rows": 20,
+    "solvable_rows": 16,
+    "invalid_solvable_rows": 0,
+    "harness_sha256": [
+      "e354d43d467ee37207e755447d2ecdebd6076677f728aaf95b85604f1bec655a"
+    ],
+    "model_digest": [
+      "d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668"
+    ],
+    "damaged_file_tasks": 0,
+    "oracle_passed_solvable": 1,
+    "tasks_with_localized_hit": 9,
+    "lane_false_verified": 0,
+    "false_completion_on_insufficient_evidence": 0,
+    "stray_file_tasks": 0,
+    "leak_tasks": 0,
+    "extraction_without_prior_full_read": [],
+    "funnel": {
+      "raw": {
+        "diagnosis_resolved": 12,
+        "localized_hit": 9,
+        "edit_opportunity": 14,
+        "edit_executed": 2,
+        "gold_intact": 16,
+        "hidden_test_pass": 1
+      },
+      "cumulative_in_order": {
+        "diagnosis_resolved": 12,
+        "localized_hit": 9,
+        "edit_opportunity": 9,
+        "edit_executed": 2,
+        "gold_intact": 2,
+        "hidden_test_pass": 1
+      }
+    },
+    "per_task_funnel": {
+      "mathlib_fix_subtract": {
+        "diagnosis_resolved": true,
+        "localized_hit": false,
+        "edit_opportunity": false,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "mathlib_median_even": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "mathlib_divide_zero": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "mathlib_add_power": {
+        "diagnosis_resolved": true,
+        "localized_hit": false,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "config_service_port": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": true
+      },
+      "config_database_host": {
+        "diagnosis_resolved": false,
+        "localized_hit": false,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "config_add_feature": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "config_file_overrides_defaults": {
+        "diagnosis_resolved": true,
+        "localized_hit": false,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "textkit_slug_spaces": {
+        "diagnosis_resolved": false,
+        "localized_hit": false,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "textkit_truncate_limit": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "textkit_slug_punctuation": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "textkit_cli_upper": {
+        "diagnosis_resolved": false,
+        "localized_hit": false,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "inventory_total_value": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "inventory_low_stock_equal": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "inventory_find_missing": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "inventory_update_qty": {
+        "diagnosis_resolved": false,
+        "localized_hit": false,
+        "edit_opportunity": false,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      }
+    },
+    "cohort_funnel": {
+      "mathlib_divide_zero": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "config_database_host": {
+        "diagnosis_resolved": false,
+        "localized_hit": false,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "config_add_feature": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "textkit_truncate_limit": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "textkit_slug_punctuation": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": true,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "inventory_total_value": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "inventory_low_stock_equal": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      },
+      "inventory_find_missing": {
+        "diagnosis_resolved": true,
+        "localized_hit": true,
+        "edit_opportunity": true,
+        "edit_executed": false,
+        "gold_intact": true,
+        "hidden_test_pass": false
+      }
+    },
+    "damaged_tasks": [],
+    "insufficient_tasks": {
+      "mathlib_rounding_policy": {
+        "mutation_executed": false,
+        "damaged": false,
+        "lane_state": "escalate"
+      },
+      "config_database_password": {
+        "mutation_executed": false,
+        "damaged": false,
+        "lane_state": "escalate"
+      },
+      "textkit_style_guide": {
+        "mutation_executed": false,
+        "damaged": false,
+        "lane_state": "escalate"
+      },
+      "inventory_supplier_discount": {
+        "mutation_executed": false,
+        "damaged": false,
+        "lane_state": "escalate"
+      }
+    },
+    "edit_calls": {
+      "attempted": 14,
+      "successful": 2,
+      "failed_by_reason": {
+        "no_change": 1,
+        "unknown_target": 10,
+        "invalid_json_value": 1
+      }
+    },
+    "guard_rejections_by_reason": {
+      "evidence_requires_read": 21,
+      "named_file_unread": 1,
+      "diagnosis_required": 13,
+      "overwrite_existing_file": 10,
+      "wrong_path": 4
+    },
+    "overwrite_existing_file_refusals": 10,
+    "failure_split": {
+      "no_gold_view": 3,
+      "mechanical_failure": 7,
+      "gold_viewed_no_diagnosis_hit": 4,
+      "wrong_edit_choice": 1
+    },
+    "localization_precision": 0.7692307692307693,
+    "escalations": {
+      "None": 13,
+      "repeated_failed_call": 7
+    },
+    "rounds": 141,
+    "prompt_tokens": 162516
+  },
+  "verdict": {
+    "checks": {
+      "validity_complete_rows": true,
+      "validity_same_harness_treatment_drift": true,
+      "validity_same_model_digest": true,
+      "validity_no_invalid_rows": true,
+      "validity_drift_localized_within_1": true,
+      "validity_drift_damaged_within_1": true,
+      "primary_p1_damaged_le_2": true,
+      "primary_p2_oracle_ge_3": false,
+      "guard_localized_hits_ge_6": true,
+      "guard_false_verified_eq_0": true,
+      "guard_insufficient_false_completion_eq_0": true,
+      "guard_stray_le_0": true,
+      "guard_no_leaks": true,
+      "guard_no_extraction_without_full_read": true
+    },
+    "result": "FAIL"
+  }
+}
