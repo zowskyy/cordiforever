@@ -564,3 +564,42 @@ correctness and preservation of verified behavior win.
 
 If sufficient verification cannot be performed, stop and report the limitation rather than lowering the standard silently.
 
+\## 1. Skill registry (reusable execution procedures)
+
+
+
+RESEARCH_YIELD.md = what the project has learned. DECISIONS.md = what the project has chosen. skills/ = how Claude should execute recurring work.
+
+
+
+Before substantial work:
+
+
+
+1\. Read skills/registry.yaml.
+
+2\. Select only skills applicable to the current task.
+
+3\. Read those SKILL.md files before modifying code.
+
+4\. Follow their invariants and acceptance criteria.
+
+5\. State which skills were applied in the completion report.
+
+6\. Do not invent or silently modify skills.
+
+7\. If no registered skill applies, proceed under normal project instructions.
+
+8\. If a skill conflicts with a frozen experiment gate, the frozen experiment gate wins.
+
+9\. If a skill conflicts with an explicit current user instruction, stop and report the conflict rather than silently choosing.
+
+10\. Skills do not override research integrity rules.
+
+
+
+Promotion rule for future skills: observed method → successfully reused → invariant understood → explicit DECISIONS approval → promoted to registered skill. One-off experimental techniques are never auto-promoted.
+
+
+
+Skill infrastructure is validated by `python scripts/validate_skills.py` (also run in CI project-validation).

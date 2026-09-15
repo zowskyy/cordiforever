@@ -141,7 +141,8 @@ Assessment (judgment, not a measurement): protocol strong; guards strong; verifi
 | `plugins/tools/` | 4 | `FileTools` incl. repo and structured-edit tools (gated) |
 | `benchmark/` | 16 | eval instruments: `tool_call_eval`, `agent_task_eval`, `repo_tasks`, `repo_task_eval`, `protocol_probe_eval`, `localization_eval`, … plus `repos/` and `oracle/` corpora |
 | `tests/` | 82 + 10 | top level + `failure_recovery/` |
-| `scripts/` | 21 | measurement/debug scripts (several historical, qwen-default) |
+| `scripts/` | 21 | measurement/debug scripts (several historical, qwen-default); `validate_skills.py` (complete) validates the skill registry |
+| `skills/` | 7 + registry | reusable execution procedures (complete): `registry.yaml`; experiment-preregistration, experiment-execution, frozen-scorer, mutation-testing, research-closure, evidence-audit, ci-offload (`<id>/SKILL.md`) |
 | root | `main.py`, `ui.py`, `conftest.py` | |
 
 Open dependencies: none wired but unimplemented. Not built (by decision, not stubs): natural-language → TaskSpec translation, two-stage wildcard delete (`delete_batch` token), mastermind layer.
@@ -149,6 +150,7 @@ Open dependencies: none wired but unimplemented. Not built (by decision, not stu
 ## Verification
 - Execution planes (since 2026-09-14): LOCAL = model research (Ollama runs, frozen protocols, narrow tests for changed files); GITHUB ACTIONS = deterministic verification on every push (full pytest, research-state validator, frozen-evidence manifest/logged-hash/scorer-output/run-row checks, provenance). The full local baseline gate is run only when a protocol requires same-machine validation or to debug a Windows-vs-CI difference.
 - Research state: `.venv\Scripts\python.exe scripts\validate_research_state.py` → OK (also in CI project-validation and inside baseline_gate.ps1).
+- Skills: `.venv\Scripts\python.exe scripts\validate_skills.py` → `skills: OK (7 registered)` (also in CI project-validation; tests `tests/test_validate_skills.py`).
 - Infrastructure queue (not scheduled; must not change experimental semantics): a consolidated human-readable CI run summary (commit, tests, validator, frozen evidence, logged hashes, duplicate runs, scorers executed, tracked-file mutations); Ruff/mypy baseline then ratchet; Node 20 action-version updates.
 - Deterministic gate: `.venv\Scripts\python.exe -m pytest -q -p no:cacheprovider --basetemp %TEMP%\pytest_cordii` → 864 passed / 2 environmental / 8 skipped (2026-09-14).
 - `powershell -File scripts/baseline_gate.ps1 -SkipLive` → `baseline=OK passed=864 skipped=8`. Requires research state OK and ≥ 864 passed and ≤ 8 skipped; fails on any failure outside the 2 allowlisted environmental ids (verified with a temporary failing test). Live section NOT VERIFIED.

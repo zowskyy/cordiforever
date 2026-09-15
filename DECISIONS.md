@@ -31,6 +31,7 @@ One row per mechanism. State = what is true in code now. Evidence refers to sect
 
 ## Pending decision
 - **Ruff / mypy:** deferred. Introduce later as a separate engineering change: establish a baseline, then ratchet; never as a sudden CI gate during capability research (MNT-05 reports them as unconfigured).
+- **Reusable skills (infrastructure, not research):** `skills/registry.yaml` registers seven execution procedures approved by the user (experiment-preregistration, experiment-execution, frozen-scorer, mutation-testing, research-closure, evidence-audit, ci-offload), validated by `scripts/validate_skills.py` in CI. A future skill is registered only after: observed method → successfully reused → invariant understood → explicit approval recorded here. One-off techniques are not auto-promoted. Skills never override frozen gates or research integrity rules.
 - **Private final oracle:** future final heldout evaluation uses a private oracle outside public git history; the committed oracle is treated as published (METH-009). Not scheduled.
 - **After qwen_donelatch_v1 (EXP-21, PARTIAL b on dev):** no preset change; `completion_requires_mutation_success` stays available and off by default. The latch blocked all 8 completions after an unapplied mutation, but Qwen repeated `done` in 8/8 and escalated (CON-016); no recovery. No next gate registered: the next Q-002 factor is a user decision (queued replacement-format contract, a pre-edit factor). Abstention (Q-003) separate; coordination frozen.
 - [Superseded] **Q-002 next factor registered as qwen_donelatch_v1 (EXP-21):** user-ranked first, from the EXP-20 evidence that completion was decoupled from the edit result. Single factor = completion unavailable after an unapplied mutation until a later mutation is applied. Base = qwen_astnoop; abstention = escalation only (no abstain action; Q-003 separate). Format contract stays queued; no preset change.
@@ -52,6 +53,7 @@ One row per mechanism. State = what is true in code now. Evidence refers to sect
 - **Re-test L2** once localization recall is high enough that completion errors, not discovery errors, dominate. Not yet the case (CON-009).
 
 ## History
+- 2026-09-15 Reusable-skill system added (7 registered skills, validator in CI project-validation); infrastructure only, no experiment semantics changed; EXP-22 not started.
 - 2026-09-14 Published to public GitHub zowskyy/cordiforever; byte-exact storage enforced; deterministic verification offloaded to GitHub Actions (5 staged jobs, all passing, 0 scorers executed). Model inference and experiment execution stay local.
 - 2026-09-14 qwen_selectorkind_heldout_v1 closed PARTIAL (b) on heldout (frozen scorer f70b7718…, run once). Safety and damage prevention replicated; selector execution gain not confirmed; completion near floor. No preset change; Q-001 closed; next dev factor Q-002.
 - 2026-09-14 Multi-agent teams frozen (no 3+3). Coordination research limited to the ladder in the Mastermind row, with a two-agent structured handoff as the only coordination branch after the single-agent path; no coordination experiment is registered while EXP-19 is open.

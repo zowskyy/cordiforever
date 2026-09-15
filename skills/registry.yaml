@@ -1,0 +1,96 @@
+# Skill registry — how Claude executes recurring work in this repository.
+#
+#   RESEARCH_YIELD.md = what the project has learned
+#   DECISIONS.md      = what the project has chosen
+#   skills/           = how Claude should execute recurring work
+#
+# Promotion rule for future skills:
+#   observed method -> successfully reused -> invariant understood -> explicit DECISIONS approval -> registered skill
+# One-off experimental techniques are never auto-promoted.
+#
+# Format (validated by scripts/validate_skills.py; a strict YAML subset, no anchors, flow style or multi-line scalars):
+#   skills:
+#     - id: <kebab-case id, equal to the SKILL.md front matter id>
+#       version: <positive integer, equal to the SKILL.md version>
+#       path: <id>/SKILL.md
+#       purpose: <one line>
+#       applies_when:
+#         - <item>
+#       does_not_apply_when:
+#         - <item>
+
+skills:
+  - id: experiment-preregistration
+    version: 1
+    path: experiment-preregistration/SKILL.md
+    purpose: Freeze an experiment's design (gate, arms, criteria, consequences) before implementation or outcome exposure.
+    applies_when:
+      - designing a new experiment
+      - changing a mechanism under evaluation
+    does_not_apply_when:
+      - an experiment is already frozen and running
+      - infrastructure-only work
+
+  - id: experiment-execution
+    version: 1
+    path: experiment-execution/SKILL.md
+    purpose: Run the arms of a frozen experiment locally without changing its semantics.
+    applies_when:
+      - starting or resuming model runs for a frozen gate
+    does_not_apply_when:
+      - the gate is not frozen
+      - runs are complete and scoring is next
+
+  - id: frozen-scorer
+    version: 1
+    path: frozen-scorer/SKILL.md
+    purpose: Write, hash, dry-check and run once a scorer frozen before outcome inspection.
+    applies_when:
+      - writing the scorer for a newly frozen gate
+      - running the single scoring pass
+      - handling a flaw found in a scorer that already ran
+    does_not_apply_when:
+      - scratchpad descriptive inspection scripts
+      - CI verification of existing scorer outputs
+
+  - id: mutation-testing
+    version: 1
+    path: mutation-testing/SKILL.md
+    purpose: Prove that tests fail when a guard, validator or state machine is deliberately broken.
+    applies_when:
+      - a new guard, latch, counter, reset or validator rule was implemented
+      - mechanism tests pass on the first run
+    does_not_apply_when:
+      - documentation or configuration changes without executable behavior
+
+  - id: research-closure
+    version: 1
+    path: research-closure/SKILL.md
+    purpose: Close a scored experiment consistently across log, knowledge, decisions and tracking.
+    applies_when:
+      - the frozen scorer has run once
+      - an experiment must be closed as INCONCLUSIVE
+    does_not_apply_when:
+      - runs or scoring are still pending
+      - infrastructure-only changes
+
+  - id: evidence-audit
+    version: 1
+    path: evidence-audit/SKILL.md
+    purpose: Verify recorded claims against frozen artifacts and raw traces, and scope them to their evidence.
+    applies_when:
+      - writing an analysis, Research Delta, Semantic Audit or numeric report
+      - a metric looks surprising
+    does_not_apply_when:
+      - no recorded claim is being made or checked
+
+  - id: ci-offload
+    version: 1
+    path: ci-offload/SKILL.md
+    purpose: Route deterministic verification to GitHub CI while keeping inference and scorers local.
+    applies_when:
+      - adding or changing a CI check, validator or test
+      - diagnosing a CI failure
+    does_not_apply_when:
+      - running model inference or experiment arms
+      - executing a single-use frozen scorer
