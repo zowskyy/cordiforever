@@ -1,51 +1,157 @@
 name: CI
 
+# Deterministic verification offload. This workflow never runs model inference, never executes a frozen scorer or
+# gate, and never writes experiment evidence. Frozen artifacts are verified read-only (scripts/verify_frozen_artifacts.py).
+
 on:
   push:
-    branches: [ main, master ]
+    branches: [main]
   pull_request:
-    branches: [ main, master ]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_VERSION: "3.12"
+  PYTHONDONTWRITEBYTECODE: "1"
 
 jobs:
-  test:
-    runs-on: windows-latest
-    strategy:
-      matrix:
-        python-version: ["3.12"]
-
+  integrity:
+    name: integrity
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Byte-exact storage is enforced (.gitattributes)
+        run: grep -qx '\* -text' .gitattributes
+      - name: Checkout is pristine
+        run: test -z "$(git status --porcelain)"
+      - name: Frozen evidence matches FROZEN_MANIFEST.json (read-only)
+        run: python scripts/verify_frozen_artifacts.py --check manifest --report ci-reports/integrity-manifest.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: integrity-${{ github.sha }}
+          path: ci-reports/
+          retention-days: 30
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
-        cache: 'pip'
+  quality:
+    name: quality
+    needs: integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install dependencies (requirements.txt)
+        run: python -m pip install -r requirements.txt
+      - name: Compile sources (corpus and oracle excluded)
+        run: python -m compileall -q -x '(^|/)benchmark/(repos|oracle)/' core plugins benchmark scripts tests main.py ui.py conftest.py
+      - name: Import check
+        run: python -c "import main, core.bounded_task, core.diagnosis, core.structured_edit, plugins.agent.loop, plugins.agent.schema_router, plugins.tools.file, benchmark.repo_task_eval; print('imports ok')"
+      - name: Plugin security gate
+        run: |
+          mkdir -p ci-reports
+          python scripts/verify_plugin_security.py | tee ci-reports/plugin-security.json
+      - name: Ruff / mypy (not configured in this repository; not enforced)
+        run: echo "No ruff or mypy configuration exists (no pyproject.toml, ruff.toml or mypy.ini); static linting and type checking are not run as gates."
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: quality-${{ github.sha }}
+          path: ci-reports/
+          retention-days: 30
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install pytest pytest-cov
+  tests:
+    name: tests
+    needs: integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install dependencies (requirements.txt)
+        run: python -m pip install -r requirements.txt
+      - name: Run deterministic test suite
+        # pytest's exit code is intentionally not the verdict: the JUnit report is judged by scripts/ci_pytest_gate.py,
+        # which fails on any failure outside the two documented environment-dependent tests (see baseline_gate.ps1).
+        run: |
+          mkdir -p ci-reports
+          set +e
+          python -m pytest -q -p no:cacheprovider --basetemp "$RUNNER_TEMP/pytest_cordii" --junitxml ci-reports/pytest.xml 2>&1 | tee ci-reports/pytest-output.txt
+          echo "pytest_exit_code=${PIPESTATUS[0]}" | tee -a ci-reports/pytest-output.txt
+          exit 0
+      - name: Judge test results (known environment failures only)
+        run: python scripts/ci_pytest_gate.py ci-reports/pytest.xml --summary ci-reports/pytest-summary.json --root .
+      - name: Tests did not mutate tracked files or frozen evidence
+        run: |
+          git status --porcelain --untracked-files=no | tee ci-reports/post-test-git-status.txt
+          test -z "$(git status --porcelain --untracked-files=no)"
+          python scripts/verify_frozen_artifacts.py --check manifest --report ci-reports/post-test-manifest.json
+      - name: Provenance
+        if: always()
+        run: >-
+          python scripts/ci_provenance.py ci-reports/provenance.json
+          --command "tests=python -m pytest -q -p no:cacheprovider --basetemp $RUNNER_TEMP/pytest_cordii --junitxml ci-reports/pytest.xml"
+          --command "test_gate=python scripts/ci_pytest_gate.py ci-reports/pytest.xml"
+          --command "research_validator=python scripts/validate_research_state.py"
+          --command "artifact_checks=python scripts/verify_frozen_artifacts.py --check all"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tests-${{ github.sha }}
+          path: ci-reports/
+          retention-days: 30
 
-    - name: Create temp directory for tests
-      run: |
-        New-Item -ItemType Directory -Path "C:\tmp\pytest_cordiiv2" -Force
+  project-validation:
+    name: project-validation
+    needs: [quality, tests]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Research-state validator (RESEARCH_YIELD / EXPERIMENT_LOG / DECISIONS / PROJECT_TRACKING)
+        run: |
+          mkdir -p ci-reports
+          set -o pipefail
+          python scripts/validate_research_state.py . | tee ci-reports/research-state.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: project-validation-${{ github.sha }}
+          path: ci-reports/
+          retention-days: 30
 
-    - name: Run pytest
-      run: |
-        pytest --basetemp C:\tmp\pytest_cordiiv2 -q
-
-    - name: Run security gate
-      run: |
-        python scripts/verify_plugin_security.py
-
-    - name: Upload coverage reports
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: coverage-reports
-        path: |
-          htmlcov/
-          .coverage
-        retention-days: 7
+  artifact-checks:
+    name: artifact-checks
+    needs: project-validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Verify frozen evidence (manifest, logged hashes, scorer outputs, run rows) without executing scorers
+        run: python scripts/verify_frozen_artifacts.py --check all --report ci-reports/artifact-checks.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: artifact-checks-${{ github.sha }}
+          path: ci-reports/
+          retention-days: 30
