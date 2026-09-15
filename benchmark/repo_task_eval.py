@@ -84,6 +84,8 @@ CONDITIONS["qwen_extract"] = {"model": "qwen2.5-coder:1.5b", "overrides": {**CON
 CONDITIONS["qwen_localedit"] = {"model": "qwen2.5-coder:1.5b", "overrides": {**CONDITIONS["qwen_extract"]["overrides"], "localized_edits": True}}
 # Gate qwen_selectorkind_v1 (benchmark/gates/qwen_selectorkind_v1.md): control = qwen_localedit; only explicit_selector_kind differs.
 CONDITIONS["qwen_selectorkind"] = {"model": "qwen2.5-coder:1.5b", "overrides": {**CONDITIONS["qwen_localedit"]["overrides"], "explicit_selector_kind": True}}
+# Gate qwen_astnoop_v1 (benchmark/gates/qwen_astnoop_v1.md): control = qwen_selectorkind; only ast_noop_refusal differs.
+CONDITIONS["qwen_astnoop"] = {"model": "qwen2.5-coder:1.5b", "overrides": {**CONDITIONS["qwen_selectorkind"]["overrides"], "ast_noop_refusal": True}}
 MAX_ROUNDS = 12
 HARNESS_SOURCES = ("plugins/agent/loop.py", "plugins/agent/schema_router.py", "plugins/tools/file.py", "plugins/model/ollama.py",
                    "core/bounded_task.py", "core/path_candidates.py", "core/structured_edit.py", "core/calibration.py", "main.py",

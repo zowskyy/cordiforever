@@ -153,9 +153,42 @@ def _top_level_names(tree: Any) -> set[str]:
     return names
 
 
-def replace_python_symbol(path: str, text: str, target: str, replacement: str) -> tuple[str, tuple[int, int]]:
+STRUCTURAL_NOOP_MESSAGE = "Replacement is structurally equivalent to the current definition and does not constitute a substantive edit."
+
+
+def target_definition_node(tree: Any, target: str) -> Any:
+    """The AST node selected by the python_symbol selector (same semantics as core.diagnosis.python_symbol_span)."""
+    import ast
+
+    for node in tree.body:
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            if node.name == target:
+                return node
+            if isinstance(node, ast.ClassDef):
+                for child in node.body:
+                    if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)) and f"{node.name}.{child.name}" == target:
+                        return child
+        elif isinstance(node, ast.Assign) and any(isinstance(t, ast.Name) and t.id == target for t in node.targets):
+            return node
+        elif isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Name) and node.target.id == target:
+            return node
+    return None
+
+
+def is_structural_noop(original_node: Any, replacement_tree: Any) -> bool:
+    """Gate qwen_astnoop_v1: the replacement is exactly one statement whose AST, without line/column attributes, equals
+    the selected definition's. A structural no-op detector only; it does not claim behavioral equivalence."""
+    import ast
+
+    if original_node is None or len(replacement_tree.body) != 1:
+        return False
+    return ast.dump(replacement_tree.body[0], annotate_fields=True, include_attributes=False) == ast.dump(original_node, annotate_fields=True, include_attributes=False)
+
+
+def replace_python_symbol(path: str, text: str, target: str, replacement: str, refuse_structural_noop: bool = False) -> tuple[str, tuple[int, int]]:
     """Gate qwen_localedit_v1: replace exactly the definition selected by `target` (qwen_extract_v1 selector semantics)
-    with `replacement`, re-indented to the target's indentation. Returns (new text, replaced line span)."""
+    with `replacement`, re-indented to the target's indentation. Returns (new text, replaced line span).
+    With `refuse_structural_noop` (gate qwen_astnoop_v1), a normalized-AST-identical replacement is refused."""
     import ast
     import textwrap
 
@@ -176,6 +209,8 @@ def replace_python_symbol(path: str, text: str, target: str, replacement: str) -
     if name not in defined:
         raise EditError(f"replacement must define {name}.")
     original_tree = ast.parse(text)
+    if refuse_structural_noop and is_structural_noop(target_definition_node(original_tree, target), rep_tree):
+        raise EditError(STRUCTURAL_NOOP_MESSAGE)
     if "." in target:
         class_name = target.split(".")[0]
         owner = next(n for n in original_tree.body if isinstance(n, ast.ClassDef) and n.name == class_name)

@@ -1140,3 +1140,38 @@ Diagnostic cohort (stages resolved/hit/opportunity/executed/intact/pass; frozen 
   - Completed experiments are not invalidated: the models used had no network access.
   - The oracle is no longer hidden in the strong sense. Future final heldout evaluation needs a private oracle that never enters public git history, separate from the public development corpus.
 - Ruff and mypy are not configured and not enforced; CI reports that explicitly.
+
+### qwen_astnoop_v1 — pre-registration (2026-09-15; before any mechanism code; Q-002)
+- Gate `benchmark/gates/qwen_astnoop_v1.md` sha256 `ba0790c8e96b4ec2cb8dff5dd099981fae1d5aae8a1cb4c281dbd463938e29d4`. DEV only.
+- Design evidence: dev EXP-18 edit classification (read-only, dev rows only):
+  - correct 3
+  - cosmetic restatement accepted, defect unchanged 2 (`textkit_slug_punctuation`, `textkit_truncate_limit`)
+  - incomplete fix 1; wrong target 1; whole file as symbol 1; malformed JSON value 1; guard refusal 1
+  - category-3 edits on unsolvable tasks are excluded
+- Single factor: `ast_noop_refusal`, a structural no-op detector. The existing byte-identical rejection becomes byte-identical OR normalized-AST-identical (`ast.dump(..., include_attributes=False)`), compared on the selected definition only. Neutral refusal text.
+- Control: frozen `qwen_selectorkind` dev rows (passes 3, damaged 0, executed 6). Drift rerun as validity only.
+- Classes: INCONCLUSIVE / FAIL (MI, safety or regression) / PASS (≥ 6 passes) / PARTIAL (3–5 passes with mechanism and safety holding). Low power recorded before the run.
+
+### qwen_astnoop_v1 — implementation and frozen scorer (2026-09-15; before any qwen_astnoop_v1 run)
+- Scorer `benchmark/scoring/qwen_astnoop_v1.py` sha256 `ef5492b96f65eb7c4d68740b4f61cd2847bb7a25423cf53b878404936f072d21`. Shared metrics are imported from the frozen dev scorer after verifying its sha256 (`135a71f9…`). This file adds only:
+  - arm selection
+  - MI accepted-no-op count: an independent re-implementation of the gate rule, over file contents reconstructed by replaying successful edits from the seed repo; any replay failure raises
+  - refusal and next-action diagnostics
+  - the extended funnel
+  - the pre-registered classification
+- Mechanism: `core/structured_edit.py` (`is_structural_noop`, `target_definition_node`, `refuse_structural_noop`), wired via `ast_noop_refusal` in `plugins/tools/file.py`; condition `qwen_astnoop` in `benchmark/repo_task_eval.py`. The harness hash changes from `b1ee367bc339…`; treatment and drift will share the new hash.
+- Tests `tests/test_ast_noop_refusal.py`: 17 pass. Mutations were run against them:
+  - caught: never-noop, keep-positions, ignore-extra-statements
+  - broader unparse/paren normalization: at first survived, so a precedence case (`(text + "a") * 2` vs `text + 'a' * 2`) was added; now caught
+- Dry check on the frozen control arm only (no output file written; treatment and drift rows do not exist):
+  - control reproduces the registered values: passes 3, damaged 0, localized 8, stray 0, executed 6, overrides `69180f7e2c04…`
+  - accepted structural no-ops 2, exactly `textkit_slug_punctuation` and `textkit_truncate_limit`
+  - every control row replays
+- Scorer and harness detectors agree on 9 cases. Classification branches, checked with synthetic arm fields:
+  - control-as-treatment → FAIL (MI)
+  - wrong overrides → INCONCLUSIVE
+  - 3 passes → PARTIAL
+  - 6 passes → PASS
+  - damaged 3 → FAIL
+  - 2 passes → FAIL
+  - drift off by 2 → INCONCLUSIVE

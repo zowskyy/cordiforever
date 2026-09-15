@@ -71,7 +71,8 @@ LAST COMPLETED GATE: qwen_selectorkind_heldout_v1 - PARTIAL (b) on HELDOUT: vali
 completion T 1/16 = reference 1/16 (near floor); selector syntax T 15/15 vs control 5/10, but edit-executed gain +2 < 3 (mechanism not confirmed).
 Milestones: (1) selector mechanism generalized - not claimed; (2) single-agent capability generalized - not claimed beyond safety/damage;
 (3) competence for coordination research - not claimable. No preset change. CAP-002, CAP-005 now heldout-supported; CAP-006 stays dev-supported.
-NEXT GATE: none registered; next dev factor = replacement-content quality (Q-002), to be pre-registered on dev only; abstention (Q-003) stays separate; coordination frozen.
+ACTIVE GATE: qwen_astnoop_v1 (Q-002, dev only: structural no-op refusal for python_symbol replacements; gate ba0790c8e96b...).
+NEXT GATE: after closure, decide from the Q-002 classification; format-contract factor queued; abstention (Q-003) separate; coordination frozen.
 Queue after this: abstention/unsolvable behavior (category 3), then broader coding capability. Gemma action-masking deferred.
 ```
 

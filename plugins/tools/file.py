@@ -46,6 +46,7 @@ class FileTools(Plugin):
         self.evidence_extraction = False
         self.localized_edits = False
         self.explicit_selector_kind = False
+        self.ast_noop_refusal = False
 
     def register(self, context: Any) -> None:
         super().register(context)
@@ -57,6 +58,7 @@ class FileTools(Plugin):
         self.evidence_extraction = bool(isinstance(calibration, dict) and calibration.get("evidence_extraction"))
         self.localized_edits = bool(isinstance(calibration, dict) and calibration.get("localized_edits"))
         self.explicit_selector_kind = bool(isinstance(calibration, dict) and calibration.get("explicit_selector_kind"))
+        self.ast_noop_refusal = bool(isinstance(calibration, dict) and calibration.get("ast_noop_refusal"))
         # Merge user-configured protected files
         extra = context.config.get("protected_files", []) if context and context.config else []
         if isinstance(extra, list):
@@ -230,7 +232,7 @@ class FileTools(Plugin):
             if not path.lower().endswith(self.SELECTOR_KINDS[selector_kind]):
                 raise EditError(f"selector_kind {selector_kind} does not apply to {path}.")
         if path.lower().endswith(".py"):
-            after, span = replace_python_symbol(path, before, target, replacement)
+            after, span = replace_python_symbol(path, before, target, replacement, refuse_structural_noop=self.ast_noop_refusal)
             where = f"line {span[0]}" if span[0] == span[1] else f"lines {span[0]}-{span[1]}"
             summary = f"Replaced {target} ({where}) in {path}."
         elif path.lower().endswith(".json"):
