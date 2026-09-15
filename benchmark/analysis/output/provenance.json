@@ -1,0 +1,90 @@
+{
+  "arm_selectors": [
+    {
+      "arm": "exp22_drift",
+      "condition": "qwen_selectorkind",
+      "gate_sha256": "13e9a05bef83e51bdeb8acc4119f8db8e9755c5850ebfea6f9755fe32654a218",
+      "role": "primary",
+      "split": "dev"
+    },
+    {
+      "arm": "exp18_treatment",
+      "condition": "qwen_selectorkind",
+      "gate_sha256": "dcca9c02e0aee827005043ca08b4b617d4f88c7a3a048b69a975f20572f51e47",
+      "role": "identity",
+      "split": "dev"
+    },
+    {
+      "arm": "exp20_drift",
+      "condition": "qwen_selectorkind",
+      "gate_sha256": "ba0790c8e96b4ec2cb8dff5dd099981fae1d5aae8a1cb4c281dbd463938e29d4",
+      "role": "identity",
+      "split": "dev"
+    },
+    {
+      "arm": "exp20_treatment",
+      "condition": "qwen_astnoop",
+      "gate_sha256": "ba0790c8e96b4ec2cb8dff5dd099981fae1d5aae8a1cb4c281dbd463938e29d4",
+      "role": "perturbation",
+      "split": "dev"
+    },
+    {
+      "arm": "exp21_treatment",
+      "condition": "qwen_donelatch",
+      "gate_sha256": "b7bb6338179aad39c4181ad8ca6f4cbaf02ca9f1c6b12aa9261e9c1b8bd748f6",
+      "role": "perturbation",
+      "split": "dev"
+    },
+    {
+      "arm": "exp22_treatment",
+      "condition": "qwen_formatcontract",
+      "gate_sha256": "13e9a05bef83e51bdeb8acc4119f8db8e9755c5850ebfea6f9755fe32654a218",
+      "role": "perturbation",
+      "split": "dev"
+    }
+  ],
+  "classification_sha256": "865c5bb3635c1eb2acc9a2c0da1c17fc15732f2b171dd375ec29a87af8e283ab",
+  "dependency_sha256": {
+    "benchmark/scoring/qwen_formatcontract_v1.py": "7141c97c8377e73f3945646f2db54da71ada1708d223dd5174681e0b724d3413",
+    "benchmark/scoring/qwen_selectorkind_v1.py": "135a71f9a866b09e6503007bf0e1be14d2d8d6c74d069f1a611dd4afd2ddac1d"
+  },
+  "expected_population": {
+    "rows": 120,
+    "rows_per_arm": 20,
+    "solvable": 96,
+    "unsuccessful_per_arm": 13,
+    "unsuccessful_solvable": 78
+  },
+  "harness_module_sha256": {
+    "benchmark/repo_task_eval.py": "9b8edf83052190c91f7eccb83fda513988b077532a5abf3ae1066449a6450c65",
+    "benchmark/repo_tasks.py": "6995573e5959f87ed19ffa14c7b8658eda6c93dcec83b0fa377674c338686332",
+    "core/diagnosis.py": "898f4044037141f0e864614a1fd135ad5bd371eed981ab777789f2ab8235df10",
+    "core/path_candidates.py": "20437bba63ba135366dc15984fea2095f68107f57309126adf1f5d8808ed7662",
+    "core/structured_edit.py": "2c985303513ee18df7cf0c6b417335dd829bf0803c4cf3596e72f9166a5008b8"
+  },
+  "head": "ed1e285bf49302f379476f60cb23533f0fd4d863",
+  "methodology_commit": "ed1e285bf49302f379476f60cb23533f0fd4d863",
+  "methodology_sha256": {
+    "benchmark/analysis/furthest_bottleneck.py": "6817e1a73454aecfbd81c161a96b0218561a362aad3da10985c7ddcd1f5aff1b",
+    "benchmark/analysis/furthest_bottleneck_mutations.py": "8352890c0ede42ddf4140dc665463e5ba12b0a840f37b4a19856b5686f18685a",
+    "benchmark/analysis/furthest_bottleneck_taxonomy.md": "cf5b8764fd15088a95c729d1a8388f8dc95adff07128d62d552a46062f354ce5",
+    "tests/test_furthest_bottleneck.py": "055873e8909ef2b0ec6393ad0f327ddcc17567441406299422e04bb9ad825451",
+    "tests/test_furthest_bottleneck_mutations.py": "658e4aa9608ce845b6c0e5b4b8fe3ee6b750da6234dad6d62a3660b195324615"
+  },
+  "oracle_replay_errors_total": 0,
+  "oracle_replays_total": 23,
+  "python": "3.12.14",
+  "rerun_identity": {
+    "artifacts_compared": [
+      "classification.jsonl",
+      "summary.json",
+      "run_identity.json"
+    ],
+    "byte_identical": true,
+    "independent_processes": 2
+  },
+  "results_rows": 620,
+  "results_sha256": "a242336f4e0b9fa3e467ad39a45b07e97f8994aa2591ffd46a545d4cd5b80978",
+  "runner_sha256": "afb24451ee45f823e2a4e4b81413edb441ce6b1fb806c5f4d330b1db738b50e5",
+  "summary_sha256": "fcc578b38d01ac4171b860555bc7e9af5c7bcd952f4d3fb36217d1b1fe149cfa"
+}

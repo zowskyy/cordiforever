@@ -1441,3 +1441,50 @@ Diagnostic cohort (stages resolved/hit/opportunity/executed/intact/pass; frozen 
 - Freeze rule: the methodology is not modified after freezing. A defect or genuine ambiguity found during real classification stops classification, is reported, is not silently repaired, and requires a versioned, reviewed methodology amendment before restarting.
 - No UNKNOWN-rate threshold and no classification expectations are registered in advance.
 - Status at freeze: real-row classification, taxonomy frequencies and real-trajectory oracle replay have not been performed; classification needs separate authorization.
+
+### Furthest-reached bottleneck taxonomy — authoritative raw classification (2026-09-15; diagnostic analysis, not an experiment)
+- Classification: diagnostic analysis under the frozen v1 methodology (MNT-07). Not an experiment and not a gate. No model inference, no scorer execution, no methodology modification.
+- Methodology commit `ed1e285bf49302f379476f60cb23533f0fd4d863`. Frozen methodology (SHA-256):
+  - specification `benchmark/analysis/furthest_bottleneck_taxonomy.md` `cf5b8764fd15088a95c729d1a8388f8dc95adff07128d62d552a46062f354ce5`
+  - classifier `benchmark/analysis/furthest_bottleneck.py` `6817e1a73454aecfbd81c161a96b0218561a362aad3da10985c7ddcd1f5aff1b`
+  - mutation runner `benchmark/analysis/furthest_bottleneck_mutations.py` `8352890c0ede42ddf4140dc665463e5ba12b0a840f37b4a19856b5686f18685a`
+  - tests `tests/test_furthest_bottleneck.py` `055873e8909ef2b0ec6393ad0f327ddcc17567441406299422e04bb9ad825451` and `tests/test_furthest_bottleneck_mutations.py` `658e4aa9608ce845b6c0e5b4b8fe3ee6b750da6234dad6d62a3660b195324615`
+- Authoritative execution (SHA-256):
+  - runner `benchmark/analysis/run_furthest_bottleneck_classification.py` `afb24451ee45f823e2a4e4b81413edb441ce6b1fb806c5f4d330b1db738b50e5`
+  - classification `benchmark/analysis/output/classification.jsonl` `865c5bb3635c1eb2acc9a2c0da1c17fc15732f2b171dd375ec29a87af8e283ab`
+  - summary `benchmark/analysis/output/summary.json` `fcc578b38d01ac4171b860555bc7e9af5c7bcd952f4d3fb36217d1b1fe149cfa`
+  - provenance `benchmark/analysis/output/provenance.json` `ba60d4b3f0876928dde46fa88fbd8f4a0b0d498fd3db47064c93c46f8e4b2a8d`
+  - run identity (identical in both processes; recorded in provenance) `4a056be84784828c52ebd0cb7baea02cee8aaed6b9fd0f93dae970faf0152770`
+  - input `benchmark/results/repo_task_eval.jsonl` `a242336f4e0b9fa3e467ad39a45b07e97f8994aa2591ffd46a545d4cd5b80978` (620 rows)
+  - 23 oracle replays on temporary workspaces, 0 replay errors; no scorer; no model contact
+- Reproducibility:
+  - two independent fresh processes produced byte-identical classification, summary and run identity
+  - all preflights passed: methodology hashes; results equal to HEAD; 120 selected rows, 20 per arm, 96 solvable, 78 unsuccessful solvable; oracle sanity check
+- Superseded execution (non-authoritative; not invalid data):
+  - runner `204dabb670a2a2f17d0504b614c5de488c976525fc93821d56ca5ce48ae682c1`
+  - classification processes A and B exited 0; the provenance stage exited 1 with a `Path.relative_to` `ValueError` (relative `--out` path) after writing provenance `011f9257cb2143d91584f1cf32f2ac348d0f975b2745cd6ce2d6014ba9283b6d`
+  - fix: one line changed (line 365: `sha256_file(str((out / "provenance.json").relative_to(ROOT)))` → `sha256_bytes((out / "provenance.json").read_bytes())`)
+  - synthetic checks for the fix: relative and absolute `--out` both exited 0 with byte-identical provenance; a mismatch exited 2 without output
+  - the corrected runner reproduced the superseded classification `865c5bb3…` and summary `fcc578b3…` byte-identically
+- Raw primary distribution (`exp22_drift`):
+  - 13 unsuccessful solvable trajectories; 10 determined
+  - F0 = 3/10 determined (3/13 total): `config_database_host`, `inventory_update_qty`, `mathlib_fix_subtract`
+  - F1 = 1/10 determined: `textkit_slug_spaces`
+  - F4 = 3/10 determined: `config_add_feature`, `inventory_find_missing`, `textkit_cli_upper`
+  - F6 = 3/10 determined: `mathlib_median_even` (subtype MULTIPLE), `textkit_slug_punctuation` and `textkit_truncate_limit` (subtype cosmetic_restatement)
+  - UNDETERMINED = 3/13: `config_file_overrides_defaults` and `config_service_port` (`localization_unknown`), `mathlib_add_power` (`action_space_applicability_unknown`; D0_HARNESS UNKNOWN, D0_CONTRACT FALSE)
+  - INTERFACE_UNSUPPORTED = 0
+- Identity agreement: `exp18_treatment` 13/13 and `exp20_drift` 13/13. These identity traces are call-for-call identical temperature-0 traces and are NOT independent replication of model behavior.
+- Perturbation differences (descriptive only):
+  - `exp20_treatment` and `exp21_treatment` each agree 11/13 with primary. `textkit_slug_punctuation` and `textkit_truncate_limit` are F6 in primary and F5 `structural_noop` there, with guard judgement `A_protective_against_proposal`. The other labels are unchanged.
+  - `exp22_treatment` agrees 11/14 over the union of task sets. Membership caveat: `config_database_host` passed there while `inventory_total_value` failed (F4), so these are membership differences and not label changes. `textkit_cli_upper` is F4 in primary and UNDETERMINED `localization_unknown` there.
+  - UNDETERMINED per arm: 3 in every arm except `exp22_treatment` (4, adding `textkit_cli_upper`).
+- Descriptive observation only: refused `write_file` attempts appear in 9/13 primary trajectories. No causal or intervention inference is drawn.
+- D3 qualification: Potential construct/operationalization mismatch identified in D3. No currently reported bottleneck label has been shown to change because of this issue. Interpretation of the D3 funnel statistic is suspended pending methodology review.
+  - The v1 classification above remains the authoritative output of the frozen v1 methodology and is not modified.
+  - D3 funnel counts are not interpreted.
+- Scope:
+  - descriptive analysis only, no causal claim
+  - F0, F4 and F6 are tied at 3 determined trajectories; no stage is designated a bottleneck
+  - no CAP, CON, H or Q change; no Q-002 update
+  - F0 forensics are deferred (not rejected); the D3 construct review is required first
