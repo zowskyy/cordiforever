@@ -72,7 +72,7 @@ FORMAT_INVALID 4 -> 5); passes 3 -> 3. Contract delivered 20/20. CON-017 (dev-su
 Earlier: qwen_donelatch_v1 - PARTIAL (b) on DEV (EXP-21, CON-016); qwen_astnoop_v1 - PARTIAL on DEV (EXP-20, CAP-009, CON-015); qwen_selectorkind_heldout_v1 - PARTIAL (b) on HELDOUT.
 Milestones (1)-(3) not claimed; coordination frozen. Q-002 open: no dominant replacement-correctness cause established.
 Execution: warm sequential foreground invocations; batch 2 is this laptop's current default (batch 1 pressure fallback); no concurrency (METH-007, MNT-06).
-NEXT GATE: none registered; next stage is an offline first-failure taxonomy over frozen evidence (diagnosis, not an experiment, no inference); abstention (Q-003) separate.
+NEXT GATE: none registered. Furthest-reached bottleneck taxonomy methodology frozen (MNT-07; spec cf5b8764...); real-row classification pending separate authorization (diagnosis, not an experiment, no inference). Abstention (Q-003) separate.
 Queue after this: abstention/unsolvable behavior (category 3), then broader coding capability. Gemma action-masking deferred.
 ```
 

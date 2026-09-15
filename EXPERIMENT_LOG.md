@@ -1418,3 +1418,26 @@ Diagnostic cohort (stages resolved/hit/opportunity/executed/intact/pass; frozen 
 5. **Interpretation limits:** one temperature-0 dev run; low power (3 convertible tasks in control); the F threshold was fixed before exposure.
 6. **Still unknown:** what dominates replacement correctness. Q-002 stays open.
 7. **Execution methodology (not EXP-22 scientific evidence):** the drift arm, run warm in batches of 5 and 2, reproduced the frozen control's model-visible trajectories on 20/20 tasks. This supports warm sequential execution; see METH-007 and MNT-06.
+
+### Furthest-reached bottleneck taxonomy — methodology freeze (2026-09-15; diagnostic analysis, not an experiment)
+- Classification: diagnostic-analysis methodology. Not an experiment, not an EXP gate, no capability claim, no Q-002 conclusion.
+- Frozen artifacts (SHA-256):
+  - specification `benchmark/analysis/furthest_bottleneck_taxonomy.md` `cf5b8764fd15088a95c729d1a8388f8dc95adff07128d62d552a46062f354ce5`
+  - classifier `benchmark/analysis/furthest_bottleneck.py` `6817e1a73454aecfbd81c161a96b0218561a362aad3da10985c7ddcd1f5aff1b`
+  - mutation runner `benchmark/analysis/furthest_bottleneck_mutations.py` `8352890c0ede42ddf4140dc665463e5ba12b0a840f37b4a19856b5686f18685a`
+  - primary tests `tests/test_furthest_bottleneck.py` `055873e8909ef2b0ec6393ad0f327ddcc17567441406299422e04bb9ad825451`
+  - mutation tests `tests/test_furthest_bottleneck_mutations.py` `658e4aa9608ce845b6c0e5b4b8fe3ee6b750da6234dad6d62a3660b195324615`
+  - superseded specification `bb706b8f…`: must not be used for classification
+- Development evidence (synthetic and task-definition data only; no real trajectory was used):
+  - 100/100 synthetic checks passed
+  - 30/30 mutation expectations satisfied: 29 caught, 1 equivalent (`unclassifiable_as_valid`, proven by the caught combined mutation `unclassifiable_as_resolved_and_valid`)
+  - defects found and fixed during development: a vacuous assertion, mutation-loader contamination risk, two missing mutation protections, JSON-root ambiguity, insertion/action-space distinction
+- Approved interpretation:
+  - D0_HARNESS is normative. FALSE → INTERFACE_UNSUPPORTED, outside F0–F8 and excluded from the model-bottleneck denominator. UNKNOWN → UNDETERMINED, with the conservative UNKNOWN behavior not weakened.
+  - D0_CONTRACT is descriptive only.
+  - Reference-added names count as relevant intent.
+  - Guard judgements A/B/C describe the proposal counterfactual, not guard policy.
+  - F6 subtypes are secondary and descriptive.
+- Freeze rule: the methodology is not modified after freezing. A defect or genuine ambiguity found during real classification stops classification, is reported, is not silently repaired, and requires a versioned, reviewed methodology amendment before restarting.
+- No UNKNOWN-rate threshold and no classification expectations are registered in advance.
+- Status at freeze: real-row classification, taxonomy frequencies and real-trajectory oracle replay have not been performed; classification needs separate authorization.
