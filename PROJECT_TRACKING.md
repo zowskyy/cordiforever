@@ -67,13 +67,12 @@ Caveats: single temp-0 dev run, n=16, boundary pass; heldout not run; no preset 
 Established now: correct selector -> executed bounded edit (8/11 python_symbol edits succeeded, 0 damage).
 Still not established: executed edit -> correct replacement -> pass (wrong_edit_choice 3; whole-file-as-symbol 1;
   JSON value syntax 1). Category 3 (edit on unsolvable task) persists: 1, no damage.
-LAST COMPLETED GATE: qwen_donelatch_v1.md - PARTIAL (b) on DEV (EXP-21): validity, MI and safety held; passes 3 -> 3; recovery R 0 < 2.
-All 8 completions after an unapplied mutation were blocked; in 8/8 Qwen repeated done and escalated (re-engagement 0). CON-016 (dev-supported).
-completion_requires_mutation_success available, off by default; no preset change.
-Earlier: qwen_astnoop_v1 - PARTIAL on DEV (EXP-20; CAP-009 mechanism-valid, CON-015); qwen_selectorkind_heldout_v1 - PARTIAL (b) on HELDOUT.
-Milestones (1)-(3) not claimed; coordination frozen.
-ACTIVE GATE: qwen_formatcontract_v1 (EXP-22, Q-002, dev only: type-specific replacement-format contract before edit execution; base qwen_selectorkind; gate 13e9a05bef83...).
-NEXT GATE: after EXP-22 closure; abstention (Q-003) separate.
+LAST COMPLETED GATE: qwen_formatcontract_v1.md - PARTIAL (b) on DEV (EXP-22): validity, MI and safety held; format not improved (VALID tasks 7 -> 7 < 9;
+FORMAT_INVALID 4 -> 5); passes 3 -> 3. Contract delivered 20/20. CON-017 (dev-supported). replacement_format_contract available, off by default; no preset change.
+Earlier: qwen_donelatch_v1 - PARTIAL (b) on DEV (EXP-21, CON-016); qwen_astnoop_v1 - PARTIAL on DEV (EXP-20, CAP-009, CON-015); qwen_selectorkind_heldout_v1 - PARTIAL (b) on HELDOUT.
+Milestones (1)-(3) not claimed; coordination frozen. Q-002 open: no dominant replacement-correctness cause established.
+Execution: warm sequential foreground invocations; batch 2 is this laptop's current default (batch 1 pressure fallback); no concurrency (METH-007, MNT-06).
+NEXT GATE: none registered; next stage is an offline first-failure taxonomy over frozen evidence (diagnosis, not an experiment, no inference); abstention (Q-003) separate.
 Queue after this: abstention/unsolvable behavior (category 3), then broader coding capability. Gemma action-masking deferred.
 ```
 

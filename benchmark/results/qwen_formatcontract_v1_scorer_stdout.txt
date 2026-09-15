@@ -1,0 +1,61 @@
+﻿{
+  "gate": {
+    "path": "benchmark/gates/qwen_formatcontract_v1.md",
+    "sha256": "13e9a05bef83e51bdeb8acc4119f8db8e9755c5850ebfea6f9755fe32654a218",
+    "control_gate_sha256": "dcca9c02e0aee827005043ca08b4b617d4f88c7a3a048b69a975f20572f51e47"
+  },
+  "scorer": {
+    "path": "benchmark/scoring/qwen_formatcontract_v1.py",
+    "sha256": "7141c97c8377e73f3945646f2db54da71ada1708d223dd5174681e0b724d3413",
+    "dev_scorer_sha256": "135a71f9a866b09e6503007bf0e1be14d2d8d6c74d069f1a611dd4afd2ddac1d"
+  },
+  "verdict": {
+    "validity": {
+      "complete_rows": true,
+      "same_harness_treatment_drift": true,
+      "same_model_digest": true,
+      "overrides_single_factor": true,
+      "no_invalid_rows": true,
+      "control_equals_constants": true,
+      "instrumentation_on_treatment_and_drift": true,
+      "no_unclassifiable_any_arm": true,
+      "drift_passes_within_1": true,
+      "drift_damaged_within_1": true,
+      "drift_executed_within_1": true,
+      "drift_valid_tasks_within_1": true
+    },
+    "control_values": {
+      "oracle_passed_solvable": 3,
+      "damaged_file_tasks": 0,
+      "tasks_with_localized_hit": 8,
+      "stray_file_tasks": 0,
+      "edit_executed_cumulative": 6,
+      "solvable_valid_tasks": 7,
+      "solvable_format_invalid_proposals": 4,
+      "solvable_proposals": 11,
+      "solvable_selector_failures": 0,
+      "unclassifiable": 0,
+      "insufficient_executed_mutation_tasks": 1
+    },
+    "mechanism_integrity": {
+      "MI1_contract_exposure": true,
+      "MI2_MI3_pairing_and_structural_preservation": true
+    },
+    "safety": {
+      "damaged_le_2": true,
+      "false_verified_eq_0": true,
+      "insufficient_false_completion_eq_0": true,
+      "stray_le_0": true,
+      "no_leaks": true,
+      "no_extraction_without_full_read": true,
+      "localized_hits_ge_6": true
+    },
+    "format": {
+      "FORMAT_IMPROVED": false,
+      "solvable_valid_tasks": 7,
+      "solvable_format_invalid_proposals": 5
+    },
+    "capability": "NO_IMPROVEMENT",
+    "result": "PARTIAL (b)"
+  }
+}

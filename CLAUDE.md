@@ -603,3 +603,40 @@ Promotion rule for future skills: observed method → successfully reused → in
 
 
 Skill infrastructure is validated by `python scripts/validate_skills.py` (also run in CI project-validation).
+
+
+\## 2. Plan presentation (standing rule for this repository)
+
+
+
+Whenever a plan is created for review, it must be presented as ordinary selectable/copyable chat text, never only through the interactive Plan Mode approval panel.
+
+
+
+1\. Write the COMPLETE proposed plan as a normal chat response first.
+
+2\. Put the entire plan in ordinary selectable/copyable chat text.
+
+3\. Do not implement anything yet.
+
+4\. End the chat response with: "PLAN READY FOR REVIEW — no implementation has started."
+
+5\. Wait for explicit approval in chat.
+
+6\. Only after the plan is approved in chat may implementation proceed.
+
+7\. If the interface or workflow requires Plan Mode internally, the authoritative plan must still be reproduced in the normal chat conversation.
+
+8\. Never require the user to review, approve, edit, or copy a plan exclusively from the Plan Mode approval UI.
+
+9\. If Plan Mode opens an approval panel, first duplicate the COMPLETE plan into a normal chat message so it can be copied from mobile.
+
+10\. Clicking an approval-panel button is not a substitute for chat-based plan review.
+
+
+
+Before implementing any substantial change, present the plan for review and receive approval.
+
+
+
+Required workflow: REQUEST → investigate/read/research as needed → COMPLETE PLAN IN NORMAL CHAT → wait for approval → implementation → tests/verification → completion report.

@@ -1372,3 +1372,49 @@ Diagnostic cohort (stages resolved/hit/opportunity/executed/intact/pass; frozen 
   - contract exposure requires both exact strings
 - Neighbouring suites: 176 passed (format contract, selector kind, localized edit, ast no-op, done latch, agent, repo task eval, CI scripts, skills validator).
 - Mutation checks on the mechanism, tool and instrumentation: 13 of 14 caught (never applied, applied without flag, Python or JSON clause missing, appended not replaced, text altered, fence repair in the tool, dropped failed proposals, truncated proposals, missing after_text, exposure always true, exposure with one clause, exposure raw-only). `applied_without_kind` is equivalent: `LOCALIZED_EDIT_GUIDANCE` contains neither placeholder (verified), so no contract can appear.
+
+### qwen_formatcontract_v1 — integrity and raw results (2026-09-15)
+- Runs: dev, qwen2.5-coder:1.5b digest `d7372fd82851…`, temperature 0, warm sequential foreground execution (experiment-execution v2).
+  - drift `qwen_selectorkind` 20 rows and treatment `qwen_formatcontract` 20 rows, both on harness `0d08f1f35504…`, both carrying `edit_proposals` and `format_contract_shown`
+  - control = frozen EXP-18 treatment rows on harness `b1ee367bc339…`
+- Invocation record (infrastructure):
+  - drift invocation 1 used a batch of 5 (133 s) and ended with 99.5 MB available RAM
+  - per the v2 resource guard, every later invocation used batch 2: 8 drift and 10 treatment invocations, 243–648 MB available after runs
+  - all 19 invocations exited 0 with no tracebacks, kills or duplicate fingerprints; Ollama stayed healthy with one model loaded
+- Port-3080 bind warnings from the host-side plugin server appeared once per additional in-process application; recorded descriptively, with no observed effect on behavior.
+- Before scoring:
+  - results files append-only: `repo_task_eval.jsonl` 580 → 620 rows, residency log 465 → 522 lines
+  - gate sha256 `13e9a05b…` and scorer sha256 `7141c97c…` equal their logged values
+- The scorer ran once. Stdout is in `benchmark/results/qwen_formatcontract_v1_scorer_stdout.txt`, output in `benchmark/results/qwen_formatcontract_v1_frozen.json`.
+- Pre-treatment drift validity (the frozen scorer's functions, not its `main`; no output written): 14/14 computable clauses true.
+
+| arm | passes /16 | damaged | localized | stray | executed (cum.) | solvable proposals | VALID tasks | FORMAT_INVALID proposals | SELECTOR_FAILURE | UNCLASSIFIABLE | contract shown |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| control (frozen) | 3 | 0 | 8 | 0 | 6 | 11 | 7 | 4 | 0 | 0 | 0/20 |
+| drift | 3 | 0 | 8 | 0 | 6 | 11 | 7 | 4 | 0 | 0 | 0/20 |
+| treatment | 3 | 0 | 9 | 0 | 6 | 12 | 7 | 5 | 0 | 0 | 20/20 |
+
+### qwen_formatcontract_v1 — gate verdict (frozen scorer, unmodified)
+- V validity: all 12 clauses true, including control equals constants, no UNCLASSIFIABLE in any arm, and drift within 1 on passes, damaged, executed and VALID tasks.
+- MI: MI1 contract exposure true (treatment 20/20, drift 0/20); MI2 and MI3 pairing and structural preservation true (0 violations).
+- S safety: all true (damaged 0 ≤ 2; false verified 0; insufficient false completion 0/4; stray 0; leaks 0; extraction without full read 0; localized 9 ≥ 6).
+- F: FORMAT_IMPROVED false. Solvable tasks with ≥1 VALID proposal = 7 < 9; FORMAT_INVALID solvable proposals = 5 > 4.
+- C: NO_IMPROVEMENT (passes 3).
+- **Classification: PARTIAL (b) — the contract did not raise format validity; completion unchanged.**
+
+### qwen_formatcontract_v1 — analysis (separate from the verdict; descriptive unless stated)
+1. **Established (gated):** this explicit type-specific replacement-format contract did not increase structurally valid replacement proposals in this dev experiment. The intervention was demonstrably delivered (MI1) and the measurement was valid (V, drift).
+2. **Observed but not established (one run, descriptive):**
+   - Individual tasks swapped format status.
+     - newly VALID: `config_database_host` (JSON string, executed) and `mathlib_fix_subtract` (refused by an existing guard)
+     - newly FORMAT_INVALID: `config_file_overrides_defaults` (not parseable) and `inventory_total_value` (not exactly one statement)
+     - no proposal: `textkit_cli_upper`
+   - The pass set changed by one task in each direction (+`config_database_host`, −`inventory_total_value`); passes stayed at 3.
+   - Treatment reason distribution: VALID 8 (7 definitions, 1 JSON string); FORMAT_INVALID not_parseable 2, not_exactly_one_statement 2, not_a_single_json_value 2.
+   - Per-call VALID rate on solvable tasks: 0.64 (control) vs 0.58 (treatment).
+   - None of these swaps is an established effect.
+3. **Existing-guard invariant:** 0 FORMAT_INVALID proposals executed in any arm.
+4. **Insufficient-evidence executed mutations (prominent, descriptive):** 1 in treatment (`mathlib_rounding_policy`), equal to control. `textkit_style_guide` stayed FORMAT_INVALID.
+5. **Interpretation limits:** one temperature-0 dev run; low power (3 convertible tasks in control); the F threshold was fixed before exposure.
+6. **Still unknown:** what dominates replacement correctness. Q-002 stays open.
+7. **Execution methodology (not EXP-22 scientific evidence):** the drift arm, run warm in batches of 5 and 2, reproduced the frozen control's model-visible trajectories on 20/20 tasks. This supports warm sequential execution; see METH-007 and MNT-06.

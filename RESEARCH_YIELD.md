@@ -55,7 +55,7 @@ Rules:
 | EXP-19 | qwen_selectorkind_heldout_v1 — gate verdict | qwen_selectorkind_heldout_v1.md | heldout | PARTIAL | frozen_gate | none | H-011 | replication on the untouched heldout split (no mechanism change) | no | closed | CAP-002, CAP-005, CAP-006, CON-007, H-011, H-012, H-014, Q-001 | no preset change; replacement quality (Q-002) next on dev | yes | yes |
 | EXP-20 | qwen_astnoop_v1 — gate verdict | qwen_astnoop_v1.md | dev | PARTIAL | frozen_gate | none | H-012 | new factor: structural no-op refusal for python_symbol replacements | no | closed | CAP-009, CON-015, H-012, Q-002 | no preset change; mechanism kept available (flag off by default); next Q-002 factor decided by user | yes | yes |
 | EXP-21 | qwen_donelatch_v1 — gate verdict | qwen_donelatch_v1.md | dev | PARTIAL | frozen_gate | none | H-012 | new factor: completion contingent on mutation result (latch after failed mutation) | no | closed | CON-015, CON-016, H-012, Q-002 | no preset change; latch kept available (flag off by default); next Q-002 factor decided by user | yes | yes |
-| EXP-22 | qwen_formatcontract_v1 — pre-registration | qwen_formatcontract_v1.md | dev | PENDING | frozen_gate | none | H-012 | new factor: type-specific replacement-format contract shown before edit execution | no | open | Q-002 (pending) | pending frozen classification | yes | yes |
+| EXP-22 | qwen_formatcontract_v1 — gate verdict | qwen_formatcontract_v1.md | dev | PARTIAL | frozen_gate | none | H-012 | new factor: type-specific replacement-format contract shown before edit execution | no | closed | CON-017, H-012, Q-002, METH-007, MNT-06 | no preset change; contract kept available (flag off by default); next stage offline failure taxonomy (diagnosis, not an experiment) | yes | yes |
 
 EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), EXP-10 the L2 arm (criterion not met). EXP-11's gate file was written after evaluation, from the pre-registered text (noted in the file).
 
@@ -73,6 +73,7 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 | MNT-03 | Proficiency phase 2 — step 2: structural repeat detection + typed escalation | maintenance | repeat keys with mutation version; one resample at 0.4 then typed escalation; delete_logs ended in round 2 (5.2 s) instead of 12 rounds (17 s) |
 | MNT-04 | Slice 2 — deterministic repository intelligence + tool adoption | maintenance | keyword-triggered array hint removed from the measured harness after misfiring and being echoed as an answer (Slice 1 probe) |
 | MNT-05 | Repository publication and CI offload | maintenance | public GitHub publication (oracle and results included), byte-exact storage via .gitattributes, staged deterministic CI with read-only evidence verification (0 scorers executed) |
+| MNT-06 | Execution-efficiency audit | maintenance | cold one-task-per-call ~52 s/task vs warm resident model ~31 s/task (dominant cost: model prompt evaluation and generation); cold/warm byte-identical on 2/2 control tasks; experiment-execution v2; in EXP-22 a 5-task invocation ended at 99.5 MB available RAM and batch 2 kept 243–648 MB; warm-batched drift reproduced the frozen control 20/20 (infrastructure evidence, not EXP-22 scientific evidence) |
 
 ## Causal trajectory (reconstructed)
 
@@ -424,6 +425,20 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 - redundant: further completion-gate variants that differ only in the gating rule, with the same neutral message
 - supersedes: none
 - next: Q-002
+
+### CON-017 — An explicit type-specific replacement-format contract did not increase structurally valid replacement proposals in this dev experiment
+- status: SUPPORTED
+- confidence: dev-supported
+- evidence: EXP-22
+- contradicted_by: none
+- scope: Qwen, dev split, qwen_selectorkind base with the replacement-format contract text only, single temperature-0 run, 16 solvable tasks
+- establishes: the contract was delivered in 20/20 treatment rows and absent in 20/20 drift rows (MI held); solvable tasks with at least one structurally valid proposal 7 → 7 (frozen F threshold 9 not met); format-invalid solvable proposals 4 → 5; passes 3 → 3; validity and safety held; 0 format-invalid proposals executed
+- not_established: the effect of other contract wordings, examples, constrained decoding or repair; that individual task swaps (e.g. +config_database_host, -inventory_total_value) are effects; what dominates replacement correctness; heldout behavior
+- consequence: stating the replacement format explicitly before the edit is not, by itself, a lever for structural validity on this model and stack; replacement_format_contract stays available and off by default
+- redundant: contract-text variants that only restate the same structural rules
+- supersedes: none
+- next: Q-002
+
 ## Methodology
 
 ### METH-001 — Validate the harness boundary before attributing behavior to the model
@@ -501,13 +516,13 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 
 ### METH-007 — Long background batches are killed under memory pressure; foreground batches with unload complete
 - status: SUPPORTED
-- evidence: EXP-12, EXP-17
+- evidence: EXP-12, EXP-17, EXP-22, MNT-06
 - contradicted_by: none
-- scope: 5.3 GB RAM machine, Qwen ~2 GB, Claude Code background-task monitor
+- scope: 5.3 GB RAM laptop, qwen2.5-coder:1.5b via local Ollama 0.34 (one loaded model, one parallel slot), Claude Code background-task monitor
 - qualification: EXP-12's FND-03 confound concerns model behavior, not process memory
-- establishes: background batches were killed three times across EXP-12 and EXP-17; foreground batches of 4 with model unload completed without kills; checkpointed rows were never corrupted
-- not_established: none
-- consequence: run model batches in the foreground in groups of 4 with unload; resume from checkpoints
+- establishes: background batches were killed three times across EXP-12 and EXP-17; foreground batches of 4 with model unload completed without kills; checkpointed rows were never corrupted. Warm sequential execution (resident model, independent task state) was validated: about 31 s vs 52 s per task, cold/warm byte-identical on 2/2 control tasks, and the EXP-22 drift arm (warm batches of 5 and 2) reproduced the frozen control's trajectories on 20/20 tasks. On this laptop under the observed workload, a 5-task invocation ended at 99.5 MB available RAM, while batch size 2 kept 243–648 MB
+- not_established: that batch size 2 is globally or intrinsically optimal; behavior on other machines, models or workloads
+- consequence: run in the foreground with warm sequential invocations; batch size 2 is the currently validated operating point on this laptop under the observed Qwen/Ollama workload, batch size 1 is the pressure fallback; no concurrency; resume from checkpoints
 - redundant: none
 - supersedes: none
 - next: none
@@ -708,11 +723,11 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 
 ### H-012 — With selectors repaired, replacement quality is the next bottleneck
 - status: OPEN
-- evidence: EXP-18, EXP-19, EXP-20, EXP-21
+- evidence: EXP-18, EXP-19, EXP-20, EXP-21, EXP-22
 - contradicted_by: none
 - scope: Qwen, bounded edits with explicit kinds
-- establishes: descriptive only. Dev (EXP-18): wrong_edit_choice 3, whole-file content as a symbol replacement 1, Python-literal JSON value 1. Heldout (EXP-19): with syntax 15/15 valid, replacement failures clobbering existing names 2, identical replacement 2, replacement breaking the file 2, executed-but-not-passing 3. Dev (EXP-20, PARTIAL): removing accepted structural no-ops (2 → 0) left completion unchanged (3 → 3), so restatement is not the dominant replacement-quality failure on dev. Dev (EXP-21, PARTIAL b): blocking completion after an unapplied mutation produced no retry (0/8 re-engaged), so completion gating does not surface better replacements either
-- not_established: the dominant failure mode, or any completion-improving intervention
+- establishes: descriptive only. Dev (EXP-18): wrong_edit_choice 3, whole-file content as a symbol replacement 1, Python-literal JSON value 1. Heldout (EXP-19): with syntax 15/15 valid, replacement failures clobbering existing names 2, identical replacement 2, replacement breaking the file 2, executed-but-not-passing 3. Dev (EXP-20, PARTIAL): removing accepted structural no-ops (2 → 0) left completion unchanged (3 → 3), so restatement is not the dominant replacement-quality failure on dev. Dev (EXP-21, PARTIAL b): blocking completion after an unapplied mutation produced no retry (0/8 re-engaged), so completion gating does not surface better replacements either. Dev (EXP-22, PARTIAL b): an explicit type-specific format contract before the edit did not increase structurally valid proposals (VALID tasks 7 → 7). EXP-19 through EXP-22 weaken or eliminate specific explanations and interventions (selector representation, cosmetic restatement, completion gating after the edit, a format contract before the edit); they do not establish which remaining category dominates
+- not_established: the dominant failure mode (semantic reasoning, algorithm generation, diagnosis or any other category), or any completion-improving intervention
 - consequence: the next Qwen repair factor should target replacement content, not selectors
 - redundant: none
 - supersedes: none
@@ -760,12 +775,12 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 ### Q-002 — Which replacement-quality failure dominates after selector repair, and what single bounded factor addresses it?
 - status: OPEN
 - derived_from: H-012, EXP-18
-- evidence: EXP-18, EXP-20, EXP-21
+- evidence: EXP-18, EXP-20, EXP-21, EXP-22
 - contradicted_by: none
 - scope: Qwen, bounded edits with explicit selector kinds
-- establishes: candidate modes observed (dev EXP-18 classification: correct 3, cosmetic restatement 2, incomplete fix 1, wrong target 1, whole-file-as-symbol 1, malformed JSON value 1, guard refusal 1); EXP-20 eliminated restatement acceptance without a completion gain (CAP-009, CON-015); EXP-21 showed post-edit feedback enforced as completion state did not produce a retry (CON-016)
-- not_established: n/a
-- consequence: classify executed-but-failed edits before designing the treatment
+- establishes: candidate modes observed (dev EXP-18 classification: correct 3, cosmetic restatement 2, incomplete fix 1, wrong target 1, whole-file-as-symbol 1, malformed JSON value 1, guard refusal 1); EXP-20 eliminated restatement acceptance without a completion gain (CAP-009, CON-015); EXP-21 showed post-edit feedback enforced as completion state did not produce a retry (CON-016); EXP-22 showed a pre-edit type-specific format contract did not increase structurally valid proposals (CON-017)
+- not_established: the dominant remaining cause; no category (semantic reasoning, algorithm generation, diagnosis or other) is established
+- consequence: the next stage is an offline first-failure taxonomy over frozen evidence (a diagnostic analysis, not an experiment and not EXP-23) before designing any treatment
 - redundant: none
 - supersedes: none
 - next: none
@@ -813,7 +828,7 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 - open_hypotheses: H-012, H-013, H-014
 - partially_supported_pending_replication: H-011, CAP-004, CAP-006
 - open_questions: Q-002, Q-003
-- active_experiment: EXP-22 (Q-002 replacement-format contract; PENDING)
+- active_experiment: none (next stage: offline first-failure taxonomy over frozen evidence; diagnosis, not an experiment)
 - deferred_questions: Q-004, Q-005
 
 ## Research deltas
@@ -887,3 +902,23 @@ EXP-09 and EXP-10 share one log section: EXP-09 is the L1 arm (criterion met), E
 - CAUSAL LANGUAGE: checked: CON-016 is limited to "did not show adaptive recovery under enforced mutation feedback in this dev experiment"; "the action after an edit appears fixed before its result is seen" is stated as an observed pattern, not a mechanism claim.
 - NARROW FINDINGS: checked: PARTIAL (b) does not erase that the latch worked as specified (MI held) and removed accepted completions after unapplied mutations.
 - NARROW PASS: checked: no capability gain is claimed; escalation is not counted as success; the flag stays off by default.
+
+### Delta EXP-22
+- BEFORE: With explicit selector kinds, 5 of 13 dev proposals violated a structural replacement format (all refused by existing guards); whether an explicit type-specific format contract shown before the edit would increase structurally valid proposals was untested (H-012, Q-002).
+- RESULT: qwen_formatcontract_v1 PARTIAL (b) under the frozen scorer (7141c97c…): V held (drift identical to control 20/20); MI held (contract delivered 20/20, absent in drift 20/20, 0 pairing or structural-preservation violations); S held; F not improved (VALID tasks 7 < 9; FORMAT_INVALID 5 > 4); C NO_IMPROVEMENT (passes 3).
+- LEARNED: This explicit type-specific replacement-format contract did not increase structurally valid replacement proposals in this dev experiment (CON-017).
+- NOT LEARNED: Whether individual task swaps are effects; the effect of other wordings, examples, constrained decoding or repair; what dominates replacement correctness; anything about heldout.
+- UPDATED: CON-017 (new, dev-supported); H-012 evidence extended (stays OPEN, not upgraded); Q-002 evidence extended (stays OPEN); METH-007 updated with machine-scoped execution evidence; MNT-06 (new, infrastructure).
+- SYSTEM CONSEQUENCE: No preset change; `replacement_format_contract` stays available and off by default. The next stage is an offline first-failure taxonomy over frozen evidence: diagnosis, not EXP-23, not an experiment, with no inference. Execution: warm sequential invocations, batch 2 as this laptop's current default, batch 1 as the pressure fallback, no concurrency.
+- ELIMINATED WORK: Contract-text variants that only restate the same structural rules; designing the next intervention before the first-failure taxonomy exists.
+- NEXT UNCERTAINTY: Q-002: of the unsuccessful solvable trajectories, where is the first capability failure, and which mutually exclusive first-failure class is largest?
+
+### Audit EXP-22
+- DIRECTION: checked: VALID tasks 7 → 7 (no change); FORMAT_INVALID solvable proposals 4 → 5 (increase); passes 3 → 3; localized 8 → 9; per-call VALID rate 0.64 → 0.58; insufficient-evidence executed mutations 1 → 1.
+- POPULATION: checked: dev split, 20 tasks per arm, 16 solvable; F uses solvable tasks (VALID) and solvable proposals (FORMAT_INVALID) with the frozen denominators; SELECTOR_FAILURE and UNCLASSIFIABLE were 0 in every arm.
+- COMPARISONS: checked: inferential comparison is treatment vs the frozen EXP-18 control only; drift is validity only; no heldout values are used.
+- DESCRIPTIVE VS GATE: checked: CON-017 rests on the gated F, V, MI and S clauses; task swaps, the reason distribution, per-call rates, the guard invariant and insufficient-evidence counts are descriptive and labelled as such.
+- CONFOUNDS: checked: no confounds registered; the batch-size reduction (5 → 2) and port-3080 warnings are infrastructure events, and drift identity 20/20 shows no effect on model-visible behavior; the historical-truncation measurement asymmetry was bounded by the drift VALID-task check (0 difference).
+- CAUSAL LANGUAGE: checked: CON-017 says "did not increase … in this dev experiment"; no claim that format is irrelevant, and no claim about which category dominates.
+- NARROW FINDINGS: checked: PARTIAL (b) does not erase that the intervention was delivered as specified (MI) and that no format-invalid proposal executed.
+- NARROW PASS: checked: no capability or format gain is claimed; H-012 and Q-002 are not upgraded; the 20/20 drift identity is recorded as execution methodology (METH-007, MNT-06), not EXP-22 evidence.
