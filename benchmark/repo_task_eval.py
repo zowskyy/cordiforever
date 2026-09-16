@@ -588,6 +588,7 @@ def run_task(task: RepoTask, condition: str) -> dict[str, Any]:
         replies: list[str | None] = []
         reply_texts: list[str] = []
         prompt_tokens: list[int] = []
+        completion_tokens: list[int] = []
         original_chat = model.chat
 
         def recording_chat(messages, tools, _orig=original_chat, _model=model):
@@ -599,6 +600,9 @@ def run_task(task: RepoTask, condition: str) -> dict[str, Any]:
             usage = getattr(_model, "last_token_usage", None)
             if usage is not None:
                 prompt_tokens.append(usage.prompt_eval_count)
+                # Observation only: eval_count is already parsed by the adapter and was previously
+                # discarded. Generated tokens, reasoning-inclusive and not separable from this count.
+                completion_tokens.append(usage.eval_count)
             return reply
 
         model.chat = recording_chat
@@ -654,6 +658,11 @@ def run_task(task: RepoTask, condition: str) -> dict[str, Any]:
         "rounds": sum(1 for t, _ in timeline if t == "turn.round"),
         "tool_calls": sum(1 for t, _ in timeline if t == "tool.invoked"),
         "prompt_tokens": sum(prompt_tokens),
+        # Rows produced before this key existed omit it entirely; consumers must treat it as ABSENT,
+        # never as 0, and never backfill it. `completion_tokens_rounds` separates a real zero from a
+        # missing measurement.
+        "completion_tokens": sum(completion_tokens),
+        "completion_tokens_rounds": len(completion_tokens),
         "leaked_markers": leaked,
         "edit_proposals": edit_proposals,
         "format_contract_shown": format_contract_shown(sent_texts),

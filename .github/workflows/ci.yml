@@ -229,6 +229,56 @@ jobs:
           path: ci-reports/
           retention-days: 30
 
+  s2-methodology:
+    name: s2-methodology
+    needs: integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install dependencies (requirements.txt)
+        run: python -m pip install -r requirements.txt
+      - name: S2 suites (paired substrate, MNT-09 boundary, harness delta, resource monitor, MV-01)
+        run: |
+          mkdir -p ci-reports
+          set -o pipefail
+          python -m pytest -q -p no:cacheprovider --basetemp "${{ runner.temp }}/s2" \
+            tests/test_paired_substrate_v1.py \
+            tests/test_paired_substrate_mnt09_boundary.py \
+            tests/test_paired_substrate_v1_mutations.py \
+            tests/test_harness_delta_contract.py \
+            tests/test_resource_monitor_v1.py | tee ci-reports/s2-tests.txt
+      - name: Paired-substrate mutation suite (sequential by design; no intra-job parallelism)
+        env:
+          PSV1_BASETEMP: ${{ runner.temp }}/psv1_mutations
+        run: |
+          set -o pipefail
+          python benchmark/analysis/paired_substrate_v1_mutations.py | tee ci-reports/s2-mutation.txt
+      - name: No infrastructure state was scored as a kill
+        run: |
+          ! grep -Eq 'anchor_error|mutation_load_error|pytest_error|child_error|harness_error' ci-reports/s2-mutation.txt
+          grep -q '^mutations: OK$' ci-reports/s2-mutation.txt
+      - name: MNT-09 historical Level-B identity still holds after the evaluator delta
+        run: |
+          set -o pipefail
+          python -m pytest -q -p no:cacheprovider --basetemp "${{ runner.temp }}/s2_levelb" \
+            tests/test_taxonomy_population_registry_v1_historical_identity.py | tee ci-reports/s2-level-b.txt
+      - name: Frozen artifacts and preserved outputs were not mutated
+        run: |
+          git status --porcelain --untracked-files=no | tee ci-reports/s2-post-git-status.txt
+          test -z "$(git status --porcelain --untracked-files=no)"
+          python scripts/verify_frozen_artifacts.py --check logged
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s2-methodology-${{ github.sha }}
+          path: ci-reports/
+          retention-days: 30
+
   property-search:
     name: property-search
     needs: integrity
