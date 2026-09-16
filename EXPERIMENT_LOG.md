@@ -1529,3 +1529,50 @@ Diagnostic cohort (stages resolved/hit/opportunity/executed/intact/pass; frozen 
   - the theorem verified over the valid domain: v1 D3 TRUE implies v2 D3 TRUE; v1 D3 UNKNOWN implies v2 D3 in {UNKNOWN, TRUE}; every non-evidence TrajectoryFacts field identical. Derived label transitions: F0 -> F1, F0 -> UNDETERMINED(evidence_unknown) and UNDETERMINED(evidence_unknown) -> F1 are possible; F1 -> F0, F1 -> UNDETERMINED, UNDETERMINED -> F0 and any change to F2-F8 are impossible.
   - no real-data D3 value, bottleneck label or funnel count changed. FND-06 remains the authoritative v1 classification, unmodified and uninterpreted through v2.
   - D3-v2 has never been executed against the 620 preserved rows. Doing so requires its own plan and separate authorization.
+
+### EXEC-D3V2-01 — preregistration (2026-09-16; REGISTERED / NOT EXECUTED)
+- Status: REGISTERED, NOT EXECUTED. No real trajectory row has been substantively opened, no D3-v2 classification, label, funnel or transition has been computed, and `benchmark/analysis/output_v2/` does not exist. Real-data execution requires a separate authorization after this registration is reviewed.
+- Purpose: apply the frozen D3-v2 methodology (MNT-08) to the preserved eligible dev trajectories. This is an offline diagnostic-analysis execution: not an experiment, not a gate, no model inference, no scorer execution, no methodology modification.
+- Identity:
+  - execution id: EXEC-D3V2-01
+  - execution-tooling commit: 0c2964bb370b77eef52ec0748947d9bd3b15fb48
+  - runner `benchmark/analysis/run_furthest_bottleneck_classification_v2.py` `61c27c2d4a57db9f514af7a7167b2f619d22688766446e874611bad3b2767043`
+  - runner tests `tests/test_run_furthest_bottleneck_classification_v2.py` `3a144057c469586cbf7c5fd8af6891be2d5ce282936bf099b07d1ff26f0b623b`
+- Methodology (frozen; the runner re-verifies every hash in preflight and stops before parsing a row if any differs):
+  - tag d3-v2-methodology-freeze, freeze commit f30c5f6fee287774345e701041899668aaa3ec5d
+  - specification `benchmark/analysis/furthest_bottleneck_taxonomy_v2.md` `4af9a3a414c3bf9ddad3a6f63190e4499f97387277349df9908a414a5e68abb2`
+  - classifier `benchmark/analysis/furthest_bottleneck_v2.py` `e713ff4e99b967d3170ae8a41c9fc14eb706ae17065150424df0c085a923adef`
+  - mutation runner `benchmark/analysis/furthest_bottleneck_v2_mutations.py` `4445c8e8d45e63008320da810ee3fe96bd9787afd09439af6b552bd67762b403`
+  - primary tests `tests/test_furthest_bottleneck_v2.py` `f2b897bb5a2dc16c61f0e582e7a2dc0b5dee2d6c5df4496a1c89534ff01f4725`
+  - producer-contract tests `tests/test_producer_call_round_contract.py` `81c017bd162ada6c91f067cf28a9efa6e9c7a73e239bdc33c9e0737528af4205`
+  - verification tooling `benchmark/analysis/furthest_bottleneck_v2_property_search.py` `073e93abde94329a5e2d7009d163012a006cfe5e06a469604e8b3ffd880149d5` and `benchmark/analysis/furthest_bottleneck_v2_producer_envelope_check.py` `e9c8eb3bf3ed7fb7fc571835ca486c0ea4c1ee055fdc031e1b5706b975ff881d`
+  - frozen v1, consumed unchanged for every non-D3 fact: `benchmark/analysis/furthest_bottleneck.py` `6817e1a73454aecfbd81c161a96b0218561a362aad3da10985c7ddcd1f5aff1b`, `benchmark/analysis/furthest_bottleneck_taxonomy.md` `cf5b8764fd15088a95c729d1a8388f8dc95adff07128d62d552a46062f354ce5`, `benchmark/analysis/furthest_bottleneck_mutations.py` `8352890c0ede42ddf4140dc665463e5ba12b0a840f37b4a19856b5686f18685a`, `tests/test_furthest_bottleneck.py` `055873e8909ef2b0ec6393ad0f327ddcc17567441406299422e04bb9ad825451`, `tests/test_furthest_bottleneck_mutations.py` `658e4aa9608ce845b6c0e5b4b8fe3ee6b750da6234dad6d62a3660b195324615`
+- Input:
+  - `benchmark/results/repo_task_eval.jsonl` `a242336f4e0b9fa3e467ad39a45b07e97f8994aa2591ffd46a545d4cd5b80978`, expected 620 total rows, required to equal the committed bytes at HEAD
+- Population (the v1 selection rule, reproduced so the same rows are selected rather than a new population defined):
+  - selection: split == "dev" AND condition AND experiment.gate.sha256, per arm
+  - primary `exp22_drift` (qwen_selectorkind, gate 13e9a05bef83e51bdeb8acc4119f8db8e9755c5850ebfea6f9755fe32654a218)
+  - identity `exp18_treatment` (qwen_selectorkind, gate dcca9c02e0aee827005043ca08b4b617d4f88c7a3a048b69a975f20572f51e47) and `exp20_drift` (qwen_selectorkind, gate ba0790c8e96b4ec2cb8dff5dd099981fae1d5aae8a1cb4c281dbd463938e29d4)
+  - perturbation `exp20_treatment` (qwen_astnoop, gate ba0790c8e96b4ec2cb8dff5dd099981fae1d5aae8a1cb4c281dbd463938e29d4), `exp21_treatment` (qwen_donelatch, gate b7bb6338179aad39c4181ad8ca6f4cbaf02ca9f1c6b12aa9261e9c1b8bd748f6), `exp22_treatment` (qwen_formatcontract, gate 13e9a05bef83e51bdeb8acc4119f8db8e9755c5850ebfea6f9755fe32654a218)
+  - per arm: exactly 20 rows, no duplicate tasks, task set equal to the dev task set, every row fingerprinted, exactly 13 unsuccessful-solvable
+  - totals: 120 selected, 96 solvable (expected_outcome == "verified_done"), 78 unsuccessful-solvable (oracle_passed is not True)
+  - heldout excluded; Gemma excluded; any deviation is a STOP before classification
+- Execution: LOCAL only. Python 3.12 in the repository virtual environment; no Ollama, no model inference, no scorer, no single-use gate. Two fresh processes are two reproducibility realizations of ONE registered execution, never two attempts to choose between.
+  - A: `python benchmark/analysis/run_furthest_bottleneck_classification_v2.py classify --out <staging>/run_a`
+  - B: `python benchmark/analysis/run_furthest_bottleneck_classification_v2.py classify --out <staging>/run_b`
+  - promote: `python benchmark/analysis/run_furthest_bottleneck_classification_v2.py promote --a <staging>/run_a --b <staging>/run_b --out benchmark/analysis/output_v2`
+  - transitions: `python benchmark/analysis/run_furthest_bottleneck_classification_v2.py transitions --v1 benchmark/analysis/output --v2 benchmark/analysis/output_v2 --out benchmark/analysis/output_v2/transitions_v1_to_v2.json`
+- Normative ordering (registered; the command sequence above is the enforcement):
+  - classify A -> classify B -> semantic byte-identity gate -> authoritative promotion -> ONLY THEN v1->v2 transitions
+  - if semantic identity fails: no promotion, no transitions, no v1 comparison, STOP. There is no third run.
+  - if promotion fails: no transitions, STOP.
+  - `transitions` consumes only the successfully promoted authoritative v2 output (`--v2 benchmark/analysis/output_v2`); it is never run against a staging directory.
+- Determinism: semantic byte identity is required for `classification_v2.jsonl`, `summary_v2.json` and `run_identity_v2.json`. `execution_provenance.json` (wall-clock start/finish, duration, pid, staging path) is execution-specific and is never compared; `run_identity_v2.json` is kept free of timestamps, pids and paths by construction. Any semantic difference fails the execution.
+- Output:
+  - authoritative destination `benchmark/analysis/output_v2/`, created once by promotion and never overwritten; staging directories are NON-AUTHORITATIVE and the runner refuses to classify into the authoritative tree
+  - authoritative artifacts: `classification_v2.jsonl` (one record per classified trajectory: arm, role, condition, gate, task, row line, row fingerprint, label, sub-label, D0 facts, D3 scope/per-file values/cutoff bounds, descriptive facts, D1-D12 facts, proposals, history, F5 guard judgements, F6 subtype, oracle replays), `summary_v2.json` (per-arm label counts, bottleneck shares, D3 TRUE/FALSE/UNKNOWN, descriptive-fact counts, funnel, sub-labels, F5/F6 detail, agreement with primary including membership differences), `run_identity_v2.json`, `provenance_v2.json`
+  - `benchmark/analysis/output/` (v1) is never written to; v1 remains the historical result under v1 methodology
+- Comparison: v1->v2 transitions use the exact `(arm, task, row_fingerprint)` intersection only. Anything outside that intersection is reported as NON_COMPARABLE and is never counted as a transition, so the known `exp22_treatment` membership difference stays mechanically visible rather than appearing as a methodology transition.
+- Registered question: what changes when the frozen guard-admitted D3 evidence definition is applied to the preserved eligible trajectories?
+- Explicitly excluded from this execution's interpretation: Q-002 resolution; capability conclusions; model-quality conclusions; F0 causal forensics; intervention selection; any unique-bottleneck claim based on frequency alone. Identity-arm agreement remains determinism evidence, not independent replication; ties are reported as ties.
+- Registration immutability: after this registration, the runner, the registered execution definition, the frozen D3-v2 artifacts and the selected input may not be modified. If any modification becomes necessary, EXEC-D3V2-01 is ABANDONED before execution and a new plan and registration are required.
