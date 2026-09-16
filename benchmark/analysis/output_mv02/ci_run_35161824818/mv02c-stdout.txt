@@ -1,0 +1,13 @@
+MV02C-RUN-STATUS: VALID
+MV02C-VERDICT: FAIL
+MV02C-CASE: C1 classification=NOMINAL match=True status=VALID
+MV02C-CASE: C2 classification=SAFE_GATE_FAIL match=True status=VALID
+MV02C-CASE: C3 classification=SAFE_GATE_FAIL match=True status=VALID
+MV02C-CASE: C4 classification=NOMINAL match=True status=VALID
+MV02C-CASE: C5 classification=SAFE_GATE_FAIL match=True status=VALID
+MV02C-CASE: C6 classification=NOMINAL match=True status=VALID
+MV02C-CASE: C7a classification=SILENT_SAMPLER_DEATH_GATE_FAIL match=True status=VALID
+MV02C-CASE: C7b classification=EXCEPTION_PROPAGATED match=True status=VALID
+MV02C-CASE: C8 classification=SAFE_GATE_FAIL match=True status=VALID
+MV02C-CASE: C9 classification=SILENT_SAMPLER_DEATH_GATE_PASS match=False status=VALID
+MV02C-CASE: C10 classification=SILENT_SAMPLER_DEATH_GATE_FAIL match=True status=VALID

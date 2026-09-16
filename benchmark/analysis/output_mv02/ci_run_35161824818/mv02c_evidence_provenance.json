@@ -1,0 +1,127 @@
+{
+ "cases": [
+  {
+   "case_id": "C1",
+   "child_sha256": "41d7e61ff0f40b71b655dd9b6ca81f899233618b4af392a8c0d3cbad7150d0c9",
+   "excepthook_all": [],
+   "samples_taken": 13,
+   "state_samples": 13,
+   "threads_alive_after_return": []
+  },
+  {
+   "case_id": "C2",
+   "child_sha256": "41d7e61ff0f40b71b655dd9b6ca81f899233618b4af392a8c0d3cbad7150d0c9",
+   "excepthook_all": [],
+   "samples_taken": 13,
+   "state_samples": 13,
+   "threads_alive_after_return": []
+  },
+  {
+   "case_id": "C3",
+   "child_sha256": "41d7e61ff0f40b71b655dd9b6ca81f899233618b4af392a8c0d3cbad7150d0c9",
+   "excepthook_all": [],
+   "samples_taken": 17,
+   "state_samples": 17,
+   "threads_alive_after_return": []
+  },
+  {
+   "case_id": "C4",
+   "child_sha256": "41d7e61ff0f40b71b655dd9b6ca81f899233618b4af392a8c0d3cbad7150d0c9",
+   "excepthook_all": [],
+   "samples_taken": 10,
+   "state_samples": 10,
+   "threads_alive_after_return": []
+  },
+  {
+   "case_id": "C5",
+   "child_sha256": "41d7e61ff0f40b71b655dd9b6ca81f899233618b4af392a8c0d3cbad7150d0c9",
+   "excepthook_all": [],
+   "samples_taken": 25,
+   "state_samples": 25,
+   "threads_alive_after_return": []
+  },
+  {
+   "case_id": "C6",
+   "child_sha256": "41d7e61ff0f40b71b655dd9b6ca81f899233618b4af392a8c0d3cbad7150d0c9",
+   "excepthook_all": [],
+   "samples_taken": 17,
+   "state_samples": 17,
+   "threads_alive_after_return": []
+  },
+  {
+   "case_id": "C7a",
+   "child_sha256": "41d7e61ff0f40b71b655dd9b6ca81f899233618b4af392a8c0d3cbad7150d0c9",
+   "excepthook_all": [
+    {
+     "exc_type": "TypeError",
+     "message": "'<' not supported between instances of 'NoneType' and 'int'",
+     "sampler_thread": true,
+     "thread_ident_captured": true,
+     "thread_name": "Thread-7 (loop)"
+    }
+   ],
+   "samples_taken": 1,
+   "state_samples": 1,
+   "threads_alive_after_return": []
+  },
+  {
+   "case_id": "C7b",
+   "child_sha256": "41d7e61ff0f40b71b655dd9b6ca81f899233618b4af392a8c0d3cbad7150d0c9",
+   "excepthook_all": [
+    {
+     "exc_type": "TypeError",
+     "message": "'<' not supported between instances of 'NoneType' and 'int'",
+     "sampler_thread": true,
+     "thread_ident_captured": true,
+     "thread_name": "Thread-8 (loop)"
+    }
+   ],
+   "samples_taken": 4,
+   "state_samples": null,
+   "threads_alive_after_return": []
+  },
+  {
+   "case_id": "C8",
+   "child_sha256": "41d7e61ff0f40b71b655dd9b6ca81f899233618b4af392a8c0d3cbad7150d0c9",
+   "excepthook_all": [],
+   "samples_taken": 9,
+   "state_samples": 9,
+   "threads_alive_after_return": []
+  },
+  {
+   "case_id": "C9",
+   "child_sha256": "41d7e61ff0f40b71b655dd9b6ca81f899233618b4af392a8c0d3cbad7150d0c9",
+   "excepthook_all": [
+    {
+     "exc_type": "MonitorError",
+     "message": "scripted sampler fault at sampler-loop processes() call 5",
+     "sampler_thread": true,
+     "thread_ident_captured": true,
+     "thread_name": "Thread-10 (loop)"
+    }
+   ],
+   "samples_taken": 2,
+   "state_samples": 2,
+   "threads_alive_after_return": []
+  },
+  {
+   "case_id": "C10",
+   "child_sha256": "41d7e61ff0f40b71b655dd9b6ca81f899233618b4af392a8c0d3cbad7150d0c9",
+   "excepthook_all": [
+    {
+     "exc_type": "MonitorError",
+     "message": "scripted sampler fault at sampler-loop processes() call 1",
+     "sampler_thread": true,
+     "thread_ident_captured": true,
+     "thread_name": "Thread-11 (loop)"
+    }
+   ],
+   "samples_taken": 0,
+   "state_samples": 0,
+   "threads_alive_after_return": []
+  }
+ ],
+ "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+ "python": "3.12.14 (main, Aug 13 2026, 02:47:42) [GCC 13.3.0]",
+ "schema": "mv02c_evidence_provenance_v1"
+}

@@ -20,7 +20,7 @@ instrument under test and is never modified. No machine qualification is authori
 | `child_c_sleep.py` | C child: sleep then exit code | complete |
 | `mv02a_perturbation.py` | A executor (FROZEN_A), real runner, analysis | complete; real A not executed |
 | `mv02b_measurement.py` | B executor (FROZEN_B), analysis, B3 within invocations | complete; real B not executed |
-| `mv02c_enforcement.py` | ScriptedProbe, excepthook recorder, C1-C10, classifier, evidence, CI-only CLI, CI status classifier | complete; first real C1-C10 run pending on CI |
+| `mv02c_enforcement.py` | ScriptedProbe, excepthook recorder, C1-C10, classifier, evidence, CI-only CLI, CI status classifier | complete; first real C1-C10 run on CI 35161824818: C FAIL (C9) |
 | `combine.py` | execution-order stops and combined verdict | complete |
 | `run_all.py` | machine-attempt orchestration (requires separate approval) | complete; not invoked |
 | `smoke_b_child.py` | B CHILD SMOKE — ENGINEERING ONLY — NOT MV-02 EVIDENCE | complete; run once locally |
@@ -32,7 +32,8 @@ Tests: `tests/test_mv02_stats.py`, `tests/test_mv02a.py`, `tests/test_mv02b.py`,
 
 ## Open dependencies
 
-- First real C1-C10 execution against frozen v1 on CI and preservation of its evidence artifact.
+- resource_monitor_v2 remediation plan (C FAIL, FND-07) — requires separate review.
+- Frozen-v1 mutation runner defects (early-abort minimum-sample INVALID; streak-reset mutation equivalent in the last-8 window) — unrepaired.
 - Methodology acceptance freeze (only if C PASS) — requires separate review.
 - Windows machine attempt (local C parity, B, A) — requires separate approval.
 

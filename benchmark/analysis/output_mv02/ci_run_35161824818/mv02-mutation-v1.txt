@@ -1,0 +1,4 @@
+BAD v1_watchdog_streak_7: expected caught, observed harness_error (harness_error target case INVALID: ['minimum samples not reached (8 < 9)'])
+BAD v1_watchdog_boundary_le: expected caught, observed harness_error (harness_error target case INVALID: ['minimum samples not reached (8 < 10)'])
+BAD v1_watchdog_streak_not_reset: expected caught, observed survived (survived (C5 classification=SAFE_GATE_FAIL abort=False))
+mutations: 3 violation(s)

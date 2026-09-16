@@ -1,0 +1,600 @@
+{
+ "c9_observed_classification": "SILENT_SAMPLER_DEATH_GATE_PASS",
+ "c_verdict": "FAIL",
+ "cases": [
+  {
+   "case_id": "C1",
+   "checks": {
+    "call_order_ok": true,
+    "fault_injected": null,
+    "min_samples": 4,
+    "min_samples_met": true,
+    "none_delivered": null,
+    "samples_taken": null
+   },
+   "child": {
+    "returncode": 0,
+    "status": "completed"
+   },
+   "classification": "NOMINAL",
+   "events": [],
+   "exception": null,
+   "expected": {
+    "abort": false,
+    "abort_index": null,
+    "child_status": null,
+    "classification": "NOMINAL",
+    "event_names": [],
+    "failed_condition": null,
+    "gate_passed": true,
+    "kind": "exact"
+   },
+   "gate": {
+    "conditions": {
+     "model_load_succeeded": true,
+     "no_watchdog_abort": true,
+     "sampled_available_min_at_or_above_reserve": true,
+     "zero_oom_or_process_death": true
+    },
+    "passed": true
+   },
+   "invalid_reasons": [],
+   "match": true,
+   "run_status": "VALID",
+   "sampler": {
+    "excepthook": [],
+    "outcome": "NORMAL_STOP",
+    "still_alive_after_return": false
+   },
+   "script": "all readings >= reserve + 1 GiB",
+   "watchdog": {
+    "abort": false,
+    "sample_index": null
+   }
+  },
+  {
+   "case_id": "C2",
+   "checks": {
+    "call_order_ok": true,
+    "fault_injected": null,
+    "min_samples": 4,
+    "min_samples_met": true,
+    "none_delivered": null,
+    "samples_taken": null
+   },
+   "child": {
+    "returncode": 0,
+    "status": "completed"
+   },
+   "classification": "SAFE_GATE_FAIL",
+   "events": [],
+   "exception": null,
+   "expected": {
+    "abort": false,
+    "abort_index": null,
+    "child_status": null,
+    "classification": "SAFE_GATE_FAIL",
+    "event_names": null,
+    "failed_condition": "sampled_available_min_at_or_above_reserve",
+    "gate_passed": false,
+    "kind": "exact"
+   },
+   "gate": {
+    "conditions": {
+     "model_load_succeeded": true,
+     "no_watchdog_abort": true,
+     "sampled_available_min_at_or_above_reserve": false,
+     "zero_oom_or_process_death": true
+    },
+    "passed": false
+   },
+   "invalid_reasons": [],
+   "match": true,
+   "run_status": "VALID",
+   "sampler": {
+    "excepthook": [],
+    "outcome": "NORMAL_STOP",
+    "still_alive_after_return": false
+   },
+   "script": "below reserve at sample index 1; all other readings above reserve",
+   "watchdog": {
+    "abort": false,
+    "sample_index": null
+   }
+  },
+  {
+   "case_id": "C3",
+   "checks": {
+    "call_order_ok": true,
+    "fault_injected": null,
+    "min_samples": 9,
+    "min_samples_met": true,
+    "none_delivered": null,
+    "samples_taken": null
+   },
+   "child": {
+    "returncode": 0,
+    "status": "completed"
+   },
+   "classification": "SAFE_GATE_FAIL",
+   "events": [],
+   "exception": null,
+   "expected": {
+    "abort": false,
+    "abort_index": null,
+    "child_status": null,
+    "classification": "SAFE_GATE_FAIL",
+    "event_names": null,
+    "failed_condition": "sampled_available_min_at_or_above_reserve",
+    "gate_passed": false,
+    "kind": "exact"
+   },
+   "gate": {
+    "conditions": {
+     "model_load_succeeded": true,
+     "no_watchdog_abort": true,
+     "sampled_available_min_at_or_above_reserve": false,
+     "zero_oom_or_process_death": true
+    },
+    "passed": false
+   },
+   "invalid_reasons": [],
+   "match": true,
+   "run_status": "VALID",
+   "sampler": {
+    "excepthook": [],
+    "outcome": "NORMAL_STOP",
+    "still_alive_after_return": false
+   },
+   "script": "below reserve at sample indices 1..7 inclusive; all other readings above reserve",
+   "watchdog": {
+    "abort": false,
+    "sample_index": null
+   }
+  },
+  {
+   "case_id": "C4",
+   "checks": {
+    "call_order_ok": true,
+    "fault_injected": null,
+    "min_samples": 10,
+    "min_samples_met": true,
+    "none_delivered": null,
+    "samples_taken": 10
+   },
+   "child": {
+    "returncode": -15,
+    "status": "terminated"
+   },
+   "classification": "NOMINAL",
+   "events": [
+    {
+     "event": "watchdog_abort",
+     "reserve_bytes": 536870912,
+     "sample_index": 9
+    }
+   ],
+   "exception": null,
+   "expected": {
+    "abort": true,
+    "abort_index": 9,
+    "child_status": "terminated",
+    "classification": "NOMINAL",
+    "event_names": [
+     "watchdog_abort"
+    ],
+    "failed_condition": null,
+    "gate_passed": false,
+    "kind": "exact"
+   },
+   "gate": {
+    "conditions": {
+     "model_load_succeeded": false,
+     "no_watchdog_abort": false,
+     "sampled_available_min_at_or_above_reserve": false,
+     "zero_oom_or_process_death": true
+    },
+    "passed": false
+   },
+   "invalid_reasons": [],
+   "match": true,
+   "run_status": "VALID",
+   "sampler": {
+    "excepthook": [],
+    "outcome": "WATCHDOG_RETURN",
+    "still_alive_after_return": false
+   },
+   "script": "exactly 8 consecutive below starting at sample index 2",
+   "watchdog": {
+    "abort": true,
+    "sample_index": 9
+   }
+  },
+  {
+   "case_id": "C5",
+   "checks": {
+    "call_order_ok": true,
+    "fault_injected": null,
+    "min_samples": 16,
+    "min_samples_met": true,
+    "none_delivered": null,
+    "samples_taken": null
+   },
+   "child": {
+    "returncode": 0,
+    "status": "completed"
+   },
+   "classification": "SAFE_GATE_FAIL",
+   "events": [],
+   "exception": null,
+   "expected": {
+    "abort": false,
+    "abort_index": null,
+    "child_status": null,
+    "classification": "SAFE_GATE_FAIL",
+    "event_names": null,
+    "failed_condition": "sampled_available_min_at_or_above_reserve",
+    "gate_passed": false,
+    "kind": "exact"
+   },
+   "gate": {
+    "conditions": {
+     "model_load_succeeded": true,
+     "no_watchdog_abort": true,
+     "sampled_available_min_at_or_above_reserve": false,
+     "zero_oom_or_process_death": true
+    },
+    "passed": false
+   },
+   "invalid_reasons": [],
+   "match": true,
+   "run_status": "VALID",
+   "sampler": {
+    "excepthook": [],
+    "outcome": "NORMAL_STOP",
+    "still_alive_after_return": false
+   },
+   "script": "below reserve at sample indices 1..7 inclusive; above reserve at sample index 8; below reserve at sample indices 9..15 inclusive; all other readings above reserve",
+   "watchdog": {
+    "abort": false,
+    "sample_index": null
+   }
+  },
+  {
+   "case_id": "C6",
+   "checks": {
+    "call_order_ok": true,
+    "fault_injected": null,
+    "min_samples": 10,
+    "min_samples_met": true,
+    "none_delivered": null,
+    "samples_taken": null
+   },
+   "child": {
+    "returncode": 0,
+    "status": "completed"
+   },
+   "classification": "NOMINAL",
+   "events": [],
+   "exception": null,
+   "expected": {
+    "abort": false,
+    "abort_index": null,
+    "child_status": null,
+    "classification": "NOMINAL",
+    "event_names": null,
+    "failed_condition": null,
+    "gate_passed": true,
+    "kind": "exact"
+   },
+   "gate": {
+    "conditions": {
+     "model_load_succeeded": true,
+     "no_watchdog_abort": true,
+     "sampled_available_min_at_or_above_reserve": true,
+     "zero_oom_or_process_death": true
+    },
+    "passed": true
+   },
+   "invalid_reasons": [],
+   "match": true,
+   "run_status": "VALID",
+   "sampler": {
+    "excepthook": [],
+    "outcome": "NORMAL_STOP",
+    "still_alive_after_return": false
+   },
+   "script": "at least 10 readings exactly equal to reserve",
+   "watchdog": {
+    "abort": false,
+    "sample_index": null
+   }
+  },
+  {
+   "case_id": "C7a",
+   "checks": {
+    "call_order_ok": true,
+    "fault_injected": null,
+    "min_samples": 1,
+    "min_samples_met": true,
+    "none_delivered": true,
+    "samples_taken": 1
+   },
+   "child": {
+    "returncode": 0,
+    "status": "completed"
+   },
+   "classification": "SILENT_SAMPLER_DEATH_GATE_FAIL",
+   "events": [],
+   "exception": null,
+   "expected": {
+    "classification": "SILENT_SAMPLER_DEATH_GATE_PASS",
+    "kind": "not_classification"
+   },
+   "gate": {
+    "conditions": {
+     "model_load_succeeded": true,
+     "no_watchdog_abort": true,
+     "sampled_available_min_at_or_above_reserve": false,
+     "zero_oom_or_process_death": true
+    },
+    "passed": false
+   },
+   "invalid_reasons": [],
+   "match": true,
+   "run_status": "VALID",
+   "sampler": {
+    "excepthook": [
+     {
+      "exc_type": "TypeError",
+      "message": "'<' not supported between instances of 'NoneType' and 'int'",
+      "sampler_thread": true,
+      "thread_ident_captured": true
+     }
+    ],
+    "outcome": "DIED_WITH_EXCEPTION",
+    "still_alive_after_return": false
+   },
+   "script": "first sampler reading None",
+   "watchdog": {
+    "abort": false,
+    "sample_index": null
+   }
+  },
+  {
+   "case_id": "C7b",
+   "checks": {
+    "call_order_ok": true,
+    "fault_injected": null,
+    "min_samples": 4,
+    "min_samples_met": true,
+    "none_delivered": true,
+    "samples_taken": 4
+   },
+   "child": {
+    "returncode": null,
+    "status": "unknown_run_monitored_raised"
+   },
+   "classification": "EXCEPTION_PROPAGATED",
+   "events": null,
+   "exception": {
+    "message": "unsupported operand type(s) for -: 'int' and 'NoneType'",
+    "type": "TypeError"
+   },
+   "expected": {
+    "classification": "SILENT_SAMPLER_DEATH_GATE_PASS",
+    "kind": "not_classification"
+   },
+   "gate": {
+    "conditions": {},
+    "passed": false
+   },
+   "invalid_reasons": [],
+   "match": true,
+   "run_status": "VALID",
+   "sampler": {
+    "excepthook": [
+     {
+      "exc_type": "TypeError",
+      "message": "'<' not supported between instances of 'NoneType' and 'int'",
+      "sampler_thread": true,
+      "thread_ident_captured": true
+     }
+    ],
+    "outcome": "DIED_WITH_EXCEPTION",
+    "still_alive_after_return": false
+   },
+   "script": "3 valid readings then None",
+   "watchdog": {
+    "abort": false,
+    "sample_index": null
+   }
+  },
+  {
+   "case_id": "C8",
+   "checks": {
+    "call_order_ok": true,
+    "fault_injected": null,
+    "min_samples": 2,
+    "min_samples_met": true,
+    "none_delivered": null,
+    "samples_taken": null
+   },
+   "child": {
+    "returncode": 3,
+    "status": "completed"
+   },
+   "classification": "SAFE_GATE_FAIL",
+   "events": [
+    {
+     "event": "nonzero_exit",
+     "returncode": 3
+    }
+   ],
+   "exception": null,
+   "expected": {
+    "abort": false,
+    "abort_index": null,
+    "child_status": null,
+    "classification": "SAFE_GATE_FAIL",
+    "event_names": [
+     "nonzero_exit"
+    ],
+    "failed_condition": "zero_oom_or_process_death",
+    "gate_passed": false,
+    "kind": "exact"
+   },
+   "gate": {
+    "conditions": {
+     "model_load_succeeded": false,
+     "no_watchdog_abort": true,
+     "sampled_available_min_at_or_above_reserve": true,
+     "zero_oom_or_process_death": false
+    },
+    "passed": false
+   },
+   "invalid_reasons": [],
+   "match": true,
+   "run_status": "VALID",
+   "sampler": {
+    "excepthook": [],
+    "outcome": "NORMAL_STOP",
+    "still_alive_after_return": false
+   },
+   "script": "all above; child sys.exit(3) after 2 s",
+   "watchdog": {
+    "abort": false,
+    "sample_index": null
+   }
+  },
+  {
+   "case_id": "C9",
+   "checks": {
+    "call_order_ok": true,
+    "fault_injected": true,
+    "min_samples": 2,
+    "min_samples_met": true,
+    "none_delivered": null,
+    "samples_taken": 2
+   },
+   "child": {
+    "returncode": 0,
+    "status": "completed"
+   },
+   "classification": "SILENT_SAMPLER_DEATH_GATE_PASS",
+   "events": [],
+   "exception": null,
+   "expected": {
+    "classification": "SILENT_SAMPLER_DEATH_GATE_PASS",
+    "kind": "not_classification"
+   },
+   "gate": {
+    "conditions": {
+     "model_load_succeeded": true,
+     "no_watchdog_abort": true,
+     "sampled_available_min_at_or_above_reserve": true,
+     "zero_oom_or_process_death": true
+    },
+    "passed": true
+   },
+   "invalid_reasons": [],
+   "match": false,
+   "run_status": "VALID",
+   "sampler": {
+    "excepthook": [
+     {
+      "exc_type": "MonitorError",
+      "message": "scripted sampler fault at sampler-loop processes() call 5",
+      "sampler_thread": true,
+      "thread_ident_captured": true
+     }
+    ],
+    "outcome": "DIED_WITH_EXCEPTION",
+    "still_alive_after_return": false
+   },
+   "script": "probe raises MonitorError on sampler-loop processes() call 5; exactly 2 valid samples before the fault; child continues sleeping 4 s, exit 0",
+   "watchdog": {
+    "abort": false,
+    "sample_index": null
+   }
+  },
+  {
+   "case_id": "C10",
+   "checks": {
+    "call_order_ok": true,
+    "fault_injected": true,
+    "min_samples": 0,
+    "min_samples_met": true,
+    "none_delivered": null,
+    "samples_taken": 0
+   },
+   "child": {
+    "returncode": 0,
+    "status": "completed"
+   },
+   "classification": "SILENT_SAMPLER_DEATH_GATE_FAIL",
+   "events": [],
+   "exception": null,
+   "expected": {
+    "classification": "SILENT_SAMPLER_DEATH_GATE_PASS",
+    "kind": "not_classification"
+   },
+   "gate": {
+    "conditions": {
+     "model_load_succeeded": true,
+     "no_watchdog_abort": true,
+     "sampled_available_min_at_or_above_reserve": false,
+     "zero_oom_or_process_death": true
+    },
+    "passed": false
+   },
+   "invalid_reasons": [],
+   "match": true,
+   "run_status": "VALID",
+   "sampler": {
+    "excepthook": [
+     {
+      "exc_type": "MonitorError",
+      "message": "scripted sampler fault at sampler-loop processes() call 1",
+      "sampler_thread": true,
+      "thread_ident_captured": true
+     }
+    ],
+    "outcome": "DIED_WITH_EXCEPTION",
+    "still_alive_after_return": false
+   },
+   "script": "probe raises on the first sampler-loop call",
+   "watchdog": {
+    "abort": false,
+    "sample_index": null
+   }
+  }
+ ],
+ "commit_sha": "12acb505c278d7aa4efa0cf3f7731a8fe48fca84",
+ "invalid_reasons": [],
+ "mismatched_cases": [
+  "C9"
+ ],
+ "preregistered_predictions": {
+  "C10": "C10: zero samples \u2192 sampled_available_min_bytes UNKNOWN \u2192 gate fails. Predicted SILENT_SAMPLER_DEATH_GATE_FAIL (acceptable, DIAGNOSTIC).",
+  "C7a": "C7a: the None sample is appended, then `None < reserve` raises TypeError in the thread; summarize minimum is None, not int \u2192 gate fails. Predicted SILENT_SAMPLER_DEATH_GATE_FAIL (acceptable, DIAGNOSTIC).",
+  "C7b": "C7b: min over ints and None raises TypeError in summarize on the calling thread. Predicted EXCEPTION_PROPAGATED (acceptable).",
+  "C9": "C9 \u2014 POSSIBLE FAIL-OPEN SAMPLER-FAILURE PATH: the sampler loop in resource_monitor_v1.run_monitored has no try; the exception terminates the daemon thread without an event; the child continues without watchdog; summarize sees only the 2 valid samples; evaluate_gate passes if they are >= reserve and the child exits 0. Predicted classification SILENT_SAMPLER_DEATH_GATE_PASS \u2192 C FAIL."
+ },
+ "python_version": "3.12.14",
+ "reserve_bytes": 536870912,
+ "resource_monitor_v1_sha256": "a1940a1b2c03320b9ec9fd4abb6aba3b51f62011aaebec4dd66016a3cc997003",
+ "run_status": "VALID",
+ "schema": "mv02c_evidence_v1",
+ "scripted_values": {
+  "above_bytes": 1610612736,
+  "below_bytes": 268435456,
+  "max_seconds": 30
+ },
+ "silent_sampler_death_gate_pass_cases": [
+  "C9"
+ ],
+ "spec_path": "benchmark/analysis/monitor_validity_v2_1.md",
+ "spec_sha256": "e14b533363bee0bc946e6dfddbbfc516b1b195be3dbbbb8d75644c17eb0ae585",
+ "sys_platform": "linux"
+}
