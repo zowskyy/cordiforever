@@ -219,7 +219,8 @@ jobs:
           grep -q '^mutations: OK$' ci-reports/mnt09-mutation.txt
       - name: Frozen MNT-07/MNT-08 artifacts and preserved outputs were not mutated
         run: |
-          test -z "$(git status --porcelain)"
+          git status --porcelain --untracked-files=no | tee ci-reports/mnt09-post-git-status.txt
+          test -z "$(git status --porcelain --untracked-files=no)"
           python scripts/verify_frozen_artifacts.py --check logged
       - uses: actions/upload-artifact@v4
         if: always()
