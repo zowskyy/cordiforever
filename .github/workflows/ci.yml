@@ -267,11 +267,53 @@ jobs:
           set -o pipefail
           python -m pytest -q -p no:cacheprovider --basetemp "${{ runner.temp }}/s2_levelb" \
             tests/test_taxonomy_population_registry_v1_historical_identity.py | tee ci-reports/s2-level-b.txt
+      - name: MV-02 v2.1 suites (injected/fake machinery only)
+        run: |
+          set -o pipefail
+          python -m pytest -q -p no:cacheprovider --basetemp "${{ runner.temp }}/mv02" \
+            tests/test_mv02_stats.py tests/test_mv02a.py tests/test_mv02b.py tests/test_mv02b_policy_isolation.py \
+            tests/test_mv02c_local.py tests/test_mv02_combined_reachability.py tests/test_mv02_vacuity.py \
+            tests/test_mv02_spec_pin.py tests/test_mv02_mutations.py | tee ci-reports/mv02-tests.txt
+      - name: MV-02C C1-C10 against frozen resource_monitor_v1 (evidence written before the semantic exit)
+        id: mv02c
+        if: always()
+        run: |
+          mkdir -p ci-reports/mv02c
+          set +e
+          python scripts/monitor_validity_v2/mv02c_enforcement.py --out-dir ci-reports/mv02c | tee ci-reports/mv02c/mv02c-stdout.txt
+          code=${PIPESTATUS[0]}
+          echo "exit_code=$code" | tee ci-reports/mv02c/mv02c-exit.txt
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+      - name: Classify MV-02C status (PASS / FAIL / INVALID / ORCHESTRATION_FAILURE)
+        if: always()
+        run: |
+          mkdir -p ci-reports/mv02c
+          python scripts/monitor_validity_v2/mv02c_enforcement.py --out-dir ci-reports/mv02c \
+            --classify-exit-code "${{ steps.mv02c.outputs.exit_code || 99 }}" | tee ci-reports/mv02c/mv02c-status.txt
+      - name: MV-02 mutation suite (local group, sequential)
+        if: always()
+        env:
+          MV02_MUT_BASETEMP: ${{ runner.temp }}/mv02_mutations
+        run: |
+          set -o pipefail
+          python scripts/monitor_validity_v2/mutations.py --group local | tee ci-reports/mv02-mutation-local.txt
+          ! grep -Eq 'anchor_error|mutation_load_error|pytest_error|child_error|harness_error' ci-reports/mv02-mutation-local.txt
+          grep -q '^mutations: OK$' ci-reports/mv02-mutation-local.txt
+      - name: MV-02 frozen v1 in-memory mutations against their target C cases
+        if: always()
+        run: |
+          set -o pipefail
+          python scripts/monitor_validity_v2/mutations.py --group v1 | tee ci-reports/mv02-mutation-v1.txt
+          ! grep -Eq 'anchor_error|mutation_load_error|pytest_error|child_error|harness_error' ci-reports/mv02-mutation-v1.txt
+          grep -q '^mutations: OK$' ci-reports/mv02-mutation-v1.txt
       - name: Frozen artifacts and preserved outputs were not mutated
         run: |
           git status --porcelain --untracked-files=no | tee ci-reports/s2-post-git-status.txt
           test -z "$(git status --porcelain --untracked-files=no)"
           python scripts/verify_frozen_artifacts.py --check logged
+      - name: MV-02C semantic gate (fails the job unless C PASS; evidence already materialized)
+        if: always()
+        run: grep -qx 'C_STATUS=PASS' ci-reports/mv02c/mv02c-status.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
