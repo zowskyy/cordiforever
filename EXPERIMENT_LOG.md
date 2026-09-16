@@ -1488,3 +1488,44 @@ Diagnostic cohort (stages resolved/hit/opportunity/executed/intact/pass; frozen 
   - F0, F4 and F6 are tied at 3 determined trajectories; no stage is designated a bottleneck
   - no CAP, CON, H or Q change; no Q-002 update
   - F0 forensics are deferred (not rejected); the D3 construct review is required first
+
+### Furthest-reached bottleneck taxonomy — D3-v2 methodology freeze (2026-09-16; methodology, not an experiment)
+- Classification: methodology amendment to the frozen v1 diagnostic-analysis methodology (MNT-07). Not an experiment, not an EXP gate, no capability claim, no Q-002 conclusion, no real-data classification. Methodology v1 remains immutable and remains authoritative for the v1-era classification (FND-06).
+- Amendment: D3 alone. Its cutoff becomes the first GUARD-ADMITTED `diagnose`/`edit_symbol` call on a gold file, in v1's recorded-call order, instead of v1's first attempted call. D0-D2 and D4-D12 are unchanged, `classify` is v1's own function, and the D3 gold-file domain is identical to v1's.
+- Frozen methodology v2 artifacts (SHA-256):
+  - specification `benchmark/analysis/furthest_bottleneck_taxonomy_v2.md` `4af9a3a414c3bf9ddad3a6f63190e4499f97387277349df9908a414a5e68abb2`
+  - classifier `benchmark/analysis/furthest_bottleneck_v2.py` `e713ff4e99b967d3170ae8a41c9fc14eb706ae17065150424df0c085a923adef`
+  - mutation runner `benchmark/analysis/furthest_bottleneck_v2_mutations.py` `4445c8e8d45e63008320da810ee3fe96bd9787afd09439af6b552bd67762b403`
+  - primary tests `tests/test_furthest_bottleneck_v2.py` `f2b897bb5a2dc16c61f0e582e7a2dc0b5dee2d6c5df4496a1c89534ff01f4725`
+  - producer-contract tests `tests/test_producer_call_round_contract.py` `81c017bd162ada6c91f067cf28a9efa6e9c7a73e239bdc33c9e0737528af4205`
+- Frozen verification tooling (separate bundle: it establishes reproducible evidence about the semantics, it does not define them; a future verifier change does not alter historical D3-v2 semantics):
+  - property/differential verifier `benchmark/analysis/furthest_bottleneck_v2_property_search.py` `073e93abde94329a5e2d7009d163012a006cfe5e06a469604e8b3ffd880149d5`
+  - producer-envelope verifier `benchmark/analysis/furthest_bottleneck_v2_producer_envelope_check.py` `e9c8eb3bf3ed7fb7fc571835ca486c0ea4c1ee055fdc031e1b5706b975ff881d`
+  - candidate-integrity checker `scripts/verify_d3_v2_candidate.py` `5c2862d0f0a6c0e6db299d97fcbca487f96bff6d57732cc20df8026a57e141eb`
+- Frozen v1 unchanged by this amendment: `benchmark/analysis/furthest_bottleneck_taxonomy.md` `cf5b8764fd15088a95c729d1a8388f8dc95adff07128d62d552a46062f354ce5`, `benchmark/analysis/furthest_bottleneck.py` `6817e1a73454aecfbd81c161a96b0218561a362aad3da10985c7ddcd1f5aff1b`, `benchmark/analysis/furthest_bottleneck_mutations.py` `8352890c0ede42ddf4140dc665463e5ba12b0a840f37b4a19856b5686f18685a`, `tests/test_furthest_bottleneck.py` `055873e8909ef2b0ec6393ad0f327ddcc17567441406299422e04bb9ad825451`, `tests/test_furthest_bottleneck_mutations.py` `658e4aa9608ce845b6c0e5b4b8fe3ee6b750da6234dad6d62a3660b195324615`.
+- Historical CI provenance (identifies the CI definition that produced the pre-freeze evidence; NOT an operational pin, and future workflow bytes are not required to equal it — recover the exact historical bytes from git history at the verification commit):
+  - verification commit: 5e358236b59c49f511ece08e13527c755c56d6e1
+  - pre-freeze CI run: 35053095344 (all 9 jobs green)
+  - workflow path: .github/workflows/ci.yml
+  - workflow sha256 at that commit: e37306e3cb85f38018a48fbedc6da5588c2e3932f75ca3bbcb0a60610636eb75
+  - checkpoint manifest path: benchmark/analysis/D3_V2_VERIFICATION_MANIFEST.json, sha256 at that commit: 470d8a4b54b4f3d6b0904edf221fc7e0b2082496506c69d5a93a0c27036b65a8 (checkpoint-specific pre-freeze values; historical provenance, deliberately not operationally pinned)
+- Normative content of the amendment:
+  - Layer 0 `D3_PRODUCER_ENVELOPE_CONTRACT`: `calls` exists, is a list, every entry is a dict, and a present, non-null `args` is a dict (absent / None / {} accepted; every other non-null non-dict rejected, falsy values included). Violation raises `RowEnvelopeViolation`.
+  - Layer 1 `D3_CALL_POSITION_CONTRACT`: every identifiable relevant call has a `round` with `type(round) is int` (bool rejected), and the relevant-call rounds are non-decreasing in recorded order, row-globally. Violation raises `RowContractViolation`.
+  - Validation precedence is normative: domain -> Layer 0 -> Layer 1 -> frozen v1 extraction -> D3-v2 substitution -> classification. A row invalid at both layers reports the Layer 0 error; neither invalid class reaches frozen v1.
+  - Admission: P1 `success is True` -> TRUE; P2 diagnose-only positive refusal under the A5 preconditions -> FALSE; P3 everything else -> UNKNOWN, including every failed `edit_symbol`.
+  - `UNPOSITIONED` lower cutoff -> D3 UNKNOWN, applied at the decision layer before any view evaluation. UNKNOWN is never reduced to a determined value.
+  - Two descriptive facts (`D3_ATTEMPT_OBSERVED`, `D3_OBSERVED_PRE_EVIDENCE_ATTEMPT`) never reach `classify`.
+- Verification evidence (synthetic and task-definition data only; no real trajectory row was opened, no model inference, no scorer):
+  - CI run 35053095344 at commit 5e358236b59c49f511ece08e13527c755c56d6e1: 9/9 jobs green
+  - pytest: 1414 passed, 0 failed, 8 skipped, 0 unexpected failures
+  - mutations: 64 total, 62 caught, 2 equivalent with domain-aware proofs (`d3_evaluated_only_at_lmax`; `envelope_accepts_missing_calls`, identical on all normative observables with only non-normative diagnostic text differing), 0 non-equivalent survivors, 0 infrastructure states counted as kills
+  - property/differential search: 157,632 contract-valid rows, 0 property violations, 0 determined results from an UNPOSITIONED cutoff. This population is the authoritative reproducibility population for this verifier and configuration.
+  - within-population transition census (v1 D3 -> v2 D3): FALSE->FALSE 118416, TRUE->TRUE 13654, UNKNOWN->UNKNOWN 22122, FALSE->UNKNOWN 3124, FALSE->TRUE 316
+  - producer-envelope check: 4,010 generated rows, 16,882 generated calls, 0 rejections of a producer-valid row, 0 shape failures
+  - six independent fresh-context adversarial reviews; the first five each found real defects, all repaired under review; the sixth verified the scoped repair clean with no blocker and one minor forward-looking observation (CI definition pinned as historical provenance rather than operationally, resolved as recorded above)
+- Claim scope:
+  - the 157,632-row result is a within-population fingerprint. An earlier 969,975-row exploratory census came from a different generator population and is NOT a comparable before/after regression measurement; it is not carried into this record.
+  - the theorem verified over the valid domain: v1 D3 TRUE implies v2 D3 TRUE; v1 D3 UNKNOWN implies v2 D3 in {UNKNOWN, TRUE}; every non-evidence TrajectoryFacts field identical. Derived label transitions: F0 -> F1, F0 -> UNDETERMINED(evidence_unknown) and UNDETERMINED(evidence_unknown) -> F1 are possible; F1 -> F0, F1 -> UNDETERMINED, UNDETERMINED -> F0 and any change to F2-F8 are impossible.
+  - no real-data D3 value, bottleneck label or funnel count changed. FND-06 remains the authoritative v1 classification, unmodified and uninterpreted through v2.
+  - D3-v2 has never been executed against the 620 preserved rows. Doing so requires its own plan and separate authorization.

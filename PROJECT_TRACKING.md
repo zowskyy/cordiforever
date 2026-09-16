@@ -72,7 +72,7 @@ FORMAT_INVALID 4 -> 5); passes 3 -> 3. Contract delivered 20/20. CON-017 (dev-su
 Earlier: qwen_donelatch_v1 - PARTIAL (b) on DEV (EXP-21, CON-016); qwen_astnoop_v1 - PARTIAL on DEV (EXP-20, CAP-009, CON-015); qwen_selectorkind_heldout_v1 - PARTIAL (b) on HELDOUT.
 Milestones (1)-(3) not claimed; coordination frozen. Q-002 open: no dominant replacement-correctness cause established.
 Execution: warm sequential foreground invocations; batch 2 is this laptop's current default (batch 1 pressure fallback); no concurrency (METH-007, MNT-06).
-NEXT GATE: none registered. Raw classification preserved (FND-06; methodology MNT-07); D3 construct review pending; F0 forensics deferred; no new gate registered. Abstention (Q-003) separate.
+NEXT GATE: none registered. Raw classification preserved (FND-06; methodology MNT-07). D3 construct review CLOSED by the D3-v2 methodology freeze (MNT-08): D3-v2 is frozen but has NOT been applied to real trajectories, so no D3 value, bottleneck label or funnel count has changed and the v1 classification stands unmodified. Real-data D3-v2 application is not authorized and needs its own plan. F0 forensics remain deferred; no new gate registered. Abstention (Q-003) separate.
 Queue after this: abstention/unsolvable behavior (category 3), then broader coding capability. Gemma action-masking deferred.
 ```
 
