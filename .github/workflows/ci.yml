@@ -5,7 +5,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, d3-v2-pre-freeze-verification]
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -36,6 +36,9 @@ jobs:
         run: test -z "$(git status --porcelain)"
       - name: Frozen evidence matches FROZEN_MANIFEST.json (read-only)
         run: python scripts/verify_frozen_artifacts.py --check manifest --report ci-reports/integrity-manifest.json
+      - name: D3-v2 candidate, verification tooling and frozen-v1 hashes match the verification manifest
+        # Gates every expensive job below, so results can never be reported for bytes other than the ones named.
+        run: python scripts/verify_d3_v2_candidate.py --commit "$GITHUB_SHA" --report ci-reports/d3-v2-manifest.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -118,6 +121,96 @@ jobs:
           path: ci-reports/
           retention-days: 30
 
+  # ---------------------------------------------------------------- D3-v2 pre-freeze verification (strict)
+  # These three jobs verify a methodology CANDIDATE. They are strict: the known-environment-failure tolerance that
+  # `tests` applies via scripts/ci_pytest_gate.py is deliberately NOT inherited here. Any nonzero exit fails the job,
+  # including mutation infrastructure states (anchor_error, mutation_load_error, pytest_error, child_error).
+  producer-contract:
+    name: producer-contract
+    needs: integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install dependencies (requirements.txt)
+        run: python -m pip install -r requirements.txt
+      - name: Producer round-contract suite
+        run: |
+          mkdir -p ci-reports
+          python -m pytest -q -p no:cacheprovider --basetemp "$RUNNER_TEMP/pytest_producer" \
+            tests/test_producer_call_round_contract.py --junitxml ci-reports/producer-contract.xml
+      - name: Every producer-generated row satisfies D3_PRODUCER_ENVELOPE_CONTRACT (synthetic only)
+        run: >-
+          python benchmark/analysis/furthest_bottleneck_v2_producer_envelope_check.py
+          --trials 4000 --seed 20260915 --commit "$GITHUB_SHA"
+          --report ci-reports/producer-envelope.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: producer-contract-${{ github.sha }}
+          path: ci-reports/
+          retention-days: 30
+
+  mutation:
+    name: mutation
+    needs: integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install dependencies (requirements.txt)
+        run: python -m pip install -r requirements.txt
+      - name: D3-v2 mutation suite (sequential by design; no intra-job parallelism)
+        env:
+          FB_V2_BASETEMP: ${{ runner.temp }}/fb_v2_mutations
+        run: |
+          mkdir -p ci-reports
+          set -o pipefail
+          python benchmark/analysis/furthest_bottleneck_v2_mutations.py | tee ci-reports/mutation.txt
+      - name: No infrastructure state was scored as a kill
+        run: |
+          ! grep -Eq 'anchor_error|mutation_load_error|pytest_error|child_error|harness_error' ci-reports/mutation.txt
+          grep -q '^mutations: OK$' ci-reports/mutation.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mutation-${{ github.sha }}
+          path: ci-reports/
+          retention-days: 30
+
+  property-search:
+    name: property-search
+    needs: integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install dependencies (requirements.txt)
+        run: python -m pip install -r requirements.txt
+      - name: Valid-domain differential search (synthetic rows only; no experiment data is read)
+        run: >-
+          python benchmark/analysis/furthest_bottleneck_v2_property_search.py
+          --population standard --commit "$GITHUB_SHA"
+          --report ci-reports/property-search.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: property-search-${{ github.sha }}
+          path: ci-reports/
+          retention-days: 30
+
   project-validation:
     name: project-validation
     needs: [quality, tests]
@@ -142,6 +235,34 @@ jobs:
         with:
           name: project-validation-${{ github.sha }}
           path: ci-reports/
+          retention-days: 30
+
+  verification-report:
+    name: verification-report
+    needs: [integrity, quality, tests, producer-contract, mutation, property-search]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: collected
+      - name: Summarize the D3-v2 pre-freeze verification evidence
+        run: |
+          mkdir -p ci-reports
+          {
+            echo "D3-v2 PRE-FREEZE VERIFICATION — NOT A FREEZE"
+            echo "commit: $GITHUB_SHA"
+            echo "run: $GITHUB_RUN_ID"
+            echo "jobs: integrity, quality, tests, producer-contract, mutation, property-search all green"
+          } | tee ci-reports/verification-summary.txt
+          find collected -name '*.json' -o -name 'mutation.txt' | sort | tee -a ci-reports/verification-summary.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-report-${{ github.sha }}
+          path: |
+            ci-reports/
+            collected/
           retention-days: 30
 
   artifact-checks:
