@@ -1718,3 +1718,22 @@ Diagnostic cohort (stages resolved/hit/opportunity/executed/intact/pass; frozen 
 - Heldout disclosure: during the postmortem the `seconds` field of 60 heldout rows was read incidentally by a duration scan; no other heldout field was read; those values are excluded from all MV-02 design and threshold derivation. No Attempt 1 or Attempt 2 outcome value is used in any MV-02 threshold.
 - Freeze mechanism: the specification lives under benchmark/analysis and is verified through the logged-hash check of `scripts/verify_frozen_artifacts.py`, following the MNT-08, MNT-09 and S2 precedent; FROZEN_MANIFEST.json is unchanged.
 - Claim scope: MV-02 implementation has not started. No MV-02 code or tests exist. No qualification of the monitor or the machine exists.
+
+### MV-02 v2.1 — pre-execution preregistration correction (2026-09-16; REGISTERED / NOT IMPLEMENTED; methodology, not an experiment)
+- Classification: METHODOLOGY QUALIFICATION. Not an EXP experiment, no capability claim, no model result.
+- Frozen MV-02 v2.1 artifact (SHA-256):
+  - specification `benchmark/analysis/monitor_validity_v2_1.md` `e14b533363bee0bc946e6dfddbbfc516b1b195be3dbbbb8d75644c17eb0ae585`
+- Generations:
+  - MV-02 v2 (benchmark/analysis/monitor_validity_v2.md, sha256 3384f2332b7f44c4deb123573ea3889aa3da3f48ad95a174c8972f107a91c01e, tag mv-02-preregistration-freeze): PREREGISTERED / NEVER EXECUTED / SUPERSEDED BEFORE EXECUTION BY MV-02 v2.1. v2 was not executed and did not experimentally fail; it is not empirically falsified. Its file and tag are unchanged.
+  - MV-02 v2.1: PREREGISTERED / NOT IMPLEMENTED / AUTHORITATIVE GOING FORWARD.
+- Reason for supersession: static pre-implementation review, before any MV-02 code existed, found (1) the C2 expected gate result contradicted frozen resource_monitor_v1 (one sampled reading below reserve makes the frozen gate fail on the sampled minimum); (2) the C9 fault-call position (sampler-loop processes() call 3) contradicted its stated two-valid-sample setup under the frozen two-calls-per-sample order; (3) C2, C3 and C5 sample indexing was underspecified.
+- NO C EXECUTION HAD OCCURRED BEFORE THESE CORRECTIONS. No A or B execution occurred. No monitor, model, benchmark or scorer execution occurred.
+- Changes in v2.1, and only these: C2 expected result gate FAIL / SAFE_GATE_FAIL with no watchdog abort; C9 fault at sampler-loop processes() call 5 with exactly 2 valid samples before the fault; explicit indexing domains (preflight read outside the 0-based sample index; 1-based sampler-loop processes() call number); C2 below at sample index 1; C3 below at indices 1..7; C5 below at 1..7 and 9..15 with index 8 above; all other readings above reserve in C2, C3 and C5; version references. No threshold, sample count, timeout, statistical rule, combined verdict, execution order, lifecycle rule or heldout rule changed.
+- The C9 fail-open prediction is unchanged and remains preregistered before any C execution: predicted SILENT_SAMPLER_DEATH_GATE_PASS, hence C FAIL, MV-02 FAIL, STOP, and a separate resource_monitor_v2 plan with v1 unpatched. This is a prediction, not evidence.
+- Lifecycle state (unchanged):
+  - MV-01: DEFECT CONFIRMED — REPLACEMENT IN DEVELOPMENT
+  - Attempt 2: VALID FAIL UNDER MV-01
+  - MV-01 is not superseded; MV-02 methodology State 2 has not been entered.
+- Heldout disclosure unchanged: the `seconds` field of 60 heldout rows read incidentally during the postmortem remains excluded from all MV-02 design and threshold derivation.
+- Freeze mechanism: logged-hash verification by `scripts/verify_frozen_artifacts.py`; FROZEN_MANIFEST.json unchanged.
+- Claim scope: MV-02 implementation has not started. No MV-02 code or tests exist.
