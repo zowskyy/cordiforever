@@ -1,0 +1,1045 @@
+{
+  "agreement_with_primary": {
+    "exp18_treatment": {
+      "comparable_tasks": 13,
+      "disagreements": [],
+      "membership_difference": {
+        "only_in_primary": [],
+        "only_in_this_arm": []
+      },
+      "role": "identity",
+      "same_label": 13
+    },
+    "exp20_drift": {
+      "comparable_tasks": 13,
+      "disagreements": [],
+      "membership_difference": {
+        "only_in_primary": [],
+        "only_in_this_arm": []
+      },
+      "role": "identity",
+      "same_label": 13
+    },
+    "exp20_treatment": {
+      "comparable_tasks": 13,
+      "disagreements": [
+        {
+          "perturbation_facts": {
+            "D11_any_TRUE": false,
+            "D11_final": "UNKNOWN",
+            "D1_D2": "TRUE",
+            "D3": "TRUE",
+            "D4": "TRUE",
+            "D5": "TRUE",
+            "R10": "FALSE",
+            "R7": "TRUE",
+            "R8": "TRUE",
+            "R9": "TRUE",
+            "d0_harness": "TRUE",
+            "sub_label": "structural_noop"
+          },
+          "perturbation_label": "F5",
+          "primary_facts": {
+            "D11_any_TRUE": false,
+            "D11_final": "FALSE",
+            "D1_D2": "TRUE",
+            "D3": "TRUE",
+            "D4": "TRUE",
+            "D5": "TRUE",
+            "R10": "TRUE",
+            "R7": "TRUE",
+            "R8": "TRUE",
+            "R9": "TRUE",
+            "d0_harness": "TRUE",
+            "sub_label": "replacement_content"
+          },
+          "primary_label": "F6",
+          "task": "textkit_slug_punctuation"
+        },
+        {
+          "perturbation_facts": {
+            "D11_any_TRUE": false,
+            "D11_final": "UNKNOWN",
+            "D1_D2": "TRUE",
+            "D3": "TRUE",
+            "D4": "TRUE",
+            "D5": "TRUE",
+            "R10": "FALSE",
+            "R7": "TRUE",
+            "R8": "TRUE",
+            "R9": "TRUE",
+            "d0_harness": "TRUE",
+            "sub_label": "structural_noop"
+          },
+          "perturbation_label": "F5",
+          "primary_facts": {
+            "D11_any_TRUE": false,
+            "D11_final": "FALSE",
+            "D1_D2": "TRUE",
+            "D3": "TRUE",
+            "D4": "TRUE",
+            "D5": "TRUE",
+            "R10": "TRUE",
+            "R7": "TRUE",
+            "R8": "TRUE",
+            "R9": "TRUE",
+            "d0_harness": "TRUE",
+            "sub_label": "replacement_content"
+          },
+          "primary_label": "F6",
+          "task": "textkit_truncate_limit"
+        }
+      ],
+      "membership_difference": {
+        "only_in_primary": [],
+        "only_in_this_arm": []
+      },
+      "role": "perturbation",
+      "same_label": 11
+    },
+    "exp21_treatment": {
+      "comparable_tasks": 13,
+      "disagreements": [
+        {
+          "perturbation_facts": {
+            "D11_any_TRUE": false,
+            "D11_final": "UNKNOWN",
+            "D1_D2": "TRUE",
+            "D3": "TRUE",
+            "D4": "TRUE",
+            "D5": "TRUE",
+            "R10": "FALSE",
+            "R7": "TRUE",
+            "R8": "TRUE",
+            "R9": "TRUE",
+            "d0_harness": "TRUE",
+            "sub_label": "structural_noop"
+          },
+          "perturbation_label": "F5",
+          "primary_facts": {
+            "D11_any_TRUE": false,
+            "D11_final": "FALSE",
+            "D1_D2": "TRUE",
+            "D3": "TRUE",
+            "D4": "TRUE",
+            "D5": "TRUE",
+            "R10": "TRUE",
+            "R7": "TRUE",
+            "R8": "TRUE",
+            "R9": "TRUE",
+            "d0_harness": "TRUE",
+            "sub_label": "replacement_content"
+          },
+          "primary_label": "F6",
+          "task": "textkit_slug_punctuation"
+        },
+        {
+          "perturbation_facts": {
+            "D11_any_TRUE": false,
+            "D11_final": "UNKNOWN",
+            "D1_D2": "TRUE",
+            "D3": "TRUE",
+            "D4": "TRUE",
+            "D5": "TRUE",
+            "R10": "FALSE",
+            "R7": "TRUE",
+            "R8": "TRUE",
+            "R9": "TRUE",
+            "d0_harness": "TRUE",
+            "sub_label": "structural_noop"
+          },
+          "perturbation_label": "F5",
+          "primary_facts": {
+            "D11_any_TRUE": false,
+            "D11_final": "FALSE",
+            "D1_D2": "TRUE",
+            "D3": "TRUE",
+            "D4": "TRUE",
+            "D5": "TRUE",
+            "R10": "TRUE",
+            "R7": "TRUE",
+            "R8": "TRUE",
+            "R9": "TRUE",
+            "d0_harness": "TRUE",
+            "sub_label": "replacement_content"
+          },
+          "primary_label": "F6",
+          "task": "textkit_truncate_limit"
+        }
+      ],
+      "membership_difference": {
+        "only_in_primary": [],
+        "only_in_this_arm": []
+      },
+      "role": "perturbation",
+      "same_label": 11
+    },
+    "exp22_treatment": {
+      "comparable_tasks": 12,
+      "disagreements": [
+        {
+          "perturbation_facts": {
+            "D11_any_TRUE": false,
+            "D11_final": "UNKNOWN",
+            "D1_D2": "TRUE",
+            "D3": "TRUE",
+            "D4": "UNKNOWN",
+            "D5": "UNKNOWN",
+            "R10": "FALSE",
+            "R7": "FALSE",
+            "R8": "FALSE",
+            "R9": "FALSE",
+            "d0_harness": "TRUE",
+            "sub_label": "localization_unknown"
+          },
+          "perturbation_label": "UNDETERMINED",
+          "primary_facts": {
+            "D11_any_TRUE": false,
+            "D11_final": "UNKNOWN",
+            "D1_D2": "TRUE",
+            "D3": "TRUE",
+            "D4": "UNKNOWN",
+            "D5": "UNKNOWN",
+            "R10": "FALSE",
+            "R7": "TRUE",
+            "R8": "TRUE",
+            "R9": "FALSE",
+            "d0_harness": "TRUE",
+            "sub_label": "no_structurally_valid_relevant_proposal"
+          },
+          "primary_label": "F4",
+          "task": "textkit_cli_upper"
+        }
+      ],
+      "membership_difference": {
+        "only_in_primary": [
+          "config_database_host"
+        ],
+        "only_in_this_arm": [
+          "inventory_total_value"
+        ]
+      },
+      "role": "perturbation",
+      "same_label": 11
+    }
+  },
+  "arms": {
+    "exp18_treatment": {
+      "bottleneck_denominator_F0_F8": 10,
+      "bottleneck_shares": {
+        "F0": {
+          "denominator": 10,
+          "fraction": "3/10",
+          "n": 3,
+          "percent": 30.0
+        },
+        "F1": {
+          "denominator": 10,
+          "fraction": "1/10",
+          "n": 1,
+          "percent": 10.0
+        },
+        "F2": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F3": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F4": {
+          "denominator": 10,
+          "fraction": "3/10",
+          "n": 3,
+          "percent": 30.0
+        },
+        "F5": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F6": {
+          "denominator": 10,
+          "fraction": "3/10",
+          "n": 3,
+          "percent": 30.0
+        },
+        "F7": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F8": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        }
+      },
+      "condition": "qwen_selectorkind",
+      "d0_combinations": {
+        "HARNESS_TRUE/CONTRACT_TRUE": 12,
+        "HARNESS_UNKNOWN/CONTRACT_FALSE": 1
+      },
+      "d3": {
+        "FALSE": 4,
+        "TRUE": 8,
+        "UNKNOWN": 1
+      },
+      "descriptive_facts": {
+        "D3_ATTEMPT_OBSERVED": {
+          "FALSE": 3,
+          "TRUE": 10
+        },
+        "D3_OBSERVED_PRE_EVIDENCE_ATTEMPT": {
+          "FALSE": 5,
+          "TRUE": 8
+        }
+      },
+      "f5_guard_judgements": {},
+      "f6_subtypes": {
+        "MULTIPLE": 1,
+        "cosmetic_restatement": 2
+      },
+      "funnel": {
+        "D3_evidence_TRUE": 8,
+        "D5_localized_TRUE": 5,
+        "R10_TRUE": 3,
+        "R7_TRUE": 6,
+        "R8_TRUE": 6,
+        "R9_TRUE": 3,
+        "any_D11_TRUE": 0
+      },
+      "gate_sha256": "dcca9c02e0aee827005043ca08b4b617d4f88c7a3a048b69a975f20572f51e47",
+      "interface_unsupported": {
+        "count": 0,
+        "tasks": []
+      },
+      "label_counts": {
+        "F0": 3,
+        "F1": 1,
+        "F2": 0,
+        "F3": 0,
+        "F4": 3,
+        "F5": 0,
+        "F6": 3,
+        "F7": 0,
+        "F8": 0,
+        "INTERFACE_UNSUPPORTED": 0,
+        "UNDETERMINED": 3
+      },
+      "oracle_replay_errors": 0,
+      "oracle_replays": 4,
+      "role": "identity",
+      "sub_labels": {
+        "F1": {
+          "diagnosis_attempted_unusable": 1
+        },
+        "F2": {},
+        "F5": {}
+      },
+      "trajectories": 13,
+      "undetermined": {
+        "count": 3,
+        "reasons": {
+          "action_space_applicability_unknown": 1,
+          "localization_unknown": 2
+        },
+        "tasks": [
+          "config_file_overrides_defaults",
+          "config_service_port",
+          "mathlib_add_power"
+        ]
+      }
+    },
+    "exp20_drift": {
+      "bottleneck_denominator_F0_F8": 10,
+      "bottleneck_shares": {
+        "F0": {
+          "denominator": 10,
+          "fraction": "3/10",
+          "n": 3,
+          "percent": 30.0
+        },
+        "F1": {
+          "denominator": 10,
+          "fraction": "1/10",
+          "n": 1,
+          "percent": 10.0
+        },
+        "F2": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F3": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F4": {
+          "denominator": 10,
+          "fraction": "3/10",
+          "n": 3,
+          "percent": 30.0
+        },
+        "F5": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F6": {
+          "denominator": 10,
+          "fraction": "3/10",
+          "n": 3,
+          "percent": 30.0
+        },
+        "F7": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F8": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        }
+      },
+      "condition": "qwen_selectorkind",
+      "d0_combinations": {
+        "HARNESS_TRUE/CONTRACT_TRUE": 12,
+        "HARNESS_UNKNOWN/CONTRACT_FALSE": 1
+      },
+      "d3": {
+        "FALSE": 4,
+        "TRUE": 8,
+        "UNKNOWN": 1
+      },
+      "descriptive_facts": {
+        "D3_ATTEMPT_OBSERVED": {
+          "FALSE": 3,
+          "TRUE": 10
+        },
+        "D3_OBSERVED_PRE_EVIDENCE_ATTEMPT": {
+          "FALSE": 5,
+          "TRUE": 8
+        }
+      },
+      "f5_guard_judgements": {},
+      "f6_subtypes": {
+        "MULTIPLE": 1,
+        "cosmetic_restatement": 2
+      },
+      "funnel": {
+        "D3_evidence_TRUE": 8,
+        "D5_localized_TRUE": 5,
+        "R10_TRUE": 3,
+        "R7_TRUE": 6,
+        "R8_TRUE": 6,
+        "R9_TRUE": 3,
+        "any_D11_TRUE": 0
+      },
+      "gate_sha256": "ba0790c8e96b4ec2cb8dff5dd099981fae1d5aae8a1cb4c281dbd463938e29d4",
+      "interface_unsupported": {
+        "count": 0,
+        "tasks": []
+      },
+      "label_counts": {
+        "F0": 3,
+        "F1": 1,
+        "F2": 0,
+        "F3": 0,
+        "F4": 3,
+        "F5": 0,
+        "F6": 3,
+        "F7": 0,
+        "F8": 0,
+        "INTERFACE_UNSUPPORTED": 0,
+        "UNDETERMINED": 3
+      },
+      "oracle_replay_errors": 0,
+      "oracle_replays": 4,
+      "role": "identity",
+      "sub_labels": {
+        "F1": {
+          "diagnosis_attempted_unusable": 1
+        },
+        "F2": {},
+        "F5": {}
+      },
+      "trajectories": 13,
+      "undetermined": {
+        "count": 3,
+        "reasons": {
+          "action_space_applicability_unknown": 1,
+          "localization_unknown": 2
+        },
+        "tasks": [
+          "config_file_overrides_defaults",
+          "config_service_port",
+          "mathlib_add_power"
+        ]
+      }
+    },
+    "exp20_treatment": {
+      "bottleneck_denominator_F0_F8": 10,
+      "bottleneck_shares": {
+        "F0": {
+          "denominator": 10,
+          "fraction": "3/10",
+          "n": 3,
+          "percent": 30.0
+        },
+        "F1": {
+          "denominator": 10,
+          "fraction": "1/10",
+          "n": 1,
+          "percent": 10.0
+        },
+        "F2": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F3": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F4": {
+          "denominator": 10,
+          "fraction": "3/10",
+          "n": 3,
+          "percent": 30.0
+        },
+        "F5": {
+          "denominator": 10,
+          "fraction": "2/10",
+          "n": 2,
+          "percent": 20.0
+        },
+        "F6": {
+          "denominator": 10,
+          "fraction": "1/10",
+          "n": 1,
+          "percent": 10.0
+        },
+        "F7": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F8": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        }
+      },
+      "condition": "qwen_astnoop",
+      "d0_combinations": {
+        "HARNESS_TRUE/CONTRACT_TRUE": 12,
+        "HARNESS_UNKNOWN/CONTRACT_FALSE": 1
+      },
+      "d3": {
+        "FALSE": 4,
+        "TRUE": 8,
+        "UNKNOWN": 1
+      },
+      "descriptive_facts": {
+        "D3_ATTEMPT_OBSERVED": {
+          "FALSE": 3,
+          "TRUE": 10
+        },
+        "D3_OBSERVED_PRE_EVIDENCE_ATTEMPT": {
+          "FALSE": 5,
+          "TRUE": 8
+        }
+      },
+      "f5_guard_judgements": {
+        "A_protective_against_proposal": 2
+      },
+      "f6_subtypes": {
+        "MULTIPLE": 1
+      },
+      "funnel": {
+        "D3_evidence_TRUE": 8,
+        "D5_localized_TRUE": 5,
+        "R10_TRUE": 1,
+        "R7_TRUE": 6,
+        "R8_TRUE": 6,
+        "R9_TRUE": 3,
+        "any_D11_TRUE": 0
+      },
+      "gate_sha256": "ba0790c8e96b4ec2cb8dff5dd099981fae1d5aae8a1cb4c281dbd463938e29d4",
+      "interface_unsupported": {
+        "count": 0,
+        "tasks": []
+      },
+      "label_counts": {
+        "F0": 3,
+        "F1": 1,
+        "F2": 0,
+        "F3": 0,
+        "F4": 3,
+        "F5": 2,
+        "F6": 1,
+        "F7": 0,
+        "F8": 0,
+        "INTERFACE_UNSUPPORTED": 0,
+        "UNDETERMINED": 3
+      },
+      "oracle_replay_errors": 0,
+      "oracle_replays": 4,
+      "role": "perturbation",
+      "sub_labels": {
+        "F1": {
+          "diagnosis_attempted_unusable": 1
+        },
+        "F2": {},
+        "F5": {
+          "structural_noop": 2
+        }
+      },
+      "trajectories": 13,
+      "undetermined": {
+        "count": 3,
+        "reasons": {
+          "action_space_applicability_unknown": 1,
+          "localization_unknown": 2
+        },
+        "tasks": [
+          "config_file_overrides_defaults",
+          "config_service_port",
+          "mathlib_add_power"
+        ]
+      }
+    },
+    "exp21_treatment": {
+      "bottleneck_denominator_F0_F8": 10,
+      "bottleneck_shares": {
+        "F0": {
+          "denominator": 10,
+          "fraction": "3/10",
+          "n": 3,
+          "percent": 30.0
+        },
+        "F1": {
+          "denominator": 10,
+          "fraction": "1/10",
+          "n": 1,
+          "percent": 10.0
+        },
+        "F2": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F3": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F4": {
+          "denominator": 10,
+          "fraction": "3/10",
+          "n": 3,
+          "percent": 30.0
+        },
+        "F5": {
+          "denominator": 10,
+          "fraction": "2/10",
+          "n": 2,
+          "percent": 20.0
+        },
+        "F6": {
+          "denominator": 10,
+          "fraction": "1/10",
+          "n": 1,
+          "percent": 10.0
+        },
+        "F7": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F8": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        }
+      },
+      "condition": "qwen_donelatch",
+      "d0_combinations": {
+        "HARNESS_TRUE/CONTRACT_TRUE": 12,
+        "HARNESS_UNKNOWN/CONTRACT_FALSE": 1
+      },
+      "d3": {
+        "FALSE": 4,
+        "TRUE": 8,
+        "UNKNOWN": 1
+      },
+      "descriptive_facts": {
+        "D3_ATTEMPT_OBSERVED": {
+          "FALSE": 3,
+          "TRUE": 10
+        },
+        "D3_OBSERVED_PRE_EVIDENCE_ATTEMPT": {
+          "FALSE": 5,
+          "TRUE": 8
+        }
+      },
+      "f5_guard_judgements": {
+        "A_protective_against_proposal": 2
+      },
+      "f6_subtypes": {
+        "MULTIPLE": 1
+      },
+      "funnel": {
+        "D3_evidence_TRUE": 8,
+        "D5_localized_TRUE": 5,
+        "R10_TRUE": 1,
+        "R7_TRUE": 6,
+        "R8_TRUE": 6,
+        "R9_TRUE": 3,
+        "any_D11_TRUE": 0
+      },
+      "gate_sha256": "b7bb6338179aad39c4181ad8ca6f4cbaf02ca9f1c6b12aa9261e9c1b8bd748f6",
+      "interface_unsupported": {
+        "count": 0,
+        "tasks": []
+      },
+      "label_counts": {
+        "F0": 3,
+        "F1": 1,
+        "F2": 0,
+        "F3": 0,
+        "F4": 3,
+        "F5": 2,
+        "F6": 1,
+        "F7": 0,
+        "F8": 0,
+        "INTERFACE_UNSUPPORTED": 0,
+        "UNDETERMINED": 3
+      },
+      "oracle_replay_errors": 0,
+      "oracle_replays": 4,
+      "role": "perturbation",
+      "sub_labels": {
+        "F1": {
+          "diagnosis_attempted_unusable": 1
+        },
+        "F2": {},
+        "F5": {
+          "structural_noop": 2
+        }
+      },
+      "trajectories": 13,
+      "undetermined": {
+        "count": 3,
+        "reasons": {
+          "action_space_applicability_unknown": 1,
+          "localization_unknown": 2
+        },
+        "tasks": [
+          "config_file_overrides_defaults",
+          "config_service_port",
+          "mathlib_add_power"
+        ]
+      }
+    },
+    "exp22_drift": {
+      "bottleneck_denominator_F0_F8": 10,
+      "bottleneck_shares": {
+        "F0": {
+          "denominator": 10,
+          "fraction": "3/10",
+          "n": 3,
+          "percent": 30.0
+        },
+        "F1": {
+          "denominator": 10,
+          "fraction": "1/10",
+          "n": 1,
+          "percent": 10.0
+        },
+        "F2": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F3": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F4": {
+          "denominator": 10,
+          "fraction": "3/10",
+          "n": 3,
+          "percent": 30.0
+        },
+        "F5": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F6": {
+          "denominator": 10,
+          "fraction": "3/10",
+          "n": 3,
+          "percent": 30.0
+        },
+        "F7": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F8": {
+          "denominator": 10,
+          "fraction": "0/10",
+          "n": 0,
+          "percent": 0.0
+        }
+      },
+      "condition": "qwen_selectorkind",
+      "d0_combinations": {
+        "HARNESS_TRUE/CONTRACT_TRUE": 12,
+        "HARNESS_UNKNOWN/CONTRACT_FALSE": 1
+      },
+      "d3": {
+        "FALSE": 4,
+        "TRUE": 8,
+        "UNKNOWN": 1
+      },
+      "descriptive_facts": {
+        "D3_ATTEMPT_OBSERVED": {
+          "FALSE": 3,
+          "TRUE": 10
+        },
+        "D3_OBSERVED_PRE_EVIDENCE_ATTEMPT": {
+          "FALSE": 5,
+          "TRUE": 8
+        }
+      },
+      "f5_guard_judgements": {},
+      "f6_subtypes": {
+        "MULTIPLE": 1,
+        "cosmetic_restatement": 2
+      },
+      "funnel": {
+        "D3_evidence_TRUE": 8,
+        "D5_localized_TRUE": 5,
+        "R10_TRUE": 3,
+        "R7_TRUE": 6,
+        "R8_TRUE": 6,
+        "R9_TRUE": 3,
+        "any_D11_TRUE": 0
+      },
+      "gate_sha256": "13e9a05bef83e51bdeb8acc4119f8db8e9755c5850ebfea6f9755fe32654a218",
+      "interface_unsupported": {
+        "count": 0,
+        "tasks": []
+      },
+      "label_counts": {
+        "F0": 3,
+        "F1": 1,
+        "F2": 0,
+        "F3": 0,
+        "F4": 3,
+        "F5": 0,
+        "F6": 3,
+        "F7": 0,
+        "F8": 0,
+        "INTERFACE_UNSUPPORTED": 0,
+        "UNDETERMINED": 3
+      },
+      "oracle_replay_errors": 0,
+      "oracle_replays": 4,
+      "role": "primary",
+      "sub_labels": {
+        "F1": {
+          "diagnosis_attempted_unusable": 1
+        },
+        "F2": {},
+        "F5": {}
+      },
+      "trajectories": 13,
+      "undetermined": {
+        "count": 3,
+        "reasons": {
+          "action_space_applicability_unknown": 1,
+          "localization_unknown": 2
+        },
+        "tasks": [
+          "config_file_overrides_defaults",
+          "config_service_port",
+          "mathlib_add_power"
+        ]
+      }
+    },
+    "exp22_treatment": {
+      "bottleneck_denominator_F0_F8": 9,
+      "bottleneck_shares": {
+        "F0": {
+          "denominator": 9,
+          "fraction": "2/9",
+          "n": 2,
+          "percent": 22.2
+        },
+        "F1": {
+          "denominator": 9,
+          "fraction": "1/9",
+          "n": 1,
+          "percent": 11.1
+        },
+        "F2": {
+          "denominator": 9,
+          "fraction": "0/9",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F3": {
+          "denominator": 9,
+          "fraction": "0/9",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F4": {
+          "denominator": 9,
+          "fraction": "3/9",
+          "n": 3,
+          "percent": 33.3
+        },
+        "F5": {
+          "denominator": 9,
+          "fraction": "0/9",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F6": {
+          "denominator": 9,
+          "fraction": "3/9",
+          "n": 3,
+          "percent": 33.3
+        },
+        "F7": {
+          "denominator": 9,
+          "fraction": "0/9",
+          "n": 0,
+          "percent": 0.0
+        },
+        "F8": {
+          "denominator": 9,
+          "fraction": "0/9",
+          "n": 0,
+          "percent": 0.0
+        }
+      },
+      "condition": "qwen_formatcontract",
+      "d0_combinations": {
+        "HARNESS_TRUE/CONTRACT_TRUE": 12,
+        "HARNESS_UNKNOWN/CONTRACT_FALSE": 1
+      },
+      "d3": {
+        "FALSE": 3,
+        "TRUE": 9,
+        "UNKNOWN": 1
+      },
+      "descriptive_facts": {
+        "D3_ATTEMPT_OBSERVED": {
+          "FALSE": 3,
+          "TRUE": 10
+        },
+        "D3_OBSERVED_PRE_EVIDENCE_ATTEMPT": {
+          "FALSE": 5,
+          "TRUE": 8
+        }
+      },
+      "f5_guard_judgements": {},
+      "f6_subtypes": {
+        "MULTIPLE": 1,
+        "cosmetic_restatement": 2
+      },
+      "funnel": {
+        "D3_evidence_TRUE": 9,
+        "D5_localized_TRUE": 6,
+        "R10_TRUE": 3,
+        "R7_TRUE": 6,
+        "R8_TRUE": 6,
+        "R9_TRUE": 3,
+        "any_D11_TRUE": 0
+      },
+      "gate_sha256": "13e9a05bef83e51bdeb8acc4119f8db8e9755c5850ebfea6f9755fe32654a218",
+      "interface_unsupported": {
+        "count": 0,
+        "tasks": []
+      },
+      "label_counts": {
+        "F0": 2,
+        "F1": 1,
+        "F2": 0,
+        "F3": 0,
+        "F4": 3,
+        "F5": 0,
+        "F6": 3,
+        "F7": 0,
+        "F8": 0,
+        "INTERFACE_UNSUPPORTED": 0,
+        "UNDETERMINED": 4
+      },
+      "oracle_replay_errors": 0,
+      "oracle_replays": 3,
+      "role": "perturbation",
+      "sub_labels": {
+        "F1": {
+          "no_diagnosis_attempted": 1
+        },
+        "F2": {},
+        "F5": {}
+      },
+      "trajectories": 13,
+      "undetermined": {
+        "count": 4,
+        "reasons": {
+          "action_space_applicability_unknown": 1,
+          "localization_unknown": 3
+        },
+        "tasks": [
+          "config_file_overrides_defaults",
+          "config_service_port",
+          "mathlib_add_power",
+          "textkit_cli_upper"
+        ]
+      }
+    }
+  },
+  "interpretation_notes": [
+    "Identity arms are call-for-call identical temperature-0 traces; agreement is determinism evidence, not independent replication.",
+    "Membership differences are reported separately and are never counted as label transitions.",
+    "No bottleneck is designated from frequency alone; ties are reported as ties."
+  ],
+  "methodology": "D3-v2"
+}

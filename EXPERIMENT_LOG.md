@@ -1576,3 +1576,46 @@ Diagnostic cohort (stages resolved/hit/opportunity/executed/intact/pass; frozen 
 - Registered question: what changes when the frozen guard-admitted D3 evidence definition is applied to the preserved eligible trajectories?
 - Explicitly excluded from this execution's interpretation: Q-002 resolution; capability conclusions; model-quality conclusions; F0 causal forensics; intervention selection; any unique-bottleneck claim based on frequency alone. Identity-arm agreement remains determinism evidence, not independent replication; ties are reported as ties.
 - Registration immutability: after this registration, the runner, the registered execution definition, the frozen D3-v2 artifacts and the selected input may not be modified. If any modification becomes necessary, EXEC-D3V2-01 is ABANDONED before execution and a new plan and registration are required.
+
+### EXEC-D3V2-01 — post-execution record (2026-09-16; EXECUTED, descriptive analysis, not an experiment)
+- Appended after execution. The preregistration above is not edited retrospectively; this section records what the registered protocol produced.
+- Binding:
+  - registration commit 34001ac89006793f85f4a130a9f5d12813ff9cb4
+  - execution-tooling commit 0c2964bb370b77eef52ec0748947d9bd3b15fb48
+  - D3-v2 freeze commit f30c5f6fee287774345e701041899668aaa3ec5d (tag d3-v2-methodology-freeze)
+  - runner `benchmark/analysis/run_furthest_bottleneck_classification_v2.py` `61c27c2d4a57db9f514af7a7167b2f619d22688766446e874611bad3b2767043`
+  - input `benchmark/results/repo_task_eval.jsonl` `a242336f4e0b9fa3e467ad39a45b07e97f8994aa2591ffd46a545d4cd5b80978`, 620 rows
+- Population as registered, revalidated independently by each process: 120 selected, 96 solvable, 78 unsuccessful-solvable, 13 unsuccessful-solvable per arm across the six registered arms. Heldout and Gemma excluded.
+- Execution: LOCAL, two fresh processes, no model inference, no scorer, no Ollama. A exit 0 (78 trajectories); B exit 0 (78 trajectories); no third realization.
+  - run A semantic artifacts: classification `1fbfd30bc46900b7d15845e5916200d227ac9a618c815c55db0038ff13d7b3a6`, summary `8cf7949a04974068f96dc0af1c633c70e46f4e4098df6d1ab650cf84d26c29f7`, run identity `13252a42329cb8bad9dd9d09c19b11f7a3f55cace6671b3afc934d58697ac4d7`
+  - run B semantic artifacts: identical to run A on all three
+  - semantic byte identity: PASS
+  - execution-specific provenance, registered as excluded from the identity gate and expected to differ: A `c982c1b5bc8341b9e2785a47e14592435148081dff4d2db4efac91ba576f108b`, B `c99c14f639f1eb0ba1858a5f3bd3379ffe3e187a76969b4992a7253328566029`
+  - staging trees kept as local untracked operational evidence and not committed (the hashes above prove the determinism gate)
+  - promotion: PASS (incoming directory then os.replace; destination created once). Transitions: PASS.
+- Provenance distinction (no artifact was renamed or rewritten):
+  - staging `execution_provenance.json` is execution-specific (pid, staging path, start/finish, duration) and is intentionally excluded from semantic byte identity
+  - authoritative `provenance_v2.json` is a deterministic artifact written by `promote` AFTER the identity gate: the common deterministic run identity of A and B (17 keys, byte-equal values) plus the registered promotion evidence (classification/summary/run-identity hashes, rerun_identity, oracle replay totals, v1_output_untouched). No timestamp, pid, duration or staging path reaches the authoritative tree.
+- Authoritative result artifacts (SHA-256):
+  - classification `benchmark/analysis/output_v2/classification_v2.jsonl` `1fbfd30bc46900b7d15845e5916200d227ac9a618c815c55db0038ff13d7b3a6`
+  - summary `benchmark/analysis/output_v2/summary_v2.json` `8cf7949a04974068f96dc0af1c633c70e46f4e4098df6d1ab650cf84d26c29f7`
+  - run identity `benchmark/analysis/output_v2/run_identity_v2.json` `13252a42329cb8bad9dd9d09c19b11f7a3f55cace6671b3afc934d58697ac4d7`
+  - provenance `benchmark/analysis/output_v2/provenance_v2.json` `17926286b6adb720f53eccc1d76b8615ee585ea91b6f1baffbe9737cbdf6c392`
+  - transitions `benchmark/analysis/output_v2/transitions_v1_to_v2.json` `ed7f0a76c69db9bd82f11d8a071017c5d6f6d62bdea19210204dcb26179ca49f`
+  - oracle replays 23, replay errors 0. The v1 output tree `benchmark/analysis/output/` is unchanged and remains the historical result under methodology v1.
+- TWO SEPARATE COMPARISON DOMAINS. These must not be conflated:
+  1. v1 -> v2 METHODOLOGY COMPARISON, using the registered (arm, task, row_fingerprint) identity rule: 78 comparable rows, 0 non-comparable rows, 0 bottleneck-label transitions. "0 non-comparable" is a statement about v1-versus-v2 row identity only; it does NOT assert that cross-arm task memberships are identical.
+  2. CROSS-ARM PERTURBATION COMPARISON, primary versus another arm: `exp22_treatment` has 12 comparable tasks plus a membership difference (only_in_primary `config_database_host`; only_in_exp22_treatment `inventory_total_value`). That membership difference is a cross-arm fact and is NOT a v1->v2 non-comparability result.
+- Central descriptive result, across the 78 registered v1->v2 comparable rows:
+  - D3 evidence changed on 48 rows: FALSE->TRUE 42, FALSE->UNKNOWN 6
+  - D3 evidence unchanged on 30 rows: FALSE->FALSE 23, TRUE->TRUE 7
+  - no TRUE->non-TRUE and no UNKNOWN->FALSE, consistent with the frozen theorem
+  - bottleneck labels changed on 0 of 78: F0->F0 17, F1->F1 6, F4->F4 18, F5->F5 4, F6->F6 14, UNDETERMINED->UNDETERMINED 19
+  - this does NOT establish that D3 never affects labels generally, nor substantive equivalence of v1 and v2, nor Q-002 resolution, capability improvement, model-quality improvement, causation, or a preferred intervention. It is scoped to this registered population and methodology.
+- Primary arm `exp22_drift` under frozen D3-v2 (13 trajectories, F0-F8 denominator 10): F0 3, F1 1, F4 3, F6 3, UNDETERMINED 3, INTERFACE_UNSUPPORTED 0. F0, F4 and F6 remain tied at 3 determined trajectories; no stage is designated a bottleneck. D3 evidence TRUE 8, FALSE 4, UNKNOWN 1. UNDETERMINED causes: localization_unknown 2, action_space_applicability_unknown 1. F6 subtypes MULTIPLE 1, cosmetic_restatement 2.
+- Identity arms: `exp18_treatment` 13/13 and `exp20_drift` 13/13 agreement with primary. These are call-for-call identical temperature-0 traces: consistency evidence, NOT independent replication.
+- Perturbation arms, not pooled:
+  - `exp20_treatment` 11/13 same label; the two differences are `textkit_slug_punctuation` and `textkit_truncate_limit`, F6 in primary and F5 there, guard judgement A_protective_against_proposal x2
+  - `exp21_treatment` same pattern, 11/13, same two tasks
+  - `exp22_treatment` 11/12 comparable tasks same label; the difference is `textkit_cli_upper`, F4 in primary and UNDETERMINED localization_unknown there; its cross-arm membership difference is recorded above
+- Firewall confirmations: no model inference, no scorer execution, no single-use gate, no methodology or runner modification during execution, no change to the registered population or comparison rule, no third realization, no result-driven repair. RESEARCH_YIELD, DECISIONS, PROJECT_TRACKING, Q-002, CAP, CON and H are unchanged by this execution and its preservation. Interpretation, any FND/METH record, F0 forensics and intervention selection remain deferred to a separately approved phase.
